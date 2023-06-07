@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     tools:ignore="MissingDefaultResource"
     android:background="@drawable/gray2"
-    tools:context=".listActivity">
+    tools:context=".ListActivity">
 
     <LinearLayout
         android:layout_width="match_parent"

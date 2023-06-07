@@ -3,7 +3,7 @@ package com.example.exe3;
 import android.app.Activity;
 import android.os.Bundle;
 
-public class listActivity extends Activity {
+public class ListActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
