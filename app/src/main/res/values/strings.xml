@@ -12,4 +12,6 @@
     <string name="btn_click_to_register">click here</string>
     <string name="not_registered">Not registered?</string>
     <string name="to_register">to register</string>
+    <string name="placholder">Type your message...</string>
+    <string name="todo">TODO</string>
 </resources>
