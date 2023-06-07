@@ -9,6 +9,12 @@
     <color name="white">#FFFFFFFF</color>
     <color name="blue">#FF0000FF</color>
     <color name="customBlue">#2196F3</color>
+    <color name="chatInputBlack">#251F1F</color>
     <color name="gray_background">#808080</color>
+    <color name="dark_red">#8B0000</color>
+    <color name="dark_green">#006400</color>
+    <color name="dark_blue">#00008B</color>
+    <color name="dark_orange">#FF8C00</color>
+    <color name="purple">#800080</color>
 
 </resources>
