@@ -14,4 +14,15 @@
     <string name="to_register">to register</string>
     <string name="placholder">Type your message...</string>
     <string name="todo">TODO</string>
+    <string name="setting">settings</string>
+    <string name="Edit_URL">Edit URL</string>
+    <string name="current_URL">current URL</string>
+    <string name="save">save</string>
+    <string name="Theme">Theme</string>
+    <string name="color1">red</string>
+    <string name="color2">green</string>
+    <string name="color3">blue</string>
+    <string name="color4">purple</string>
+    <string name="color5">orange</string>
+    <string name="color6">default</string>
 </resources>
