@@ -37,7 +37,8 @@
             android:minHeight="48dp"
             android:layout_marginBottom="10dp"
             android:inputType="text"
-            android:hint="@string/displayname" />
+            android:hint="@string/displayname"
+            android:autofillHints="" />
 
 
 
@@ -49,7 +50,8 @@
             android:ems="10"
             android:hint="@string/password"
             android:inputType="textPassword"
-            android:minHeight="48dp" />
+            android:minHeight="48dp"
+            android:autofillHints="" />
 
         <EditText
             android:id="@+id/editTextTextPassword2"
@@ -58,7 +60,8 @@
             android:ems="10"
             android:inputType="textPassword"
             android:hint="@string/Verifypassword"
-            android:minHeight="48dp"/>
+            android:minHeight="48dp"
+            android:autofillHints="" />
 
         <Button
             android:id="@+id/button"
@@ -82,7 +85,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.593"
-        tools:ignore="MissingConstraints">
+        tools:ignore="MissingConstraints,UseCompoundDrawables">
 
         <ImageView
             android:id="@+id/imageView4"
@@ -90,7 +93,8 @@
             android:layout_height="90dp"
             android:src="@drawable/favicon"
             tools:layout_editor_absoluteX="63dp"
-            tools:layout_editor_absoluteY="77dp" />
+            tools:layout_editor_absoluteY="77dp"
+            android:contentDescription="TODO" />
 
         <TextView
             android:id="@+id/textView"

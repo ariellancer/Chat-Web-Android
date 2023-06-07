@@ -9,6 +9,7 @@
     <color name="white">#FFFFFFFF</color>
     <color name="blue">#FF0000FF</color>
     <color name="customBlue">#2196F3</color>
+    <color name="chatInputBlack">#251F1F</color>
     <color name="gray_background">#808080</color>
 
 </resources>
