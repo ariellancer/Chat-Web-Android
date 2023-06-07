@@ -16,4 +16,6 @@
     <string name="not_registered">Not registered?</string>
     <string name="to_register">to register</string>
     <string name="date">18:45</string>
+    <string name="image_description_user">profilePicUser</string>
+    <string name="logout_button">logout</string>
 </resources>
