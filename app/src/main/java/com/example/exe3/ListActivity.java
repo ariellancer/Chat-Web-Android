@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -31,11 +33,13 @@ public class ListActivity extends AppCompatActivity {
             "12:00", "00:30", "03:23", "08:59", "12:23", "22:54", "11:47", "10:04",
     };
     ListView listView;
+    ImageView logout;
     CustomListAdapter adapter;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list);
-
+        logout = findViewById(R.id.logout);
+        logout.setOnClickListener(fun -> finish());
         ArrayList<User> users = new ArrayList<>();
 
         for (int i = 0; i < profilePictures.length; i++) {

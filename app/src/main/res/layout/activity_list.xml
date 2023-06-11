@@ -17,19 +17,20 @@
             android:id="@+id/linearLayout"
             android:layout_width="436dp"
             android:layout_height="98dp"
-            android:layout_marginTop="4dp"
             android:layout_marginEnd="8dp"
             android:background="@color/gray_background"
             android:orientation="horizontal"
             android:padding="20dp">
+
             <ImageView
                 android:id="@+id/profileImage"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
+                android:contentDescription="TODO"
                 android:src="@drawable/modiin"
                 tools:layout_editor_absoluteX="63dp"
-                tools:layout_editor_absoluteY="77dp"
-                android:contentDescription="TODO" />
+                tools:layout_editor_absoluteY="77dp" />
+
             <TextView
                 android:layout_width="263dp"
                 android:layout_height="wrap_content"
@@ -40,11 +41,12 @@
 
 
             <ImageView
+                android:id="@+id/logout"
                 android:layout_width="36dp"
                 android:layout_height="39dp"
                 android:layout_marginTop="13dp"
-                android:src="@drawable/baseline_logout_24"
-                android:contentDescription="@string/logout_button"  />
+                android:contentDescription="@string/logout_button"
+                android:src="@drawable/baseline_logout_24" />
         </LinearLayout>
 
         <RelativeLayout
@@ -63,17 +65,11 @@
                 android:id="@+id/floating_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentStart="false"
-                android:layout_alignParentTop="false"
-                android:layout_alignParentEnd="false"
-                android:layout_alignParentBottom="false"
-                android:layout_marginStart="340dp"
-                android:layout_marginTop="570dp"
-                android:layout_marginEnd="24dp"
-                android:contentDescription="@string/User"
-                android:minHeight="48dp"
-                android:rotationX="14"
-                android:src="@drawable/ic_add" />
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentEnd="true"
+                android:layout_margin="16dp"
+                android:src="@drawable/ic_add"
+                android:contentDescription="@string/User" />
 
         </RelativeLayout>
     </LinearLayout>
