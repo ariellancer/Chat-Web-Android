@@ -32,7 +32,8 @@
         android:inputType="textEmailAddress"
         tools:layout_editor_absoluteX="101dp"
         tools:layout_editor_absoluteY="188dp"
-        tools:ignore="MissingConstraints" />
+        tools:ignore="LabelFor,MissingConstraints"
+        android:autofillHints="" />
 
     <TextView
         android:id="@+id/textView6"
@@ -60,7 +61,8 @@
         android:inputType="textEmailAddress"
         tools:layout_editor_absoluteX="106dp"
         tools:layout_editor_absoluteY="300dp"
-        tools:ignore="MissingConstraints" />
+        tools:ignore="MissingConstraints"
+        android:autofillHints="" />
 
     <Button
         android:id="@+id/button4"
