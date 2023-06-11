@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 public class Settings extends AppCompatActivity {
@@ -24,14 +25,14 @@ public class Settings extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // Perform the action to change XML file "A" here
-                changeXmlRed();
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
             }
         });
         button_green.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // Perform the action to change XML file "A" here
-                changeXmlGreen();
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
             }
         });
         button_blue.setOnClickListener(new View.OnClickListener() {
