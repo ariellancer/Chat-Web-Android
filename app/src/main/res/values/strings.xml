@@ -11,6 +11,7 @@
     <string name="User">User</string>
     <string name="friend">friend</string>
     <string name="register">Register</string>
+    <string name="chats">Chat</string>
     <string name="title_activity_register">Register</string>
     <string name="btn_click_to_register_or_login">click here</string>
     <string name="not_registered">Not registered?</string>

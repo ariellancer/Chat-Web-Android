@@ -64,7 +64,7 @@
             android:autofillHints="" />
 
         <Button
-            android:id="@+id/button"
+            android:id="@+id/choosePic"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/gray_background"
@@ -73,6 +73,12 @@
             android:layout_gravity="end"
             android:layout_marginTop="20dp"
             />
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:scaleType="centerCrop"
+            android:visibility="gone" />
 
     </LinearLayout>
 
@@ -144,7 +150,7 @@
             android:id="@+id/button3"
             android:layout_width="80dp"
             android:layout_height="wrap_content"
-            android:background="none"
+            android:background="@color/white"
             android:text="@string/btn_click_to_register_or_login"
             android:textAllCaps="false"
             android:textColor="@color/blue" />
