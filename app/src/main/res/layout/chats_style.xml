@@ -9,17 +9,12 @@
 
 
     <LinearLayout
-        android:id="@+id/linearLayout2"
+        android:id="@+id/boxUser"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/gray_background"
         android:orientation="horizontal"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0"
         tools:ignore="MissingConstraints">
 
         <ImageView
@@ -61,42 +56,24 @@
 
     <ListView
         android:id="@+id/messagesList"
-        android:layout_width="405dp"
-        android:layout_height="599dp"
-        android:paddingTop="5dp"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayout3"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:divider="@drawable/divider"
         android:dividerHeight="7dp"
+        android:paddingTop="14dp"
+        app:layout_constraintTop_toBottomOf="@+id/boxUser"
         tools:listitem="@layout/message_style" />
 
-
     <LinearLayout
-        android:id="@+id/linearLayout3"
+        android:id="@+id/inputBox"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:background="@color/gray_background"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
+        app:layout_constraintTop_toBottomOf="@+id/boxUser"
         app:layout_constraintVertical_bias="1.0"
         tools:layout_editor_absoluteX="-2dp">
-
-        <!--        <Button-->
-        <!--            android:id="@+id/sendButton"-->
-        <!--            android:layout_width="wrap_content"-->
-        <!--            android:layout_height="wrap_content"-->
-        <!--            android:text="Send" />-->
-        <!--        <TextView-->
-        <!--            android:id="@+id/textView5"-->
-        <!--            android:layout_width="wrap_content"-->
-        <!--            android:layout_height="wrap_content"-->
-        <!--            android:layout_weight="1"-->
-        <!--            android:text="TextView" />-->
-
         <EditText
             android:id="@+id/chatInputEditText"
             android:layout_width="0dp"
