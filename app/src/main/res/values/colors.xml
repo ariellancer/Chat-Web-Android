@@ -18,5 +18,6 @@
     <color name="purple">#800080</color>
     <color name="palegoldenrod">#EEE8AA</color>
     <color name="mintcream">#f5fffa</color>
+    <color name="transparent">#00FFFFFF</color>
 
 </resources>
