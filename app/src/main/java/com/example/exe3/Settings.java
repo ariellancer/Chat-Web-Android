@@ -14,7 +14,6 @@ public class Settings extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.settings);
-
         Button button_red = findViewById(R.id.button_red);
         Button button_blue = findViewById(R.id.button_blue);
         Button button_green = findViewById(R.id.button_green);
@@ -69,15 +68,22 @@ public class Settings extends AppCompatActivity {
         // Inflate XML file "A"
         LayoutInflater inflater = LayoutInflater.from(this);
         View viewA = inflater.inflate(R.layout.register, null);
-
+//
+//        // Find the view whose background you want to modify
+//        ConstraintLayout constraintLayout = findViewById(R.id.constraint);
+//
+//        // Set a new background drawable
+//        constraintLayout.setBackgroundResource(R.drawable.semi_red);
+//
+//        // Set the modified viewA as the content view of the activity
+//        setContentView(viewA);
         // Find the view whose background you want to modify
-        ConstraintLayout constraintLayout = findViewById(R.id.constraint);
+        ConstraintLayout constraintLayout =viewA.findViewById(R.id.constraint);
 
         // Set a new background drawable
         constraintLayout.setBackgroundResource(R.drawable.semi_red);
-
-        // Set the modified viewA as the content view of the activity
-        setContentView(viewA);
+       // setContentView(viewA);
+       // String modifiedXml = Utils.viewToXml(viewA);
     }
     private void changeXmlGreen() {
         // Inflate XML file "A"
@@ -85,10 +91,10 @@ public class Settings extends AppCompatActivity {
         View viewA = inflater.inflate(R.layout.register, null);
 
         // Find the view whose background you want to modify
-        ConstraintLayout constraintLayout = findViewById(R.id.constraint);
-
-        // Set a new background drawable
-        constraintLayout.setBackgroundResource(R.drawable.semi_red);
+//        ConstraintLayout constraintLayout = findViewById(R.id.constraint);
+//
+//        // Set a new background drawable
+//        constraintLayout.setBackgroundResource(R.drawable.semi_red);
 
         // Set the modified viewA as the content view of the activity
         setContentView(viewA);
