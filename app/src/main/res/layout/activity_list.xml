@@ -23,13 +23,7 @@
             android:orientation="horizontal"
             android:padding="20dp">
 
-<!--            <com.mikhaellopez.circularimageview.CircularImageView-->
-<!--                android:layout_width="60dp"-->
-<!--                android:layout_height="60dp"-->
-<!--                android:background="#00989898"-->
-<!--                android:src="@drawable/omer"-->
-<!--                app:civ_border_color="#00989898"-->
-<!--                tools:ignore="MissingConstraints" />-->
+
 
 
             <TextView
