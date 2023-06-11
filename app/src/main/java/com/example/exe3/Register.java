@@ -14,9 +14,13 @@ public class Register extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.register);
         Button btnRegister=findViewById(R.id.btnRegister);
-        btnRegister.setOnClickListener(v -> {
-            Intent i=new Intent(this,MainActivity.class);
-            startActivity(i);
+        btnRegister.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), ListActivity.class);
+
+                startActivity(intent);
+            }
         });
     }
 
