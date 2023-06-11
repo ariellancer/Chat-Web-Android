@@ -18,7 +18,7 @@
         tools:ignore="MissingConstraints">
 
         <EditText
-            android:id="@+id/editTextText"
+            android:id="@+id/registered_username"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
@@ -30,7 +30,7 @@
 
 
         <EditText
-            android:id="@+id/editTextText2"
+            android:id="@+id/displayName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
@@ -43,7 +43,7 @@
 
 
         <EditText
-            android:id="@+id/editTextTextPassword"
+            android:id="@+id/password_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
@@ -54,7 +54,7 @@
             android:autofillHints="" />
 
         <EditText
-            android:id="@+id/editTextTextPassword2"
+            android:id="@+id/password_text_verify"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
@@ -75,8 +75,10 @@
             />
         <ImageView
             android:id="@+id/imageView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:layout_marginLeft="20dp"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
             android:scaleType="centerCrop"
             android:visibility="gone" />
 
