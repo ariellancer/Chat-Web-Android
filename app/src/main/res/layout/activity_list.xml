@@ -22,16 +22,14 @@
             android:background="@color/gray_background"
             android:orientation="horizontal"
             android:padding="20dp">
-
-<!--            <com.mikhaellopez.circularimageview.CircularImageView-->
-<!--                android:layout_width="60dp"-->
-<!--                android:layout_height="60dp"-->
-<!--                android:background="#00989898"-->
-<!--                android:src="@drawable/omer"-->
-<!--                app:civ_border_color="#00989898"-->
-<!--                tools:ignore="MissingConstraints" />-->
-
-
+            <ImageView
+                android:id="@+id/profileImage"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:src="@drawable/modiin"
+                tools:layout_editor_absoluteX="63dp"
+                tools:layout_editor_absoluteY="77dp"
+                android:contentDescription="TODO" />
             <TextView
                 android:layout_width="263dp"
                 android:layout_height="wrap_content"
