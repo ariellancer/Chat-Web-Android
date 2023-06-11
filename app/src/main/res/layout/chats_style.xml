@@ -23,7 +23,7 @@
         tools:ignore="MissingConstraints">
 
         <ImageView
-            android:id="@+id/imageView2"
+            android:id="@+id/returnToListFriend"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:padding="5dp"
@@ -60,7 +60,7 @@
 
 
     <ListView
-        android:id="@+id/list_view"
+        android:id="@+id/messagesList"
         android:layout_width="405dp"
         android:layout_height="599dp"
         android:paddingTop="5dp"

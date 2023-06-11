@@ -13,6 +13,8 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class Register extends AppCompatActivity{
+    Button btnRegister;
+    Button onClick;
     private EditText usernameEditText, displayNameEditText, passwordEditText, verifyPasswordEditText;
 
     private static final int REQUEST_CODE_SELECT_PICTURE = 1;
@@ -22,6 +24,9 @@ public class Register extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.register);
+        btnRegister=findViewById(R.id.btnRegister);
+        onClick = findViewById(R.id.clickToLogin);
+        onClick.setOnClickListener(fun -> finish());
 
         usernameEditText = findViewById(R.id.registered_username);
         displayNameEditText = findViewById(R.id.displayName);
@@ -30,9 +35,6 @@ public class Register extends AppCompatActivity{
 
         Button btnChoosePic = findViewById(R.id.btn_choose_pic);
         imageView = findViewById(R.id.imageView);
-
-        Button btnRegister=findViewById(R.id.btnRegister);
-
 
         btnChoosePic.setOnClickListener(new View.OnClickListener() {
             @Override

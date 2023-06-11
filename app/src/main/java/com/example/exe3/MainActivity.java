@@ -11,6 +11,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
     Button loginButton;
+
+    Button clickMe;
     private EditText usernameEditText, passwordEditText;
 
     @Override
@@ -21,6 +23,7 @@ public class MainActivity extends AppCompatActivity {
         passwordEditText = findViewById(R.id.password_input);
 
         loginButton = findViewById(R.id.loginButton);
+        clickMe = findViewById(R.id.clickToRegister);
 
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -30,6 +33,14 @@ public class MainActivity extends AppCompatActivity {
                     Intent intent = new Intent(getApplicationContext(), ListActivity.class);
                     startActivity(intent);
                 }
+            }
+        });
+        clickMe.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), Register.class);
+
+                startActivity(intent);
             }
         });
     }

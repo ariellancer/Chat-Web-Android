@@ -149,8 +149,8 @@
             android:text="@string/registered" />
 
         <Button
-            android:id="@+id/button3"
-            android:layout_width="80dp"
+            android:id="@+id/clickToLogin"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@color/transparent"
             android:text="@string/btn_click_to_register_or_login"
