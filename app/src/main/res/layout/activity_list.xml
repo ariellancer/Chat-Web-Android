@@ -29,7 +29,7 @@
                 android:background="#00989898"
                 android:src="@drawable/omer"
                 app:civ_border_color="#00989898"
-                tools:ignore="MissingConstraints" />
+                tools:ignore="MissingClass,MissingConstraints" />
 
 
             <TextView

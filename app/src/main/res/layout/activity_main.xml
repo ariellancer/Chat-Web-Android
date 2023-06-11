@@ -69,7 +69,7 @@
         android:background="none"
         android:textColor="@color/blue"
         android:textAllCaps="false"
-        android:text="@string/btn_click_to_register" />
+        android:text="@string/btn_click_to_register_or_login" />
 
     <TextView
         android:id="@+id/textView3"

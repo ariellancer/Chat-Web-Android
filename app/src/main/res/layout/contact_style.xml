@@ -17,7 +17,7 @@
             app:civ_border_color_end="#00989898"
 
             app:civ_border_color_start="#00989898"
-            tools:ignore="MissingConstraints" />
+            tools:ignore="MissingClass,MissingConstraints" />
 
         <LinearLayout
             android:layout_width="wrap_content"
