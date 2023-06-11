@@ -16,5 +16,8 @@
     <color name="dark_blue">#00008B</color>
     <color name="dark_orange">#FF8C00</color>
     <color name="purple">#800080</color>
+    <color name="palegoldenrod">#EEE8AA</color>
+    <color name="mintcream">#f5fffa</color>
+    <color name="transparent">#00FFFFFF</color>
 
 </resources>
