@@ -82,86 +82,31 @@
         tools:ignore="MissingConstraints" />
 
     <Button
-        android:id="@+id/button_red"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@color/dark_red"
+        android:id="@+id/button_light_mode"
+        android:layout_width="150dp"
+        android:layout_height="100dp"
+        android:background="@color/gray_background"
         android:text="@string/color1"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.151"
+        app:layout_constraintHorizontal_bias="0.114"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.547"
+        app:layout_constraintVertical_bias="0.695"
         tools:ignore="MissingConstraints" />
 
     <Button
-        android:id="@+id/button_green"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@color/dark_green"
+        android:id="@+id/button_dark_mode"
+        android:layout_width="150dp"
+        android:layout_height="100dp"
+        android:background="@color/palegoldenrod"
         android:text="@string/color2"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.52"
+        app:layout_constraintHorizontal_bias="0.904"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.547"
-        tools:ignore="MissingConstraints" />
-
-    <Button
-        android:id="@+id/button_blue"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@color/dark_blue"
-        android:text="@string/color3"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.9"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.547"
-        tools:ignore="MissingConstraints" />
-
-    <Button
-        android:id="@+id/button_purple"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@color/purple"
-        android:text="@string/color4"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.151"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.658"
-        tools:ignore="MissingConstraints" />
-
-    <Button
-        android:id="@+id/button_orange"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@color/dark_orange"
-        android:text="@string/color5"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.658"
-        tools:ignore="MissingConstraints" />
-
-    <Button
-        android:id="@+id/button_default"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/color6"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.9"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.658"
+        app:layout_constraintVertical_bias="0.695"
         tools:ignore="MissingConstraints" />
 
     <TextView
