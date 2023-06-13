@@ -15,6 +15,9 @@ import com.example.exe3.R;
 import com.example.exe3.infoToDB.Contact;
 import com.example.exe3.adapters.CustomListAdapter;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+
 import java.util.ArrayList;
 
 public class ListActivity extends AppCompatActivity {
@@ -47,6 +50,13 @@ public class ListActivity extends AppCompatActivity {
         logout.setOnClickListener(fun -> finish());
         ArrayList<Contact> users = new ArrayList<>();
 
+        ArrayList<User> users = new ArrayList<>();
+        FloatingActionButton fabAddFriend = findViewById(R.id.floating_button);
+        fabAddFriend.setOnClickListener(view -> {
+            Intent intent = new Intent(this, Adding.class);
+            intent.putExtra("array", users);
+            startActivity(intent);
+        });
         for (int i = 0; i < profilePictures.length; i++) {
             ContactInfo info = new ContactInfo(userNames[i],userNames[i],"a");
             LastMessage lastMessage = new LastMessage(i,times[i],lastMassages[i]);
