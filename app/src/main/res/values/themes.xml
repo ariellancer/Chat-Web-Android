@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<!--<resources>-->
 
-    <style name="Theme.Exe3" parent="Theme.AppCompat.Light.NoActionBar" />
+<!--    <style name="Theme.Exe3" parent="Theme.AppCompat.Light.NoActionBar" />-->
+<!--</resources>-->
+<resources>
+<style name="Theme.Exe3" parent="Theme.AppCompat.Light.NoActionBar">
+    <!-- Customize other attributes as needed -->
+    <item name="android:windowBackground">@android:color/white</item>
+</style>
 </resources>

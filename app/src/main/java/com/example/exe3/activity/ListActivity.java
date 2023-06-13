@@ -1,14 +1,19 @@
-package com.example.exe3;
+package com.example.exe3.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.exe3.infoToDB.ContactInfo;
+import com.example.exe3.infoToDB.LastMessage;
+import com.example.exe3.R;
+import com.example.exe3.infoToDB.Contact;
+import com.example.exe3.adapters.CustomListAdapter;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -43,6 +48,8 @@ public class ListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_list);
         logout = findViewById(R.id.logout);
         logout.setOnClickListener(fun -> finish());
+        ArrayList<Contact> users = new ArrayList<>();
+
         ArrayList<User> users = new ArrayList<>();
         FloatingActionButton fabAddFriend = findViewById(R.id.floating_button);
         fabAddFriend.setOnClickListener(view -> {
@@ -51,10 +58,9 @@ public class ListActivity extends AppCompatActivity {
             startActivity(intent);
         });
         for (int i = 0; i < profilePictures.length; i++) {
-            User aUser = new User(
-                    userNames[i], profilePictures[i],
-                    lastMassages[i], times[i]
-            );
+            ContactInfo info = new ContactInfo(userNames[i],userNames[i],"a");
+            LastMessage lastMessage = new LastMessage(i,times[i],lastMassages[i]);
+            Contact aUser = new Contact(i,info,lastMessage);
 
             users.add(aUser);
         }
@@ -79,5 +85,4 @@ public class ListActivity extends AppCompatActivity {
             }
         });
     }
-
 }
