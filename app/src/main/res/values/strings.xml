@@ -25,8 +25,8 @@
     <string name="current_URL">current URL</string>
     <string name="save">save</string>
     <string name="Theme">Theme</string>
-    <string name="color1">red</string>
-    <string name="color2">green</string>
+    <string name="color1">light mode</string>
+    <string name="color2">dark mode</string>
     <string name="color3">blue</string>
     <string name="color4">purple</string>
     <string name="color5">orange</string>
