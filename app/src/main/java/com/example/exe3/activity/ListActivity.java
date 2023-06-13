@@ -1,12 +1,19 @@
-package com.example.exe3;
+package com.example.exe3.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.exe3.infoToDB.ContactInfo;
+import com.example.exe3.infoToDB.LastMessage;
+import com.example.exe3.R;
+import com.example.exe3.infoToDB.Contact;
+import com.example.exe3.adapters.CustomListAdapter;
 
 import java.util.ArrayList;
 
@@ -31,18 +38,19 @@ public class ListActivity extends AppCompatActivity {
             "12:00", "00:30", "03:23", "08:59", "12:23", "22:54", "11:47", "10:04",
     };
     ListView listView;
+    ImageView logout;
     CustomListAdapter adapter;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list);
-
-        ArrayList<User> users = new ArrayList<>();
+        logout = findViewById(R.id.logout);
+        logout.setOnClickListener(fun -> finish());
+        ArrayList<Contact> users = new ArrayList<>();
 
         for (int i = 0; i < profilePictures.length; i++) {
-            User aUser = new User(
-                    userNames[i], profilePictures[i],
-                    lastMassages[i], times[i]
-            );
+            ContactInfo info = new ContactInfo(userNames[i],userNames[i],"a");
+            LastMessage lastMessage = new LastMessage(i,times[i],lastMassages[i]);
+            Contact aUser = new Contact(i,info,lastMessage);
 
             users.add(aUser);
         }
