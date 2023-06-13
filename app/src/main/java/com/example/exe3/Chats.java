@@ -14,10 +14,12 @@ import java.util.ArrayList;
 
 public class Chats extends AppCompatActivity {
     final private String[] times = {
-            "12:00", "00:30", "03:23", "08:59", "12:23", "22:54", "11:47", "10:04",
+            "12:00", "00:30", "03:23", "08:59", "12:23", "22:54", "11:47", "10:04","12:00", "00:30", "03:23", "08:59", "12:23", "22:54", "11:47", "10:04",
     };
     final private String[] contents = {
             "Hi, how are you?", "24K Magic", "Missing Madrid :(", "Wanna hear a joke?", "Yo!",
+            "Well....", "Did you see the latest John Wick?",
+            "I'm the best!","Hi, how are you?", "24K Magic", "Missing Madrid :(", "Wanna hear a joke?", "Yo!",
             "Well....", "Did you see the latest John Wick?",
             "I'm the best!"
     };
