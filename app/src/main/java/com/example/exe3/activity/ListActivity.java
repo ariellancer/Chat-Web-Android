@@ -10,14 +10,12 @@ import android.widget.ListView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.exe3.Adding;
+import com.example.exe3.R;
+import com.example.exe3.adapters.CustomListAdapter;
+import com.example.exe3.infoToDB.Contact;
 import com.example.exe3.infoToDB.ContactInfo;
 import com.example.exe3.infoToDB.LastMessage;
-import com.example.exe3.R;
-import com.example.exe3.infoToDB.Contact;
-import com.example.exe3.adapters.CustomListAdapter;
-
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
 
 import java.util.ArrayList;
 
@@ -50,10 +48,12 @@ public class ListActivity extends AppCompatActivity {
         logout = findViewById(R.id.logout);
         logout.setOnClickListener(fun -> finish());
         ArrayList<Contact> users = new ArrayList<>();
+
         FloatingActionButton fabAddFriend = findViewById(R.id.floating_button);
         fabAddFriend.setOnClickListener(view -> {
             Intent intent = new Intent(this, Adding.class);
             //intent.putExtra("array", users);
+//            intent.putExtra("array", users);
             startActivity(intent);
         });
         for (int i = 0; i < profilePictures.length; i++) {

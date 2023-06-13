@@ -2,12 +2,8 @@ package com.example.exe3;
 
 import android.os.Bundle;
 import android.widget.Button;
-import android.widget.EditText;
 
 import androidx.appcompat.app.AppCompatActivity;
-
-import java.util.ArrayList;
-
 public class Adding extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
