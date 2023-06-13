@@ -1,14 +1,16 @@
-package com.example.exe3;
+package com.example.exe3.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.exe3.infoToDB.Message;
+import com.example.exe3.R;
+import com.example.exe3.adapters.MessageListAdapter;
 
 import java.util.ArrayList;
 
@@ -37,8 +39,8 @@ public class Chats extends AppCompatActivity {
         ArrayList<Message> messages = new ArrayList<>();
 
         for (int i = 0; i < contents.length; i++) {
-            Message message = new Message(
-                    contents[i], times[i],sender[i%2]);
+            Message.Sender info = new Message.Sender(sender[i%2]);
+            Message message = new Message(i,times[i],info,contents[i]);
 
             messages.add(message);
         }

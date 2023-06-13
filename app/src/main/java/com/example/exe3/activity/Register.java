@@ -1,4 +1,4 @@
-package com.example.exe3;
+package com.example.exe3.activity;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -11,6 +11,8 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.exe3.R;
 
 public class Register extends AppCompatActivity{
     Button btnRegister;
