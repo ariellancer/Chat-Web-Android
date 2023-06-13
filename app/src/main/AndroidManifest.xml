@@ -31,6 +31,10 @@
             android:exported="false"
             android:theme="@style/Theme.Exe3" />
         <activity
+            android:name=".Adding"
+            android:exported="false"
+            android:theme="@style/Theme.Exe3" />
+        <activity
             android:name=".Chats"
             android:exported="false"
             android:theme="@style/Theme.Exe3" />
