@@ -61,6 +61,7 @@
         android:divider="@drawable/divider"
         android:dividerHeight="7dp"
         android:paddingTop="14dp"
+        android:paddingBottom="14dp"
         app:layout_constraintTop_toBottomOf="@+id/boxUser"
         tools:listitem="@layout/message_style" />
 
