@@ -1,4 +1,4 @@
-package com.example.exe3;
+package com.example.exe3.activity;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -8,6 +8,8 @@ import android.widget.Button;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.constraintlayout.widget.ConstraintLayout;
+
+import com.example.exe3.R;
 
 public class Settings extends AppCompatActivity {
 

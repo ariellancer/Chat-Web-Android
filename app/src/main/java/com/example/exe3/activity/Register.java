@@ -1,9 +1,15 @@
 package com.example.exe3.activity;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.text.TextUtils;
+import android.util.Base64;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -13,10 +19,22 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.exe3.R;
+import com.example.exe3.infoToDB.User;
+import com.example.exe3.webService.UserApi;
+
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class Register extends AppCompatActivity{
     Button btnRegister;
     Button onClick;
+    UserApi userApi;
+    User user;
+
     private EditText usernameEditText, displayNameEditText, passwordEditText, verifyPasswordEditText;
 
     private static final int REQUEST_CODE_SELECT_PICTURE = 1;
@@ -29,6 +47,7 @@ public class Register extends AppCompatActivity{
         btnRegister=findViewById(R.id.btnRegister);
         onClick = findViewById(R.id.clickToLogin);
         onClick.setOnClickListener(fun -> finish());
+
 
         usernameEditText = findViewById(R.id.registered_username);
         displayNameEditText = findViewById(R.id.displayName);
@@ -50,13 +69,11 @@ public class Register extends AppCompatActivity{
         btnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                userApi = new UserApi();
+                if( validateFields()){
+                    createNewUser();
 
-                if (validateFields()) {
-                    Intent intent = new Intent(getApplicationContext(), ListActivity.class);
-
-                    startActivity(intent);
                 }
-
             }
         });
     }
@@ -71,7 +88,32 @@ public class Register extends AppCompatActivity{
             }
         }
     }
+    private void createNewUser (){
+        try {
+            Call<Void> call = userApi.createNewUser(user);
+            call.enqueue(new Callback<Void>() {
+                @Override
+                public void onResponse(Call call, Response response) {
+                    if (response.isSuccessful()) {
+                        Toast.makeText(Register.this, "Registration successful", Toast.LENGTH_SHORT).show();
+                        finish();
+                    } else {
+                        Toast.makeText(Register.this, "Registration failed: " + response.code(), Toast.LENGTH_SHORT).show();
+                    }
+                }
 
+                @Override
+                public void onFailure(Call call, Throwable t) {
+                    Toast.makeText(Register.this, "Registration failed: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                    Log.e("RegistrationError", t.getMessage(), t); // Log the error
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+            Toast.makeText(Register.this, "Registration failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            Log.e("RegistrationError", e.getMessage(), e); // Log the error
+        }
+    }
 
     private boolean validateFields() {
         String username = usernameEditText.getText().toString().trim();
@@ -119,8 +161,30 @@ public class Register extends AppCompatActivity{
             // You can display an error message or handle it as needed
             return false;
         }
+        String picture;
+        try {
+            Drawable drawable = imageView.getDrawable();
+            BitmapDrawable bitmapDrawable = (BitmapDrawable) drawable;
+            Bitmap bitmap = bitmapDrawable.getBitmap();
 
-        return true;
+            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+            String imageType;
+            if (bitmap.hasAlpha()) {
+                bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
+                imageType = "data:image/png;base64,";
+            }
+            else {
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
+                imageType = "data:image/jpeg;base64,";
+            }
+            byte[] imageBytes = byteArrayOutputStream.toByteArray();
+
+            picture =  imageType + Base64.encodeToString(imageBytes, Base64.DEFAULT);
+        } catch (Exception e) {
+            return false;
+        }
+        user = new User(username,password,picture,displayName);
+            return true;
     }
 
     private boolean isValidPassword(String password) {

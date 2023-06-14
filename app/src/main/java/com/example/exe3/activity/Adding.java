@@ -1,9 +1,12 @@
-package com.example.exe3;
+package com.example.exe3.activity;
 
 import android.os.Bundle;
 import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.exe3.R;
+
 public class Adding extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
