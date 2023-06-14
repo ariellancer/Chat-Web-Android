@@ -6,7 +6,7 @@ import androidx.room.PrimaryKey;
 import java.util.List;
 @Entity
 public class Chat {
-    @PrimaryKey
+    @PrimaryKey(autoGenerate=true)
     private int id;
     private List<ContactInfo>  users;
     private List<Message> messages;

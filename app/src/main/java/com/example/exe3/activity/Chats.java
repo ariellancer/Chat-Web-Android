@@ -50,8 +50,8 @@ public class Chats extends AppCompatActivity {
         ImageView imageView=findViewById(R.id.addMessage);
         imageView.setOnClickListener(view->{
             EditText et = findViewById(R.id.chatInputEditText);
-            ContactInfo u = new ContactInfo(et.getText().toString(),et.getText().toString(),et.getText().toString());
-            LastMessage m= new LastMessage(0,"10:00","hellolololo");
+
+            Message m= new Message(0,"10:00",new Message.Sender("ARIEL"),et.getText().toString());
             Contact c= new Contact(0,u,m);
             contactDao.insert(c);
             finish();
