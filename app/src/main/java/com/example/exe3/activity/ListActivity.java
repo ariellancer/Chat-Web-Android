@@ -58,7 +58,7 @@ public class ListActivity extends AppCompatActivity {
         logout = findViewById(R.id.logout);
         logout.setOnClickListener(fun -> finish());
       //  ArrayList<Contact> users = new ArrayList<>();
-        db = Room.databaseBuilder(getApplicationContext(), AppDB.class, "contactsDB").allowMainThreadQueries().build();
+        db = Room.databaseBuilder(getApplicationContext(), AppDB.class, "contactsDB1").allowMainThreadQueries().build();
         contactDao = db.contactDao();
 
         FloatingActionButton fabAddFriend = findViewById(R.id.floating_button);
@@ -94,33 +94,62 @@ public class ListActivity extends AppCompatActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+//                Intent intent = new Intent(getApplicationContext(), Chats.class);
+//
+//                intent.putExtra("id", userNames[i]);
+//                intent.putExtra("profilePicture", profilePictures[i]);
+//                intent.putExtra("lastMassage", lastMassages[i]);
+//                intent.putExtra("time", times[i]);
+//
+//                startActivity(intent);
+
+
                 Intent intent = new Intent(getApplicationContext(), Chats.class);
-
-                intent.putExtra("id", userNames[i]);
-                intent.putExtra("profilePicture", profilePictures[i]);
-                intent.putExtra("lastMassage", lastMassages[i]);
-                intent.putExtra("time", times[i]);
-
-                startActivity(intent);
-            }
-        });
-        listView.setOnItemClickListener((adapterView,view,i,l)->{
-            Intent intent = new Intent(this, Chats.class);
-            int id=-1;
-            List<ContactInfo>  users;
-            List<Message> messages;
-            ContactInfo inf = contacts.get(i).getUser();
-            for(int j=0;j<chats.size();j++){
-                if(chats.get(j).getUsers().get(0)==inf || chats.get(j).getUsers().get(1)==inf){
-                    id=chats.get(j).getId();
-                    users=chats.get(j).getUsers();
-                    messages=chats.get(j).getMessages();
+                int id=-1;
+                List<ContactInfo>  users;
+                List<Message> messages;
+                ContactInfo inf = contacts.get(i).getUser();
+                for(int j=0;j<chats.size();j++){
+                    if(chats.get(j).getUsers().get(0)==inf || chats.get(j).getUsers().get(1)==inf){
+                        id=chats.get(j).getId();
+                        users=chats.get(j).getUsers();
+                        messages=chats.get(j).getMessages();
+                    }
                 }
-            }
-            List<ContactInfo> users = chats.get(i).getUsers();
-            arrayAdapter.notifyDataSetChanged();
+                intent.putExtra("id",id);
+                intent.putExtra("userName",inf.getDisplayName());
+                intent.putExtra("profilePicture",inf.getProfilePic());
 
+//            List<ContactInfo> users = chats.get(i).getUsers();
+//            arrayAdapter.notifyDataSetChanged();
+                startActivity(intent);
+
+            }
         });
+
+
+//        listView.setOnItemClickListener((adapterView,view,i,l)->{
+//            Intent intent = new Intent(this, Chats.class);
+//            int id=-1;
+//            List<ContactInfo>  users;
+//            List<Message> messages;
+//            ContactInfo inf = contacts.get(i).getUser();
+//            for(int j=0;j<chats.size();j++){
+//                if(chats.get(j).getUsers().get(0)==inf || chats.get(j).getUsers().get(1)==inf){
+//                    id=chats.get(j).getId();
+//                    users=chats.get(j).getUsers();
+//                    messages=chats.get(j).getMessages();
+//                }
+//            }
+//            intent.putExtra("id",id);
+//            intent.putExtra("userName",inf.getDisplayName());
+//            intent.putExtra("profilePicture",inf.getProfilePic());
+//
+////            List<ContactInfo> users = chats.get(i).getUsers();
+////            arrayAdapter.notifyDataSetChanged();
+//            startActivity(intent);
+//
+//        });
     }
 
     @Override

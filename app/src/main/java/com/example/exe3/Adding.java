@@ -33,7 +33,7 @@ public class Adding extends AppCompatActivity {
             }
         });
         Button button = findViewById(R.id.buttonAddFriend);
-        db = Room.databaseBuilder(getApplicationContext(), AppDB.class,"contactsDB").allowMainThreadQueries().build();
+        db = Room.databaseBuilder(getApplicationContext(), AppDB.class,"contactsDB1").allowMainThreadQueries().build();
         contactDao = db.contactDao();
         
         button.setOnClickListener(view->{

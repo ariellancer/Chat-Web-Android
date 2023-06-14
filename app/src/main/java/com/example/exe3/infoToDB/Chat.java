@@ -2,13 +2,16 @@ package com.example.exe3.infoToDB;
 
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
+import androidx.room.TypeConverters;
 
 import java.util.List;
 @Entity
 public class Chat {
     @PrimaryKey(autoGenerate=true)
     private int id;
+    @TypeConverters(ContactInfoListConverter.class)
     private List<ContactInfo>  users;
+    @TypeConverters(MessageListConverter.class)
     private List<Message> messages;
 
     public Chat(int id, List<ContactInfo> users, List<Message> messages) {
