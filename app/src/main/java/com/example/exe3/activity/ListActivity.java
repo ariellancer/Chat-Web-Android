@@ -2,9 +2,6 @@ package com.example.exe3.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 
@@ -17,12 +14,9 @@ import com.example.exe3.adapters.CustomListAdapter;
 import com.example.exe3.infoToDB.AppDB;
 import com.example.exe3.infoToDB.Contact;
 import com.example.exe3.infoToDB.ContactDao;
-import com.example.exe3.infoToDB.ContactInfo;
-import com.example.exe3.infoToDB.LastMessage;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class ListActivity extends AppCompatActivity {
     final private int[] profilePictures = {
@@ -44,12 +38,12 @@ public class ListActivity extends AppCompatActivity {
     final private String[] times = {
             "12:00", "00:30", "03:23", "08:59", "12:23", "22:54", "11:47", "10:04",
     };
-    ListView listView;
     ImageView logout;
     CustomListAdapter adapter;
     private AppDB db;
     private ContactDao contactDao;
-    private List<Contact> contacts;
+    private ArrayList<Contact> contacts;
+    private CustomListAdapter arrayAdapter;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,7 +51,7 @@ public class ListActivity extends AppCompatActivity {
         logout = findViewById(R.id.logout);
         logout.setOnClickListener(fun -> finish());
         //ArrayList<Contact> users = new ArrayList<>();
-        db = Room.databaseBuilder(getApplicationContext(), AppDB.class,"contactsDB").allowMainThreadQueries().build();
+        db = Room.databaseBuilder(getApplicationContext(), AppDB.class, "contactsDB").allowMainThreadQueries().build();
         contactDao = db.contactDao();
 
         FloatingActionButton fabAddFriend = findViewById(R.id.floating_button);
@@ -72,12 +66,21 @@ public class ListActivity extends AppCompatActivity {
 //
 //            users.add(aUser);
 //        }
-        contacts = contactDao.index();
-        ArrayAdapter<Contact> arrayAdapter=new ArrayAdapter<Contact>(this, android.R.layout.simple_list_item_1,contacts);
-        listView = findViewById(R.id.listOfFriend);
-       // adapter = new CustomListAdapter(getApplicationContext(), users);
+        contacts = new ArrayList<>();
+        arrayAdapter = new CustomListAdapter(getApplicationContext(), contacts);
+        ListView listView = findViewById(R.id.listOfFriend);
+        // adapter = new CustomListAdapter(getApplicationContext(), users);
 
         listView.setAdapter(arrayAdapter);
+        listView.setOnItemLongClickListener((adapterView,view,i,l)->{
+            Contact curr = contacts.remove(i);
+            contactDao.delete(curr);
+            arrayAdapter.notifyDataSetChanged();
+            return true;
+        });
+
+
+
         //listView.setClickable(true);
 
 //        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -94,4 +97,14 @@ public class ListActivity extends AppCompatActivity {
 //            }
 //        });
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        contacts.clear();
+        contacts.addAll(contactDao.index()) ;
+        arrayAdapter.notifyDataSetChanged();
+
+    }
 }
+

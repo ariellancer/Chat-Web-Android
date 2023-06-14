@@ -2,12 +2,19 @@ package com.example.exe3.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.room.Room;
 
+import com.example.exe3.infoToDB.AppDB;
+import com.example.exe3.infoToDB.ChatDao;
+import com.example.exe3.infoToDB.Contact;
+import com.example.exe3.infoToDB.ContactInfo;
+import com.example.exe3.infoToDB.LastMessage;
 import com.example.exe3.infoToDB.Message;
 import com.example.exe3.R;
 import com.example.exe3.adapters.MessageListAdapter;
@@ -31,11 +38,24 @@ public class Chats extends AppCompatActivity {
     ImageView backToList;
     ListView listView;
     MessageListAdapter adapter;
+    private AppDB db;
+    private ChatDao chatDao;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.chats_style);
-
+        db = Room.databaseBuilder(getApplicationContext(), AppDB.class, "chatsDB").allowMainThreadQueries().build();
+        chatDao = db.chatDao();
+        ImageView imageView=findViewById(R.id.addMessage);
+        imageView.setOnClickListener(view->{
+            EditText et = findViewById(R.id.chatInputEditText);
+            ContactInfo u = new ContactInfo(et.getText().toString(),et.getText().toString(),et.getText().toString());
+            LastMessage m= new LastMessage(0,"10:00","hellolololo");
+            Contact c= new Contact(0,u,m);
+            contactDao.insert(c);
+            finish();
+        });
         ArrayList<Message> messages = new ArrayList<>();
 
         for (int i = 0; i < contents.length; i++) {
