@@ -1,4 +1,4 @@
-package com.example.exe3;
+package com.example.exe3.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,6 +8,9 @@ import android.widget.EditText;
 import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.exe3.R;
+
 import androidx.room.Room;
 
 import com.example.exe3.infoToDB.AppDB;
@@ -35,7 +38,7 @@ public class Adding extends AppCompatActivity {
         Button button = findViewById(R.id.buttonAddFriend);
         db = Room.databaseBuilder(getApplicationContext(), AppDB.class,"contactsDB1").allowMainThreadQueries().build();
         contactDao = db.contactDao();
-        
+
         button.setOnClickListener(view->{
             EditText et = findViewById(R.id.editTextFriendName);
             ContactInfo u = new ContactInfo(et.getText().toString(),et.getText().toString(),et.getText().toString());

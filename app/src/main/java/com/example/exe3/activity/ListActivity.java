@@ -1,16 +1,22 @@
 package com.example.exe3.activity;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.util.Base64;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.room.Room;
+import androidx.lifecycle.ViewModelProvider;
 
-import com.example.exe3.Adding;
+import com.example.exe3.ContactViewModel;
 import com.example.exe3.R;
 import com.example.exe3.adapters.CustomListAdapter;
 import com.example.exe3.infoToDB.AppDB;
@@ -19,33 +25,26 @@ import com.example.exe3.infoToDB.Contact;
 import com.example.exe3.infoToDB.ContactDao;
 import com.example.exe3.infoToDB.ContactInfo;
 import com.example.exe3.infoToDB.Message;
+import com.example.exe3.infoToDB.LastMessage;
+import com.example.exe3.webService.UserApi;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class ListActivity extends AppCompatActivity {
-    final private int[] profilePictures = {
-            R.drawable.favicon, R.drawable.gray2, R.drawable.modiin,
-            R.drawable.omer, R.drawable.peakpx,
-            R.drawable.favicon, R.drawable.gray2, R.drawable.modiin
-    };
-    final private String[] userNames = {
-            "Toni Kroos", "Manuel Neuer", "Sergio Ramos", "Luka Modrić ", "Thomas Müller",
-            "Kylian Mbappe", "Neymar Jr", "Eran Levy",
-    };
-
-    final private String[] lastMassages = {
-            "Hi, how are you?", "24K Magic", "Missing Madrid :(", "Wanna hear a joke?", "Yo!",
-            "Well....", "Did you see the latest John Wick?",
-            "I'm the best!"
-    };
-
-    final private String[] times = {
-            "12:00", "00:30", "03:23", "08:59", "12:23", "22:54", "11:47", "10:04",
-    };
+    ContactViewModel contactViewModel;
+    ListView listView;
     ImageView logout;
     CustomListAdapter adapter;
+    String token;
+    String username;
+    UserApi userApi;
     private AppDB db;
     private ContactDao contactDao;
     private ArrayList<Contact> contacts;
@@ -55,9 +54,19 @@ public class ListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list);
+        Intent activityIntent = getIntent();
+        if (activityIntent != null) {
+            token = activityIntent.getStringExtra("token");
+            username = activityIntent.getStringExtra("username");
+            userApi = new UserApi();
+            getUsernameInfo();
+
+        }
+
+        contactViewModel = new ViewModelProvider(this).get(ContactViewModel.class);
         logout = findViewById(R.id.logout);
         logout.setOnClickListener(fun -> finish());
-      //  ArrayList<Contact> users = new ArrayList<>();
+        //  ArrayList<Contact> users = new ArrayList<>();
         db = Room.databaseBuilder(getApplicationContext(), AppDB.class, "contactsDB1").allowMainThreadQueries().build();
         contactDao = db.contactDao();
 
@@ -80,16 +89,26 @@ public class ListActivity extends AppCompatActivity {
         // adapter = new CustomListAdapter(getApplicationContext(), users);
 
         listView.setAdapter(arrayAdapter);
-        listView.setOnItemLongClickListener((adapterView,view,i,l)->{
+        listView.setOnItemLongClickListener((adapterView, view, i, l) -> {
             Contact curr = contacts.remove(i);
             contactDao.delete(curr);
             arrayAdapter.notifyDataSetChanged();
             return true;
         });
 
+        listView = findViewById(R.id.listOfFriend);
+        adapter = new CustomListAdapter(this, new ArrayList<Contact>());
+        listView.setAdapter(adapter);
+        listView.setClickable(true);
+        contactViewModel.get().observe(this, contacts -> {
+            if (contacts != null) {
+                Toast.makeText(this, "Registration successful22", Toast.LENGTH_SHORT).show();
+            }
+            adapter.setValue(contacts);
+            adapter.notifyDataSetChanged();
 
-
-        //listView.setClickable(true);
+            //listView.setClickable(true);
+        });
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -105,20 +124,21 @@ public class ListActivity extends AppCompatActivity {
 
 
                 Intent intent = new Intent(getApplicationContext(), Chats.class);
-                int id=-1;
-                List<ContactInfo>  users;
+                int id = -1;
+                List<ContactInfo> users;
                 List<Message> messages;
                 ContactInfo inf = contacts.get(i).getUser();
-                for(int j=0;j<chats.size();j++){
-                    if(chats.get(j).getUsers().get(0)==inf || chats.get(j).getUsers().get(1)==inf){
-                        id=chats.get(j).getId();
-                        users=chats.get(j).getUsers();
-                        messages=chats.get(j).getMessages();
+                for (int j = 0; j < chats.size(); j++) {
+                    if (chats.get(j).getUsers().get(0) == inf || chats.get(j).getUsers().get(1) == inf) {
+                        id = chats.get(j).getId();
+                        users = chats.get(j).getUsers();
+                        messages = chats.get(j).getMessages();
                     }
                 }
-                intent.putExtra("id",id);
-                intent.putExtra("userName",inf.getDisplayName());
-                intent.putExtra("profilePicture",inf.getProfilePic());
+                intent.putExtra("id", id);
+                intent.putExtra("userName", inf.getDisplayName());
+                intent.putExtra("profilePicture", inf.getProfilePic());
+
 
 //            List<ContactInfo> users = chats.get(i).getUsers();
 //            arrayAdapter.notifyDataSetChanged();
@@ -128,28 +148,48 @@ public class ListActivity extends AppCompatActivity {
         });
 
 
-//        listView.setOnItemClickListener((adapterView,view,i,l)->{
-//            Intent intent = new Intent(this, Chats.class);
-//            int id=-1;
-//            List<ContactInfo>  users;
-//            List<Message> messages;
-//            ContactInfo inf = contacts.get(i).getUser();
-//            for(int j=0;j<chats.size();j++){
-//                if(chats.get(j).getUsers().get(0)==inf || chats.get(j).getUsers().get(1)==inf){
-//                    id=chats.get(j).getId();
-//                    users=chats.get(j).getUsers();
-//                    messages=chats.get(j).getMessages();
-//                }
+//        listView.setAdapter(adapter);
+
+//        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+//                Intent intent = new Intent(getApplicationContext(), Chats.class);
+//
+//                intent.putExtra("userName", userNames[i]);
+//                intent.putExtra("profilePicture", profilePictures[i]);
+//                intent.putExtra("lastMassage", lastMassages[i]);
+//                intent.putExtra("time", times[i]);
+//
+//                startActivity(intent);
 //            }
-//            intent.putExtra("id",id);
-//            intent.putExtra("userName",inf.getDisplayName());
-//            intent.putExtra("profilePicture",inf.getProfilePic());
-//
-////            List<ContactInfo> users = chats.get(i).getUsers();
-////            arrayAdapter.notifyDataSetChanged();
-//            startActivity(intent);
-//
 //        });
+    }
+    private void getUsernameInfo() {
+        // Do something with the processed result
+        CompletableFuture<ContactInfo> future = userApi.getUsernameInfo( "bearer "+ token, username)
+                .thenApply(contactInfo -> contactInfo)
+                .exceptionally(error -> {
+                    //Toast(error.getMessage())
+                    return null;
+                });
+        future.thenAccept(contactInfo -> {
+            if (contactInfo != null) {
+                ImageView imageView = findViewById(R.id.profileImageUser);
+                TextView userName = findViewById(R.id.nameOfUser);
+                imageView.setImageBitmap(bitmapPic(extractImage(contactInfo.getProfilePic())));
+                userName.setText(contactInfo.getDisplayName());
+            }
+        });
+
+    }
+
+    public Bitmap bitmapPic(String img) {
+        byte[] decodedBytes = Base64.decode(img, Base64.DEFAULT);
+        return BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.length);
+    }
+    public String extractImage(String webBase64) {
+        int start = webBase64.indexOf(",");
+        return webBase64.substring(start +1);
     }
 
     @Override

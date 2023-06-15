@@ -2,8 +2,8 @@ package com.example.exe3.infoToDB;
 public class User {
     private String username;
     private String password;
-    private String profilePic;
     private String displayName;
+    private String profilePic;
 
     public User(String username, String password, String profilePic, String displayName) {
         this.username = username;
