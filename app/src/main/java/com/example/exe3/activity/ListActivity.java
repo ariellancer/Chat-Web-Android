@@ -55,7 +55,7 @@ public class ListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list);
         Intent activityIntent = getIntent();
-        if(activityIntent!=null) {
+        if (activityIntent != null) {
             token = activityIntent.getStringExtra("token");
             username = activityIntent.getStringExtra("username");
             userApi = new UserApi();
@@ -63,10 +63,10 @@ public class ListActivity extends AppCompatActivity {
 
         }
 
-        contactViewModel=new ViewModelProvider(this).get(ContactViewModel.class);
+        contactViewModel = new ViewModelProvider(this).get(ContactViewModel.class);
         logout = findViewById(R.id.logout);
         logout.setOnClickListener(fun -> finish());
-      //  ArrayList<Contact> users = new ArrayList<>();
+        //  ArrayList<Contact> users = new ArrayList<>();
         db = Room.databaseBuilder(getApplicationContext(), AppDB.class, "contactsDB1").allowMainThreadQueries().build();
         contactDao = db.contactDao();
 
@@ -89,7 +89,7 @@ public class ListActivity extends AppCompatActivity {
         // adapter = new CustomListAdapter(getApplicationContext(), users);
 
         listView.setAdapter(arrayAdapter);
-        listView.setOnItemLongClickListener((adapterView,view,i,l)->{
+        listView.setOnItemLongClickListener((adapterView, view, i, l) -> {
             Contact curr = contacts.remove(i);
             contactDao.delete(curr);
             arrayAdapter.notifyDataSetChanged();
@@ -100,9 +100,15 @@ public class ListActivity extends AppCompatActivity {
         adapter = new CustomListAdapter(this, new ArrayList<Contact>());
         listView.setAdapter(adapter);
         listView.setClickable(true);
+        contactViewModel.get().observe(this, contacts -> {
+            if (contacts != null) {
+                Toast.makeText(this, "Registration successful22", Toast.LENGTH_SHORT).show();
+            }
+            adapter.setValue(contacts);
+            adapter.notifyDataSetChanged();
 
-
-        //listView.setClickable(true);
+            //listView.setClickable(true);
+        });
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -118,31 +124,27 @@ public class ListActivity extends AppCompatActivity {
 
 
                 Intent intent = new Intent(getApplicationContext(), Chats.class);
-                int id=-1;
-                List<ContactInfo>  users;
+                int id = -1;
+                List<ContactInfo> users;
                 List<Message> messages;
                 ContactInfo inf = contacts.get(i).getUser();
-                for(int j=0;j<chats.size();j++){
-                    if(chats.get(j).getUsers().get(0)==inf || chats.get(j).getUsers().get(1)==inf){
-                        id=chats.get(j).getId();
-                        users=chats.get(j).getUsers();
-                        messages=chats.get(j).getMessages();
+                for (int j = 0; j < chats.size(); j++) {
+                    if (chats.get(j).getUsers().get(0) == inf || chats.get(j).getUsers().get(1) == inf) {
+                        id = chats.get(j).getId();
+                        users = chats.get(j).getUsers();
+                        messages = chats.get(j).getMessages();
                     }
                 }
-                intent.putExtra("id",id);
-                intent.putExtra("userName",inf.getDisplayName());
-                intent.putExtra("profilePicture",inf.getProfilePic());
-        contactViewModel.get().observe(this,contacts -> {
-            if(contacts!=null){
-                Toast.makeText(this, "Registration successful22", Toast.LENGTH_SHORT).show();
-            }
-            adapter.setValue(contacts.);
-            adapter.notifyDataSetChanged();
+                intent.putExtra("id", id);
+                intent.putExtra("userName", inf.getDisplayName());
+                intent.putExtra("profilePicture", inf.getProfilePic());
+
 
 //            List<ContactInfo> users = chats.get(i).getUsers();
 //            arrayAdapter.notifyDataSetChanged();
                 startActivity(intent);
 
+            }
         });
 
 

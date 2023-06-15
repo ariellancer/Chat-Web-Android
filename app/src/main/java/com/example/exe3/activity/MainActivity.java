@@ -13,7 +13,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.exe3.R;
-import com.example.exe3.Settings;
+import com.example.exe3.activity.Settings;
 import com.example.exe3.infoToDB.LoginData;
 import com.example.exe3.webService.UserApi;
 
