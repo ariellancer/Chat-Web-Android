@@ -1,5 +1,9 @@
 package com.example.exe3.infoToDB;
 
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
+@Entity
 public class LastMessage{
     public int getId() {
         return id;
@@ -24,7 +28,7 @@ public class LastMessage{
     public void setContent(String content) {
         this.content = content;
     }
-
+    @PrimaryKey(autoGenerate = true)
     private int id;
     private String created;
     private String content;

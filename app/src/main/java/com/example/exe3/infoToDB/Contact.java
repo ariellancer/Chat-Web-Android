@@ -5,7 +5,7 @@ import androidx.room.PrimaryKey;
 
 @Entity
 public class Contact {
-    @PrimaryKey
+    @PrimaryKey(autoGenerate=true)
     private int id;
 
     private ContactInfo user;

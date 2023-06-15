@@ -7,11 +7,13 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.exe3.R;
+import com.example.exe3.Settings;
 import com.example.exe3.infoToDB.LoginData;
 import com.example.exe3.webService.UserApi;
 
@@ -21,6 +23,7 @@ import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
     Button loginButton;
+    ImageView settingsButton;
     UserApi userApi;
     Button clickMe;
     LoginData loginData;
@@ -32,10 +35,16 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         usernameEditText = findViewById(R.id.username_input);
         passwordEditText = findViewById(R.id.password_input);
-
+        settingsButton = findViewById(R.id.settings);
         loginButton = findViewById(R.id.loginButton);
         clickMe = findViewById(R.id.clickToRegister);
-
+        settingsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                    Intent intent = new Intent(getApplicationContext(), Settings.class);
+                    startActivity(intent);
+            }
+        });
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

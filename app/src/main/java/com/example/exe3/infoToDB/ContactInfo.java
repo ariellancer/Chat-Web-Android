@@ -1,5 +1,8 @@
 package com.example.exe3.infoToDB;
 
+import androidx.room.Entity;
+
+@Entity(primaryKeys = {"username","displayName","profilePic"})
 public class ContactInfo{
     private String username;
     private String displayName;
