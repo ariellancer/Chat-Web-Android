@@ -13,7 +13,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 
+import com.example.exe3.ContactViewModel;
 import com.example.exe3.R;
 import com.example.exe3.adapters.CustomListAdapter;
 import com.example.exe3.infoToDB.Contact;
@@ -30,25 +32,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class ListActivity extends AppCompatActivity {
-    final private int[] profilePictures = {
-            R.drawable.favicon, R.drawable.gray2, R.drawable.modiin,
-            R.drawable.omer, R.drawable.peakpx,
-            R.drawable.favicon, R.drawable.gray2, R.drawable.modiin
-    };
-    final private String[] userNames = {
-            "Toni Kroos", "Manuel Neuer", "Sergio Ramos", "Luka Modrić ", "Thomas Müller",
-            "Kylian Mbappe", "Neymar Jr", "Eran Levy",
-    };
-
-    final private String[] lastMassages = {
-            "Hi, how are you?", "24K Magic", "Missing Madrid :(", "Wanna hear a joke?", "Yo!",
-            "Well....", "Did you see the latest John Wick?",
-            "I'm the best!"
-    };
-
-    final private String[] times = {
-            "12:00", "00:30", "03:23", "08:59", "12:23", "22:54", "11:47", "10:04",
-    };
+    ContactViewModel contactViewModel;
     ListView listView;
     ImageView logout;
     CustomListAdapter adapter;
@@ -66,9 +50,11 @@ public class ListActivity extends AppCompatActivity {
             getUsernameInfo();
 
         }
+
+        contactViewModel=new ViewModelProvider(this).get(ContactViewModel.class);
         logout = findViewById(R.id.logout);
         logout.setOnClickListener(fun -> finish());
-        ArrayList<Contact> users = new ArrayList<>();
+//        ArrayList<Contact> users = new ArrayList<>();
 
         FloatingActionButton fabAddFriend = findViewById(R.id.floating_button);
         fabAddFriend.setOnClickListener(view -> {
@@ -77,33 +63,38 @@ public class ListActivity extends AppCompatActivity {
 //            intent.putExtra("array", users);
             startActivity(intent);
         });
-        for (int i = 0; i < profilePictures.length; i++) {
-            ContactInfo info = new ContactInfo(userNames[i],userNames[i],"a");
-            LastMessage lastMessage = new LastMessage(i,times[i],lastMassages[i]);
-            Contact aUser = new Contact(i,info,lastMessage);
 
-            users.add(aUser);
-        }
 
         listView = findViewById(R.id.listOfFriend);
-        adapter = new CustomListAdapter(getApplicationContext(), users);
-
+        adapter = new CustomListAdapter(this, new ArrayList<Contact>());
         listView.setAdapter(adapter);
         listView.setClickable(true);
 
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Intent intent = new Intent(getApplicationContext(), Chats.class);
-
-                intent.putExtra("userName", userNames[i]);
-                intent.putExtra("profilePicture", profilePictures[i]);
-                intent.putExtra("lastMassage", lastMassages[i]);
-                intent.putExtra("time", times[i]);
-
-                startActivity(intent);
+        contactViewModel.get().observe(this,contacts -> {
+            if(contacts!=null){
+                Toast.makeText(this, "Registration successful22", Toast.LENGTH_SHORT).show();
             }
+            adapter.setValue(contacts.);
+            adapter.notifyDataSetChanged();
+
         });
+
+
+//        listView.setAdapter(adapter);
+
+//        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+//                Intent intent = new Intent(getApplicationContext(), Chats.class);
+//
+//                intent.putExtra("userName", userNames[i]);
+//                intent.putExtra("profilePicture", profilePictures[i]);
+//                intent.putExtra("lastMassage", lastMassages[i]);
+//                intent.putExtra("time", times[i]);
+//
+//                startActivity(intent);
+//            }
+//        });
     }
     private void getUsernameInfo() {
         // Do something with the processed result

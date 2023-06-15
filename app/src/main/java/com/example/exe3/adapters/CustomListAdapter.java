@@ -9,6 +9,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import java.util.ArrayList;
+import java.util.List;
+
 import androidx.annotation.Nullable;
 
 import com.example.exe3.R;
@@ -16,10 +18,15 @@ import com.example.exe3.infoToDB.Contact;
 
 public class CustomListAdapter extends ArrayAdapter<Contact> {
     LayoutInflater inflater;
-    public CustomListAdapter(Context ctx, ArrayList<Contact> userArrayList) {
-        super(ctx, R.layout.contact_style, userArrayList);
-        this.inflater = LayoutInflater.from(ctx);
+    List<Contact> userArrayList;
 
+    public CustomListAdapter(Context ctx, List<Contact> userArrayList1) {
+        super(ctx, R.layout.contact_style, userArrayList1);
+        userArrayList = userArrayList1;
+        this.inflater = LayoutInflater.from(ctx);
+    }
+    public void setValue ( List<Contact> userArrayList){
+        this.userArrayList=userArrayList;
     }
     @NonNull
     @Override
