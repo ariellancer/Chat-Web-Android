@@ -13,6 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
 import androidx.room.Room;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -45,11 +46,11 @@ public class ListActivity extends AppCompatActivity {
     String token;
     String username;
     UserApi userApi;
+
     private AppDB db;
     private ContactDao contactDao;
     private ArrayList<Contact> contacts;
     private ArrayList<Chat> chats;
-    private CustomListAdapter arrayAdapter;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,86 +67,77 @@ public class ListActivity extends AppCompatActivity {
         contactViewModel = new ViewModelProvider(this).get(ContactViewModel.class);
         logout = findViewById(R.id.logout);
         logout.setOnClickListener(fun -> finish());
-        //  ArrayList<Contact> users = new ArrayList<>();
-        db = Room.databaseBuilder(getApplicationContext(), AppDB.class, "contactsDB1").allowMainThreadQueries().build();
-        contactDao = db.contactDao();
+//        db = Room.databaseBuilder(getApplicationContext(), AppDB.class, "contactsDB1").allowMainThreadQueries().build();
+//        contactDao = db.contactDao();
 
         FloatingActionButton fabAddFriend = findViewById(R.id.floating_button);
         fabAddFriend.setOnClickListener(view -> {
             Intent intent = new Intent(this, Adding.class);
             startActivity(intent);
         });
-//        for (int i = 0; i < profilePictures.length; i++) {
-//            ContactInfo info = new ContactInfo(userNames[i],userNames[i],"a");
-//            LastMessage lastMessage = new LastMessage(i,times[i],lastMassages[i]);
-//            Contact aUser = new Contact(i,info,lastMessage);
-//
-//            users.add(aUser);
-//        }
+
         contacts = new ArrayList<>();
         chats = new ArrayList<>();
-        arrayAdapter = new CustomListAdapter(getApplicationContext(), contacts);
-        ListView listView = findViewById(R.id.listOfFriend);
-        // adapter = new CustomListAdapter(getApplicationContext(), users);
 
-        listView.setAdapter(arrayAdapter);
+        listView = findViewById(R.id.listOfFriend);
+        adapter = new CustomListAdapter(this, contacts);
+        listView.setAdapter(adapter);
+        listView.setClickable(true);
+
+
         listView.setOnItemLongClickListener((adapterView, view, i, l) -> {
             Contact curr = contacts.remove(i);
             contactDao.delete(curr);
-            arrayAdapter.notifyDataSetChanged();
+            adapter.notifyDataSetChanged();
             return true;
         });
 
-        listView = findViewById(R.id.listOfFriend);
-        adapter = new CustomListAdapter(this, new ArrayList<Contact>());
-        listView.setAdapter(adapter);
-        listView.setClickable(true);
-        contactViewModel.get().observe(this, contacts -> {
-            if (contacts != null) {
-                Toast.makeText(this, "Registration successful22", Toast.LENGTH_SHORT).show();
-            }
-            adapter.setValue(contacts);
-            adapter.notifyDataSetChanged();
 
-            //listView.setClickable(true);
-        });
-
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-//                Intent intent = new Intent(getApplicationContext(), Chats.class);
-//
-//                intent.putExtra("id", userNames[i]);
-//                intent.putExtra("profilePicture", profilePictures[i]);
-//                intent.putExtra("lastMassage", lastMassages[i]);
-//                intent.putExtra("time", times[i]);
-//
-//                startActivity(intent);
-
-
-                Intent intent = new Intent(getApplicationContext(), Chats.class);
-                int id = -1;
-                List<ContactInfo> users;
-                List<Message> messages;
-                ContactInfo inf = contacts.get(i).getUser();
-                for (int j = 0; j < chats.size(); j++) {
-                    if (chats.get(j).getUsers().get(0) == inf || chats.get(j).getUsers().get(1) == inf) {
-                        id = chats.get(j).getId();
-                        users = chats.get(j).getUsers();
-                        messages = chats.get(j).getMessages();
+        contactViewModel.get().observe(this, new Observer<List<Contact>>() {
+                    @Override
+                    public void onChanged(List<Contact> newContent) {
+                        contacts.clear();
+                        contacts.addAll(newContent);
+                        adapter.notifyDataSetChanged();
                     }
-                }
-                intent.putExtra("id", id);
-                intent.putExtra("userName", inf.getDisplayName());
-                intent.putExtra("profilePicture", inf.getProfilePic());
+                });
 
-
-//            List<ContactInfo> users = chats.get(i).getUsers();
-//            arrayAdapter.notifyDataSetChanged();
-                startActivity(intent);
-
-            }
-        });
+//                listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//                    @Override
+//                    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+////                Intent intent = new Intent(getApplicationContext(), Chats.class);
+////
+////                intent.putExtra("id", userNames[i]);
+////                intent.putExtra("profilePicture", profilePictures[i]);
+////                intent.putExtra("lastMassage", lastMassages[i]);
+////                intent.putExtra("time", times[i]);
+////
+////                startActivity(intent);
+//
+//
+//                        Intent intent = new Intent(getApplicationContext(), Chats.class);
+//                        int id = -1;
+//                        List<ContactInfo> users;
+//                        List<Message> messages;
+//                        ContactInfo inf = contacts.get(i).getUser();
+//                        for (int j = 0; j < chats.size(); j++) {
+//                            if (chats.get(j).getUsers().get(0) == inf || chats.get(j).getUsers().get(1) == inf) {
+//                                id = chats.get(j).getId();
+//                                users = chats.get(j).getUsers();
+//                                messages = chats.get(j).getMessages();
+//                            }
+//                        }
+//                        intent.putExtra("id", id);
+//                        intent.putExtra("userName", inf.getDisplayName());
+//                        intent.putExtra("profilePicture", inf.getProfilePic());
+//
+//
+////            List<ContactInfo> users = chats.get(i).getUsers();
+////            arrayAdapter.notifyDataSetChanged();
+//                        startActivity(intent);
+//
+//                    }
+//                });
 
 
 //        listView.setAdapter(adapter);
@@ -192,13 +184,13 @@ public class ListActivity extends AppCompatActivity {
         return webBase64.substring(start +1);
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        contacts.clear();
-        contacts.addAll(contactDao.index()) ;
-        arrayAdapter.notifyDataSetChanged();
-
-    }
+//    @Override
+//    protected void onResume() {
+//        super.onResume();
+//        contacts.clear();
+//        contacts.addAll(contactDao.index()) ;
+//        adapter.notifyDataSetChanged();
+//
+//    }
 }
 
