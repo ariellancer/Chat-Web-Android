@@ -3,7 +3,6 @@
     <string name="username">Username</string>
     <string name="password">Password</string>
     <string name="Verifypassword">Verify password</string>
-    <string name="lastMessage">Hello</string>
     <string name="login_btn">Login</string>
     <string name="pic_btn">Choose a picture</string>
     <string name="lol">LOL</string>
@@ -15,7 +14,6 @@
     <string name="btn_click_to_register_or_login">click here</string>
     <string name="not_registered">Not registered?</string>
     <string name="to_register">to register</string>
-    <string name="date">18:45</string>
     <string name="image_description_user">profilePicUser</string>
     <string name="logout_button">logout</string>
     <string name="placholder">Type your message...</string>

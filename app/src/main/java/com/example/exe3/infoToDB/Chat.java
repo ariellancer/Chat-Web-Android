@@ -13,13 +13,12 @@ public class Chat {
     private List<ContactInfo>  users;
     @TypeConverters(MessageListConverter.class)
     private List<Message> messages;
-
+    public Chat(){}
     public Chat(int id, List<ContactInfo> users, List<Message> messages) {
         this.id = id;
         this.users = users;
         this.messages = messages;
     }
-
     public int getId() {
         return id;
     }

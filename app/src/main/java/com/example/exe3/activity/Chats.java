@@ -8,8 +8,11 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
 import androidx.room.Room;
 
+import com.example.exe3.ContactViewModel;
+import com.example.exe3.Utilities;
 import com.example.exe3.infoToDB.AppDB;
 import com.example.exe3.infoToDB.Chat;
 import com.example.exe3.infoToDB.ChatDao;
@@ -19,8 +22,11 @@ import com.example.exe3.infoToDB.LastMessage;
 import com.example.exe3.infoToDB.Message;
 import com.example.exe3.R;
 import com.example.exe3.adapters.MessageListAdapter;
+import com.example.exe3.infoToDB.NewMessage;
+import com.example.exe3.webService.UserApi;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Chats extends AppCompatActivity {
     final private String[] times = {
@@ -37,15 +43,39 @@ public class Chats extends AppCompatActivity {
     ImageView profilePictureView;
     TextView userNameView;
     ImageView backToList;
+    ImageView send;
     ListView listView;
     MessageListAdapter adapter;
     private AppDB db;
     private ChatDao chatDao;
 
+    int idChat;
+
+    String displayName;
+
+    String token;
+    String profilePicture;
+
+    ContactViewModel viewModel;
+
+    List<Message> messages;
+    String username;
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.chats_style);
+        Intent activityIntent = getIntent();
+        viewModel = new ContactViewModel();
+        messages = new ArrayList<>();
+        adapter = new MessageListAdapter(this, messages);
+        send = findViewById(R.id.addMessage);
+        profilePictureView = findViewById(R.id.profileUser);
+        userNameView = findViewById(R.id.user_Name);
+        backToList = findViewById(R.id.returnToListFriend);
+        listView = findViewById(R.id.messagesList);
         db = Room.databaseBuilder(getApplicationContext(), AppDB.class, "chatsDB1").allowMainThreadQueries().build();
         chatDao = db.chatDao();
 //        ImageView imageView=findViewById(R.id.addMessage);
@@ -57,7 +87,31 @@ public class Chats extends AppCompatActivity {
 //            contactDao.insert(c);
 //            finish();
 //        });
-        ArrayList<Message> messages = new ArrayList<>();
+        if (activityIntent != null) {
+            idChat = activityIntent.getIntExtra("id",0);
+            displayName = activityIntent.getStringExtra("displayName");
+            profilePicture = activityIntent.getStringExtra("profilePicture");
+            token = activityIntent.getStringExtra("token");
+            username = activityIntent.getStringExtra("username");
+            //profilePictureView.setImageBitmap(ListActivity.bitmapPic(profilePicture));
+            userNameView.setText(displayName);
+            profilePictureView.setImageBitmap(Utilities.bitmapPic(Utilities.extractImage(profilePicture)));
+
+//            Chat chat=chatDao.get(idChat);
+//            messages.addAll(chat.getMessages());
+        }
+        adapter.setUsername(username);
+        new Thread(()-> {viewModel.getMessages(token,idChat);}).start();
+        viewModel.getLiveMessages().observe(this, new Observer<Chat>() {
+            @Override
+            public void onChanged(Chat newMessages) {
+                messages.clear();
+                messages.addAll(newMessages.getMessages());
+                adapter.notifyDataSetChanged();
+            }
+        });
+        listView.setAdapter(adapter);
+        listView.setClickable(true);
 
 //        for (int i = 0; i < contents.length; i++) {
 //            Message.Sender info = new Message.Sender(sender[i%2]);
@@ -66,27 +120,18 @@ public class Chats extends AppCompatActivity {
 //            messages.add(message);
 //        }
 
+        send.setOnClickListener(sendTo->
+        {
+            EditText boxInput = findViewById(R.id.chatInputEditText);
+            NewMessage newMessageToSend = new NewMessage(boxInput.getText().toString());
+            boxInput.setText("");
+            new Thread(()->{
+                viewModel.postMessagesById(token,idChat,newMessageToSend);
+            }).start();
 
-        profilePictureView = findViewById(R.id.profileUser);
-        userNameView = findViewById(R.id.user_Name);
-        backToList = findViewById(R.id.returnToListFriend);
+        });
+
         backToList.setOnClickListener(fun -> finish());
-        Intent activityIntent = getIntent();
 
-        if (activityIntent != null) {
-            int id=activityIntent.getIntExtra("id",R.drawable.blue);
-            String userName = activityIntent.getStringExtra("userName");
-            int profilePicture = activityIntent.getIntExtra("profilePicture", R.drawable.blue);
-
-            profilePictureView.setImageResource(profilePicture);
-            userNameView.setText(userName);
-
-            Chat chat=chatDao.get(id);
-            messages.addAll(chat.getMessages());
-        }
-        listView = findViewById(R.id.messagesList);
-        adapter = new MessageListAdapter(getApplicationContext(), messages);
-
-        listView.setAdapter(adapter);
     }
 }

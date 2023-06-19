@@ -19,6 +19,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.exe3.ContactViewModel;
 import com.example.exe3.R;
+import com.example.exe3.Utilities;
 import com.example.exe3.adapters.CustomListAdapter;
 import com.example.exe3.infoToDB.AppDB;
 import com.example.exe3.infoToDB.Chat;
@@ -31,6 +32,7 @@ import com.example.exe3.webService.UserApi;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
@@ -49,7 +51,7 @@ public class ListActivity extends AppCompatActivity {
 
     private AppDB db;
     private ContactDao contactDao;
-    private ArrayList<Contact> contacts;
+    private List<Contact> contacts;
     private ArrayList<Chat> chats;
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,10 +65,16 @@ public class ListActivity extends AppCompatActivity {
             getUsernameInfo();
 
         }
-
-        contactViewModel = new ViewModelProvider(this).get(ContactViewModel.class);
         logout = findViewById(R.id.logout);
         logout.setOnClickListener(fun -> finish());
+        listView = findViewById(R.id.listOfFriend);
+
+
+        contactViewModel = new ContactViewModel();
+        contacts = new ArrayList<>();
+        adapter = new CustomListAdapter(this, contacts);
+        new Thread(()-> {contactViewModel.getContacts(token);}).start();
+
 //        db = Room.databaseBuilder(getApplicationContext(), AppDB.class, "contactsDB1").allowMainThreadQueries().build();
 //        contactDao = db.contactDao();
 
@@ -76,13 +84,8 @@ public class ListActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
-        contacts = new ArrayList<>();
         chats = new ArrayList<>();
 
-        listView = findViewById(R.id.listOfFriend);
-        adapter = new CustomListAdapter(this, contacts);
-        listView.setAdapter(adapter);
-        listView.setClickable(true);
 
 
         listView.setOnItemLongClickListener((adapterView, view, i, l) -> {
@@ -91,11 +94,14 @@ public class ListActivity extends AppCompatActivity {
             adapter.notifyDataSetChanged();
             return true;
         });
+        listView.setAdapter(adapter);
+        listView.setClickable(true);
 
 
         contactViewModel.get().observe(this, new Observer<List<Contact>>() {
                     @Override
                     public void onChanged(List<Contact> newContent) {
+                        Toast.makeText(ListActivity.this, "Registration successful", Toast.LENGTH_SHORT).show();
                         contacts.clear();
                         contacts.addAll(newContent);
                         adapter.notifyDataSetChanged();
@@ -119,7 +125,7 @@ public class ListActivity extends AppCompatActivity {
 //                        int id = -1;
 //                        List<ContactInfo> users;
 //                        List<Message> messages;
-//                        ContactInfo inf = contacts.get(i).getUser();
+//                          ContactInfo inf = contacts.get(i).getUser();
 //                        for (int j = 0; j < chats.size(); j++) {
 //                            if (chats.get(j).getUsers().get(0) == inf || chats.get(j).getUsers().get(1) == inf) {
 //                                id = chats.get(j).getId();
@@ -142,19 +148,20 @@ public class ListActivity extends AppCompatActivity {
 
 //        listView.setAdapter(adapter);
 
-//        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-//                Intent intent = new Intent(getApplicationContext(), Chats.class);
-//
-//                intent.putExtra("userName", userNames[i]);
-//                intent.putExtra("profilePicture", profilePictures[i]);
-//                intent.putExtra("lastMassage", lastMassages[i]);
-//                intent.putExtra("time", times[i]);
-//
-//                startActivity(intent);
-//            }
-//        });
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Intent intent = new Intent(getApplicationContext(), Chats.class);
+                intent.putExtra("displayName", contacts.get(i).getUser().getDisplayName());
+                intent.putExtra("username", contacts.get(i).getUser().getUsername());
+                intent.putExtra("profilePicture", contacts.get(i).getUser().getProfilePic());
+                intent.putExtra("id",contacts.get(i).getId());
+                intent.putExtra("token",token);
+                startActivity(intent);
+            }
+        });
+
+
     }
     private void getUsernameInfo() {
         // Do something with the processed result
@@ -168,29 +175,24 @@ public class ListActivity extends AppCompatActivity {
             if (contactInfo != null) {
                 ImageView imageView = findViewById(R.id.profileImageUser);
                 TextView userName = findViewById(R.id.nameOfUser);
-                imageView.setImageBitmap(bitmapPic(extractImage(contactInfo.getProfilePic())));
+                imageView.setImageBitmap(Utilities.bitmapPic(Utilities.extractImage(contactInfo.getProfilePic())));
                 userName.setText(contactInfo.getDisplayName());
             }
         });
 
     }
+        @Override
+    protected void onResume() {
+        super.onResume();
+        new Thread(()-> {contactViewModel.getContacts(token);}).start();
+        //contacts.clear();
+        //contacts.addAll(contactDao.index()) ;
+        //adapter.notifyDataSetChanged();
 
-    public Bitmap bitmapPic(String img) {
-        byte[] decodedBytes = Base64.decode(img, Base64.DEFAULT);
-        return BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.length);
-    }
-    public String extractImage(String webBase64) {
-        int start = webBase64.indexOf(",");
-        return webBase64.substring(start +1);
     }
 
-//    @Override
-//    protected void onResume() {
-//        super.onResume();
-//        contacts.clear();
-//        contacts.addAll(contactDao.index()) ;
-//        adapter.notifyDataSetChanged();
-//
-//    }
-}
+    }
+
+
+
 

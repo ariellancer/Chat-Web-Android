@@ -14,6 +14,7 @@ import java.util.List;
 import androidx.annotation.Nullable;
 
 import com.example.exe3.R;
+import com.example.exe3.Utilities;
 import com.example.exe3.infoToDB.Contact;
 
 public class CustomListAdapter extends ArrayAdapter<Contact> {
@@ -42,11 +43,13 @@ public class CustomListAdapter extends ArrayAdapter<Contact> {
         TextView userName = convertView.findViewById(R.id.friendName);
         TextView lastMsg = convertView.findViewById(R.id.lastMessage);
         TextView time = convertView.findViewById(R.id.timeLastMessage);
-        //imageView.setImageResource(contact.getUser().getProfilePic());
+        imageView.setImageBitmap(Utilities.bitmapPic(Utilities.extractImage(contact.getUser().getProfilePic())));
         userName.setText(contact.getUser().getUsername());
-        lastMsg.setText(contact.getLastMassage().getContent());
-        time.setText(contact.getLastMassage().getCreated());
-
+        if(contact.getLastMessage()!=null) {
+            lastMsg.setText(contact.getLastMessage().getContent());
+            time.setText(Utilities.editTime(contact.getLastMessage().getCreated()));
+        }
         return convertView;
     }
+
 }
