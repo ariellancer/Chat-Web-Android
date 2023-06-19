@@ -2,6 +2,7 @@ package com.example.exe3.webService;
 
 import com.example.exe3.infoToDB.Chat;
 import com.example.exe3.infoToDB.Contact;
+import com.example.exe3.infoToDB.GetFriend;
 import com.example.exe3.infoToDB.LoginData;
 import com.example.exe3.infoToDB.Message;
 import com.example.exe3.infoToDB.NewMessage;
@@ -21,7 +22,7 @@ public interface WebServiceChats {
     Call<ArrayList<Contact>> getUpdatedContact(@Header ("Authorization") String token);
 
     @POST("Chats")
-    Call<Chat> addingFriend( @Header ("Authorization") String token,@Body LoginData friend);
+    Call<Contact> addingFriend( @Header ("Authorization") String token,@Body GetFriend friend);
 
     @GET("Chats/{id}")
     Call<Chat> getChatById(@Header ("Authorization") String token, @Path("id") int id);

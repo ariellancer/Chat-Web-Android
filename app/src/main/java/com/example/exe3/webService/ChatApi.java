@@ -2,6 +2,7 @@ package com.example.exe3.webService;
 
 import com.example.exe3.infoToDB.Chat;
 import com.example.exe3.infoToDB.Contact;
+import com.example.exe3.infoToDB.GetFriend;
 import com.example.exe3.infoToDB.Message;
 import com.example.exe3.infoToDB.NewMessage;
 
@@ -87,4 +88,61 @@ public class ChatApi {
         });
         return future;
     }
+
+
+    public CompletableFuture<Contact> addContact(String username, String token){
+        GetFriend friend=new GetFriend(username);
+        CompletableFuture<Contact> future = new CompletableFuture<>();
+        Call<Contact> call = webServiceChats.addingFriend(token, friend);
+        call.enqueue(new Callback<Contact>() {
+            @Override
+            public void onResponse(Call<Contact> call, Response<Contact> response) {
+                if (response.isSuccessful()) {
+                    Contact contact=response.body();
+//                    ContactInfo contactInfo = response;
+                    future.complete(response.body());
+                } else {
+                    future.completeExceptionally(new Exception("Failed to get username info"));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Contact> call, Throwable t) {
+                future.completeExceptionally(t);
+            }
+        });
+        return future;
+
+    }
+
+
+
+    public CompletableFuture<Void> deleteContact(int id, String token){
+        CompletableFuture<Void> future = new CompletableFuture<>();
+        Call<Void> call = webServiceChats.deleteChatById(token, id);
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if (response.isSuccessful()) {
+//                    Contact contact=response.body();
+//                    ContactInfo contactInfo = response;
+                    future.complete(response.body());
+                } else {
+                    future.completeExceptionally(new Exception("Failed to get username info"));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                future.completeExceptionally(t);
+            }
+        });
+        return future;
+
+    }
+
+
+
+
+
 }
