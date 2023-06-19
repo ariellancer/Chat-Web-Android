@@ -1,10 +1,8 @@
 package com.example.exe3.activity;
 
+import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.util.Base64;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
@@ -14,8 +12,6 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
-import androidx.room.Room;
-import androidx.lifecycle.ViewModelProvider;
 
 import com.example.exe3.ContactViewModel;
 import com.example.exe3.R;
@@ -26,21 +22,16 @@ import com.example.exe3.infoToDB.Chat;
 import com.example.exe3.infoToDB.Contact;
 import com.example.exe3.infoToDB.ContactDao;
 import com.example.exe3.infoToDB.ContactInfo;
-import com.example.exe3.infoToDB.Message;
-import com.example.exe3.infoToDB.LastMessage;
 import com.example.exe3.webService.UserApi;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-
 public class ListActivity extends AppCompatActivity {
+    private static final int REQUEST_CODE_ADD_FRIEND = 1;
+
     ContactViewModel contactViewModel;
     ListView listView;
     ImageView logout;
@@ -81,19 +72,30 @@ public class ListActivity extends AppCompatActivity {
         FloatingActionButton fabAddFriend = findViewById(R.id.floating_button);
         fabAddFriend.setOnClickListener(view -> {
             Intent intent = new Intent(this, Adding.class);
-            startActivity(intent);
+            startActivityForResult(intent, REQUEST_CODE_ADD_FRIEND);
         });
 
         chats = new ArrayList<>();
 
 
 
-        listView.setOnItemLongClickListener((adapterView, view, i, l) -> {
-            Contact curr = contacts.remove(i);
-            contactDao.delete(curr);
-            adapter.notifyDataSetChanged();
-            return true;
+        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                Contact curr = contacts.remove(position);
+                int idOfContact=curr.getId();
+                contactViewModel.deleteContact(token,idOfContact);
+                return false;
+            }
         });
+
+
+//        (adapterView, view, i, l) -> {
+//
+////            contactDao.delete(curr);
+////            adapter.notifyDataSetChanged();
+//            return ;
+//        });
         listView.setAdapter(adapter);
         listView.setClickable(true);
 
@@ -163,6 +165,21 @@ public class ListActivity extends AppCompatActivity {
 
 
     }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_CODE_ADD_FRIEND && resultCode == Activity.RESULT_OK) {
+            if (data != null) {
+                String outputData = data.getStringExtra("output");
+//                String fixedToken= "bearer " +token;
+                contactViewModel.addContact(outputData,token);
+                // Do something with the output data here
+            }
+        }
+    }
+
     private void getUsernameInfo() {
         // Do something with the processed result
         CompletableFuture<ContactInfo> future = userApi.getUsernameInfo( "bearer "+ token, username)

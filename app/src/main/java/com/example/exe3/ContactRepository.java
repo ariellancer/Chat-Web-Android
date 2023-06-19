@@ -5,15 +5,11 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.example.exe3.infoToDB.Chat;
 import com.example.exe3.infoToDB.Contact;
-import com.example.exe3.infoToDB.ContactInfo;
-import com.example.exe3.infoToDB.LastMessage;
-import com.example.exe3.infoToDB.Message;
 import com.example.exe3.infoToDB.NewMessage;
 import com.example.exe3.webService.ChatApi;
 import com.example.exe3.webService.UserApi;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
@@ -47,6 +43,7 @@ public class ContactRepository {
             super();
             contacts = new ArrayList<>();
         }
+
     }
 
     public LiveData<List<Contact>> getAll() {
@@ -57,12 +54,8 @@ public class ContactRepository {
         return messagesListData;
     }
 
-    public void addContact(final Contact contact) {
 
-    }
 
-    public void deleteContact(final Contact contact) {
-    }
 
     public void getMessages(String token, int id) {
         CompletableFuture<Chat> future = chatApi.getMessages("bearer " + token, id)
@@ -104,5 +97,32 @@ public class ContactRepository {
             }
         });
 
+    }
+
+    public void addContact(String username,String token){
+
+        CompletableFuture<Contact> future = chatApi.addContact(username,"bearer " + token)
+                .thenApply(response -> response)
+                .exceptionally(error -> {
+                    //Toast(error.getMessage())
+                    return null;
+                });
+        future.thenAccept(response -> {
+            if(response!=null){
+                getContacts(token);
+            }
+
+        });
+
+    }
+    public void deleteContact(String token, int id) {
+        chatApi.deleteContact(id, "bearer " + token)
+                .thenAccept(response -> {
+                    getContacts(token);
+                })
+                .exceptionally(error -> {
+                    // Handle exception if needed
+                    return null;
+                });
     }
 }
