@@ -38,7 +38,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="15dp"
                 android:layout_marginTop="1dp"
-                android:text="@string/lastMessage"
                 android:textSize="20sp" />
 
         </LinearLayout>
@@ -48,8 +47,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="40pt"
-            android:layout_marginTop="5pt"
-            android:text="@string/date" />
+            android:layout_marginTop="5pt" />
 
 
     </LinearLayout>

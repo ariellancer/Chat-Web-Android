@@ -11,16 +11,28 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.example.exe3.Utilities;
 import com.example.exe3.infoToDB.Message;
 import com.example.exe3.R;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class MessageListAdapter extends ArrayAdapter<Message> {
     LayoutInflater inflater;
 
-    public MessageListAdapter(Context ctx, ArrayList<Message> messagesArrayList) {
+    String username;
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public MessageListAdapter(Context ctx, List<Message> messagesArrayList) {
         super(ctx, R.layout.message_style, messagesArrayList);
         this.inflater = LayoutInflater.from(ctx);
     }
@@ -38,7 +50,7 @@ public class MessageListAdapter extends ArrayAdapter<Message> {
         TextView content = convertView.findViewById(R.id.contentMessage);
         TextView timeMessage = convertView.findViewById(R.id.timeMessage);
 
-        if (Objects.equals(message.getSender().getUsername(), "me")) {
+        if (!Objects.equals(message.getSender().getUsername(), username)) {
             linearLayout.setBackgroundResource(R.drawable.message_sender);
             RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) linearLayout.getLayoutParams();
             layoutParams.addRule(RelativeLayout.ALIGN_PARENT_END, 0);  // 0 indicates no rule
@@ -52,8 +64,10 @@ public class MessageListAdapter extends ArrayAdapter<Message> {
 
         }
 
+
+
         content.setText(message.getContent());
-        timeMessage.setText(message.getCreated());
+        timeMessage.setText(Utilities.editTime(message.getCreated()));
 
         return convertView;
     }
