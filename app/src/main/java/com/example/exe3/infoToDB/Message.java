@@ -6,13 +6,13 @@ import androidx.room.PrimaryKey;
 @Entity
 public class Message {
     @PrimaryKey
-    private int id;
+    private String id;
     private String created;
-    private Sender sender;
+    private ContactInfo sender;
 
     private String content;
 
-    public Message(int id, String created, Sender sender, String content) {
+    public Message(String  id, String created, ContactInfo sender, String content) {
         this.id = id;
         this.created = created;
         this.sender = sender;
@@ -28,19 +28,19 @@ public class Message {
         this.created = created;
     }
 
-    public Sender getSender() {
+    public ContactInfo getSender() {
         return sender;
     }
 
-    public void setSender(Sender sender) {
+    public void setSender(ContactInfo sender) {
         this.sender = sender;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String  id) {
         this.id = id;
     }
 

@@ -1,10 +1,11 @@
 package com.example.exe3.activity;
 
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.util.Base64;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
@@ -13,19 +14,17 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.room.Room;
-import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.Observer;
 
 import com.example.exe3.ContactViewModel;
 import com.example.exe3.R;
+import com.example.exe3.Utilities;
 import com.example.exe3.adapters.CustomListAdapter;
 import com.example.exe3.infoToDB.AppDB;
 import com.example.exe3.infoToDB.Chat;
 import com.example.exe3.infoToDB.Contact;
 import com.example.exe3.infoToDB.ContactDao;
 import com.example.exe3.infoToDB.ContactInfo;
-import com.example.exe3.infoToDB.Message;
-import com.example.exe3.infoToDB.LastMessage;
 import com.example.exe3.webService.UserApi;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -33,11 +32,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-
 public class ListActivity extends AppCompatActivity {
+    private static final int REQUEST_CODE_ADD_FRIEND = 1;
+
     ContactViewModel contactViewModel;
     ListView listView;
     ImageView logout;
@@ -45,11 +42,11 @@ public class ListActivity extends AppCompatActivity {
     String token;
     String username;
     UserApi userApi;
+
     private AppDB db;
     private ContactDao contactDao;
-    private ArrayList<Contact> contacts;
+    private List<Contact> contacts;
     private ArrayList<Chat> chats;
-    private CustomListAdapter arrayAdapter;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,112 +55,147 @@ public class ListActivity extends AppCompatActivity {
         if (activityIntent != null) {
             token = activityIntent.getStringExtra("token");
             username = activityIntent.getStringExtra("username");
-            userApi = new UserApi();
+            userApi = UserApi.getInstance();
             getUsernameInfo();
 
         }
-
-        contactViewModel = new ViewModelProvider(this).get(ContactViewModel.class);
         logout = findViewById(R.id.logout);
         logout.setOnClickListener(fun -> finish());
-        //  ArrayList<Contact> users = new ArrayList<>();
-        db = Room.databaseBuilder(getApplicationContext(), AppDB.class, "contactsDB1").allowMainThreadQueries().build();
-        contactDao = db.contactDao();
+        listView = findViewById(R.id.listOfFriend);
+
+
+        contactViewModel = new ContactViewModel();
+        contacts = new ArrayList<>();
+        adapter = new CustomListAdapter(this, contacts);
+        new Thread(()-> {contactViewModel.getContacts(token);}).start();
+
+//        db = Room.databaseBuilder(getApplicationContext(), AppDB.class, "contactsDB1").allowMainThreadQueries().build();
+//        contactDao = db.contactDao();
 
         FloatingActionButton fabAddFriend = findViewById(R.id.floating_button);
         fabAddFriend.setOnClickListener(view -> {
             Intent intent = new Intent(this, Adding.class);
-            startActivity(intent);
+            startActivityForResult(intent, REQUEST_CODE_ADD_FRIEND);
         });
-//        for (int i = 0; i < profilePictures.length; i++) {
-//            ContactInfo info = new ContactInfo(userNames[i],userNames[i],"a");
-//            LastMessage lastMessage = new LastMessage(i,times[i],lastMassages[i]);
-//            Contact aUser = new Contact(i,info,lastMessage);
-//
-//            users.add(aUser);
-//        }
-        contacts = new ArrayList<>();
+
         chats = new ArrayList<>();
-        arrayAdapter = new CustomListAdapter(getApplicationContext(), contacts);
-        ListView listView = findViewById(R.id.listOfFriend);
-        // adapter = new CustomListAdapter(getApplicationContext(), users);
 
-        listView.setAdapter(arrayAdapter);
-        listView.setOnItemLongClickListener((adapterView, view, i, l) -> {
-            Contact curr = contacts.remove(i);
-            contactDao.delete(curr);
-            arrayAdapter.notifyDataSetChanged();
-            return true;
+
+
+        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(ListActivity.this);
+                builder.setTitle("Confirmation");
+                builder.setMessage("Are you sure you want to delete this contact?");
+                builder.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Contact curr = contacts.remove(position);
+                        int idOfContact = curr.getId();
+                        contactViewModel.deleteContact(token, idOfContact);
+                        // Perform any additional actions after deletion if needed
+                    }
+                });
+                builder.setNegativeButton("Cancel", null);
+                builder.show();
+
+                return true; // Return true to consume the long click event
+            }
         });
 
-        listView = findViewById(R.id.listOfFriend);
-        adapter = new CustomListAdapter(this, new ArrayList<Contact>());
+
+
+//        (adapterView, view, i, l) -> {
+//
+////            contactDao.delete(curr);
+////            adapter.notifyDataSetChanged();
+//            return ;
+//        });
         listView.setAdapter(adapter);
         listView.setClickable(true);
-        contactViewModel.get().observe(this, contacts -> {
-            if (contacts != null) {
-                Toast.makeText(this, "Registration successful22", Toast.LENGTH_SHORT).show();
-            }
-            adapter.setValue(contacts);
-            adapter.notifyDataSetChanged();
-
-            //listView.setClickable(true);
-        });
-
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-//                Intent intent = new Intent(getApplicationContext(), Chats.class);
-//
-//                intent.putExtra("id", userNames[i]);
-//                intent.putExtra("profilePicture", profilePictures[i]);
-//                intent.putExtra("lastMassage", lastMassages[i]);
-//                intent.putExtra("time", times[i]);
-//
-//                startActivity(intent);
 
 
-                Intent intent = new Intent(getApplicationContext(), Chats.class);
-                int id = -1;
-                List<ContactInfo> users;
-                List<Message> messages;
-                ContactInfo inf = contacts.get(i).getUser();
-                for (int j = 0; j < chats.size(); j++) {
-                    if (chats.get(j).getUsers().get(0) == inf || chats.get(j).getUsers().get(1) == inf) {
-                        id = chats.get(j).getId();
-                        users = chats.get(j).getUsers();
-                        messages = chats.get(j).getMessages();
+        contactViewModel.get().observe(this, new Observer<List<Contact>>() {
+                    @Override
+                    public void onChanged(List<Contact> newContent) {
+                        Toast.makeText(ListActivity.this, "Registration successful", Toast.LENGTH_SHORT).show();
+                        contacts.clear();
+                        contacts.addAll(newContent);
+                        adapter.notifyDataSetChanged();
                     }
-                }
-                intent.putExtra("id", id);
-                intent.putExtra("userName", inf.getDisplayName());
-                intent.putExtra("profilePicture", inf.getProfilePic());
+                });
 
-
-//            List<ContactInfo> users = chats.get(i).getUsers();
-//            arrayAdapter.notifyDataSetChanged();
-                startActivity(intent);
-
-            }
-        });
+//                listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//                    @Override
+//                    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+////                Intent intent = new Intent(getApplicationContext(), Chats.class);
+////
+////                intent.putExtra("id", userNames[i]);
+////                intent.putExtra("profilePicture", profilePictures[i]);
+////                intent.putExtra("lastMassage", lastMassages[i]);
+////                intent.putExtra("time", times[i]);
+////
+////                startActivity(intent);
+//
+//
+//                        Intent intent = new Intent(getApplicationContext(), Chats.class);
+//                        int id = -1;
+//                        List<ContactInfo> users;
+//                        List<Message> messages;
+//                          ContactInfo inf = contacts.get(i).getUser();
+//                        for (int j = 0; j < chats.size(); j++) {
+//                            if (chats.get(j).getUsers().get(0) == inf || chats.get(j).getUsers().get(1) == inf) {
+//                                id = chats.get(j).getId();
+//                                users = chats.get(j).getUsers();
+//                                messages = chats.get(j).getMessages();
+//                            }
+//                        }
+//                        intent.putExtra("id", id);
+//                        intent.putExtra("userName", inf.getDisplayName());
+//                        intent.putExtra("profilePicture", inf.getProfilePic());
+//
+//
+////            List<ContactInfo> users = chats.get(i).getUsers();
+////            arrayAdapter.notifyDataSetChanged();
+//                        startActivity(intent);
+//
+//                    }
+//                });
 
 
 //        listView.setAdapter(adapter);
 
-//        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-//                Intent intent = new Intent(getApplicationContext(), Chats.class);
-//
-//                intent.putExtra("userName", userNames[i]);
-//                intent.putExtra("profilePicture", profilePictures[i]);
-//                intent.putExtra("lastMassage", lastMassages[i]);
-//                intent.putExtra("time", times[i]);
-//
-//                startActivity(intent);
-//            }
-//        });
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Intent intent = new Intent(getApplicationContext(), Chats.class);
+                intent.putExtra("displayName", contacts.get(i).getUser().getDisplayName());
+                intent.putExtra("username", contacts.get(i).getUser().getUsername());
+                intent.putExtra("profilePicture", contacts.get(i).getUser().getProfilePic());
+                intent.putExtra("id",contacts.get(i).getId());
+                intent.putExtra("token",token);
+                startActivity(intent);
+            }
+        });
+
+
     }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_CODE_ADD_FRIEND && resultCode == Activity.RESULT_OK) {
+            if (data != null) {
+                String outputData = data.getStringExtra("output");
+//                String fixedToken= "bearer " +token;
+                contactViewModel.addContact(getApplicationContext(), outputData,token);
+                 // Do something with the output data here
+            }
+        }
+    }
+
     private void getUsernameInfo() {
         // Do something with the processed result
         CompletableFuture<ContactInfo> future = userApi.getUsernameInfo( "bearer "+ token, username)
@@ -176,29 +208,24 @@ public class ListActivity extends AppCompatActivity {
             if (contactInfo != null) {
                 ImageView imageView = findViewById(R.id.profileImageUser);
                 TextView userName = findViewById(R.id.nameOfUser);
-                imageView.setImageBitmap(bitmapPic(extractImage(contactInfo.getProfilePic())));
+                imageView.setImageBitmap(Utilities.bitmapPic(Utilities.extractImage(contactInfo.getProfilePic())));
                 userName.setText(contactInfo.getDisplayName());
             }
         });
 
     }
-
-    public Bitmap bitmapPic(String img) {
-        byte[] decodedBytes = Base64.decode(img, Base64.DEFAULT);
-        return BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.length);
-    }
-    public String extractImage(String webBase64) {
-        int start = webBase64.indexOf(",");
-        return webBase64.substring(start +1);
-    }
-
-    @Override
+        @Override
     protected void onResume() {
         super.onResume();
-        contacts.clear();
-        contacts.addAll(contactDao.index()) ;
-        arrayAdapter.notifyDataSetChanged();
+        new Thread(()-> {contactViewModel.getContacts(token);}).start();
+        //contacts.clear();
+        //contacts.addAll(contactDao.index()) ;
+        //adapter.notifyDataSetChanged();
 
     }
-}
+
+    }
+
+
+
 

@@ -1,5 +1,6 @@
 package com.example.exe3.activity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -41,10 +42,14 @@ public class Adding extends AppCompatActivity {
 
         button.setOnClickListener(view->{
             EditText et = findViewById(R.id.editTextFriendName);
-            ContactInfo u = new ContactInfo(et.getText().toString(),et.getText().toString(),et.getText().toString());
-            LastMessage m= new LastMessage(0,"10:00","hellolololo");
-            Contact c= new Contact(0,u,m);
-            contactDao.insert(c);
+//            ContactInfo u = new ContactInfo(et.getText().toString(),et.getText().toString(),et.getText().toString());
+//            LastMessage m= new LastMessage(0,"10:00","hellolololo");
+//            Contact c= new Contact(0,u,m);
+//            contactDao.insert(c);
+            String username=et.getText().toString();
+            Intent resultIntent = new Intent();
+            resultIntent.putExtra("output", username);
+            setResult(Activity.RESULT_OK, resultIntent);
             finish();
         });
     }

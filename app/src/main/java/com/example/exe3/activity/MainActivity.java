@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
 
                 if (validateFields()){
-                    userApi = new UserApi();
+                    userApi = UserApi.getInstance();
                     login(loginData);
                 }
             }
@@ -71,6 +71,8 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onResponse(Call<String> call, Response<String> response) {
                     if(response.isSuccessful()){
+                        passwordEditText.setText("");
+                        usernameEditText.setText("");
                         Intent intent = new Intent(getApplicationContext(), ListActivity.class);
                         intent.putExtra("token", response.body());
                         intent.putExtra("username",loginData.getUsername());

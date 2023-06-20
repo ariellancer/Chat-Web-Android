@@ -9,13 +9,8 @@ public class Contact {
     private int id;
 
     private ContactInfo user;
-    private LastMessage lastMassage;
+    private LastMessage lastMessage;
 
-    public Contact(int id, ContactInfo user, LastMessage lastMassage) {
-        this.id = id;
-        this.user = user;
-        this.lastMassage = lastMassage;
-    }
 
     public int getId() {
         return id;
@@ -28,16 +23,22 @@ public class Contact {
     public ContactInfo getUser() {
         return user;
     }
+
     public void setUser(ContactInfo user) {
         this.user = user;
     }
 
-    public LastMessage getLastMassage() {
-        return lastMassage;
+    public LastMessage getLastMessage() {
+        return lastMessage;
     }
 
-    public void setLastMassage(LastMessage lastMassage) {
-        this.lastMassage = lastMassage;
+    public void setLastMessage(LastMessage lastMessage) {
+        this.lastMessage = lastMessage;
     }
 
+    public Contact(int id, ContactInfo user, LastMessage lastMessage) {
+        this.id = id;
+        this.user = user;
+        this.lastMessage = lastMessage;
+    }
 }

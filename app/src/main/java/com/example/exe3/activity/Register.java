@@ -69,7 +69,7 @@ public class Register extends AppCompatActivity{
         btnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                userApi = new UserApi();
+                userApi = UserApi.getInstance();
                 if( validateFields()){
                     createNewUser();
 
