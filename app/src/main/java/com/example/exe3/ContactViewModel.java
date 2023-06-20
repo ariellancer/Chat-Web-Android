@@ -1,5 +1,7 @@
 package com.example.exe3;
 
+import android.content.Context;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 
@@ -24,7 +26,7 @@ public class ContactViewModel extends ViewModel {
     public LiveData<List<Contact>> get(){return contacts;}
 
     public LiveData<Chat> getLiveMessages(){return messages;}
-    public void addContact(String username,String token){repository.addContact(username,token);}
+    public void addContact(Context activity,String username, String token){  repository.addContact(activity,username,token);}
     public void deleteContact(String token,int id){repository.deleteContact(token,id);}
     public void getMessages(String token,int id){repository.getMessages(token,id);}
     public void postMessagesById(String token, int id, NewMessage newMessage){repository.postMessagesById(token,id,newMessage);}

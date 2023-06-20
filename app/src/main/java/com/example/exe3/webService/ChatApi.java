@@ -1,10 +1,15 @@
 package com.example.exe3.webService;
 
+import android.content.Context;
+import android.widget.Toast;
+
+import com.example.exe3.activity.ListActivity;
 import com.example.exe3.infoToDB.Chat;
 import com.example.exe3.infoToDB.Contact;
 import com.example.exe3.infoToDB.GetFriend;
 import com.example.exe3.infoToDB.Message;
 import com.example.exe3.infoToDB.NewMessage;
+import com.example.exe3.infoToDB.ReturnMessage;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,21 +22,42 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ChatApi {
-    Retrofit retrofit;
-    WebServiceChats webServiceChats;
+    private static ChatApi instance;
+    private Retrofit retrofit;
+    private WebServiceChats webServiceChats;
 
-    public ChatApi() {
-        retrofit = new Retrofit.Builder().baseUrl("http://10.0.2.2:5000/api/").addConverterFactory(GsonConverterFactory.create()).build();
+    private ChatApi() {
+        retrofit = new Retrofit.Builder()
+                .baseUrl("http://10.0.2.2:5000/api/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
         webServiceChats = retrofit.create(WebServiceChats.class);
     }
-    public CompletableFuture<Integer> postMessagesById(String token, int id, NewMessage newMessage){
-        CompletableFuture<Integer> future = new CompletableFuture<>();
-        Call <Integer> call = webServiceChats.postMessagesById(token,id,newMessage);
-        call.enqueue(new Callback<Integer>() {
+
+    public static ChatApi getInstance() {
+        if (instance == null) {
+            instance = new ChatApi();
+        }
+        return instance;
+    }
+
+    public void setRetrofit(String newUrl) {
+        try {
+            this.retrofit = new Retrofit.Builder().baseUrl(newUrl).addConverterFactory(GsonConverterFactory.create()).build();
+            webServiceChats = retrofit.create(WebServiceChats.class);
+        }catch (Exception e){
+
+        }
+    }
+
+    public CompletableFuture<ReturnMessage> postMessagesById(String token, int id, NewMessage newMessage){
+        CompletableFuture<ReturnMessage> future = new CompletableFuture<>();
+        Call <ReturnMessage> call = webServiceChats.postMessagesById(token,id,newMessage);
+        call.enqueue(new Callback<ReturnMessage>() {
             @Override
-            public void onResponse(Call<Integer> call, Response<Integer> response) {
+            public void onResponse(Call<ReturnMessage> call, Response<ReturnMessage> response) {
                 if (response.isSuccessful()) {
-                    Integer messages = response.body();
+                    ReturnMessage messages = response.body();
                     future.complete(messages);
                 } else {
                     future.completeExceptionally(new Exception("Failed to send message"));
@@ -39,7 +65,7 @@ public class ChatApi {
             }
 
             @Override
-            public void onFailure(Call<Integer> call, Throwable t) {
+            public void onFailure(Call<ReturnMessage> call, Throwable t) {
                 future.completeExceptionally(t);
             }
         });
@@ -90,7 +116,7 @@ public class ChatApi {
     }
 
 
-    public CompletableFuture<Contact> addContact(String username, String token){
+    public CompletableFuture<Contact> addContact(Context activity,String username, String token){
         GetFriend friend=new GetFriend(username);
         CompletableFuture<Contact> future = new CompletableFuture<>();
         Call<Contact> call = webServiceChats.addingFriend(token, friend);
@@ -98,10 +124,10 @@ public class ChatApi {
             @Override
             public void onResponse(Call<Contact> call, Response<Contact> response) {
                 if (response.isSuccessful()) {
-                    Contact contact=response.body();
-//                    ContactInfo contactInfo = response;
+                    Toast.makeText(activity, "Add friend  successful ", Toast.LENGTH_SHORT).show();
                     future.complete(response.body());
                 } else {
+                    Toast.makeText(activity, "Add friend failed ", Toast.LENGTH_SHORT).show();
                     future.completeExceptionally(new Exception("Failed to get username info"));
                 }
             }

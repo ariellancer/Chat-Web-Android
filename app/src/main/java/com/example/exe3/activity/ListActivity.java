@@ -1,6 +1,9 @@
 package com.example.exe3.activity;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -52,7 +55,7 @@ public class ListActivity extends AppCompatActivity {
         if (activityIntent != null) {
             token = activityIntent.getStringExtra("token");
             username = activityIntent.getStringExtra("username");
-            userApi = new UserApi();
+            userApi = UserApi.getInstance();
             getUsernameInfo();
 
         }
@@ -82,12 +85,25 @@ public class ListActivity extends AppCompatActivity {
         listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                Contact curr = contacts.remove(position);
-                int idOfContact=curr.getId();
-                contactViewModel.deleteContact(token,idOfContact);
-                return false;
+                AlertDialog.Builder builder = new AlertDialog.Builder(ListActivity.this);
+                builder.setTitle("Confirmation");
+                builder.setMessage("Are you sure you want to delete this contact?");
+                builder.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Contact curr = contacts.remove(position);
+                        int idOfContact = curr.getId();
+                        contactViewModel.deleteContact(token, idOfContact);
+                        // Perform any additional actions after deletion if needed
+                    }
+                });
+                builder.setNegativeButton("Cancel", null);
+                builder.show();
+
+                return true; // Return true to consume the long click event
             }
         });
+
 
 
 //        (adapterView, view, i, l) -> {
@@ -174,8 +190,8 @@ public class ListActivity extends AppCompatActivity {
             if (data != null) {
                 String outputData = data.getStringExtra("output");
 //                String fixedToken= "bearer " +token;
-                contactViewModel.addContact(outputData,token);
-                // Do something with the output data here
+                contactViewModel.addContact(getApplicationContext(), outputData,token);
+                 // Do something with the output data here
             }
         }
     }

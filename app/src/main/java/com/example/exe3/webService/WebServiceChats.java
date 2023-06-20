@@ -6,6 +6,7 @@ import com.example.exe3.infoToDB.GetFriend;
 import com.example.exe3.infoToDB.LoginData;
 import com.example.exe3.infoToDB.Message;
 import com.example.exe3.infoToDB.NewMessage;
+import com.example.exe3.infoToDB.ReturnMessage;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +32,7 @@ public interface WebServiceChats {
     Call<Void> deleteChatById(@Header ("Authorization") String token, @Path("id") int id);
 
     @POST("Chats/{id}/Messages")
-    Call<Integer> postMessagesById(@Header ("Authorization") String token,@Path("id") int id, @Body NewMessage newMessage);
+    Call<ReturnMessage> postMessagesById(@Header ("Authorization") String token, @Path("id") int id, @Body NewMessage newMessage);
 
     @GET("Chats/{id}/Messages")
     Call<List<Message>> getMessagesById(@Header ("Authorization") String token);

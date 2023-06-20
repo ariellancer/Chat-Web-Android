@@ -1,17 +1,21 @@
 package com.example.exe3;
 
+import android.content.Context;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.exe3.infoToDB.Chat;
 import com.example.exe3.infoToDB.Contact;
 import com.example.exe3.infoToDB.NewMessage;
+import com.example.exe3.infoToDB.ReturnMessage;
 import com.example.exe3.webService.ChatApi;
 import com.example.exe3.webService.UserApi;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 
 public class ContactRepository {
     private UserApi userApi;
@@ -23,7 +27,7 @@ public class ContactRepository {
 
     public ContactRepository() {
         contactListData = new ContactListData();
-        chatApi = new ChatApi();
+        chatApi = ChatApi.getInstance();
         messagesListData = new MessagesListData();
     }
 
@@ -72,7 +76,7 @@ public class ContactRepository {
         });
     }
     public void postMessagesById(String token, int id, NewMessage newMessage) {
-        CompletableFuture<Integer> future = chatApi.postMessagesById("bearer " + token, id,newMessage)
+        CompletableFuture<ReturnMessage> future = chatApi.postMessagesById("bearer " + token, id,newMessage)
                 .thenApply(message -> message).exceptionally(error -> {
                     //Toast(error.getMessage())
                     return null;
@@ -99,9 +103,8 @@ public class ContactRepository {
 
     }
 
-    public void addContact(String username,String token){
-
-        CompletableFuture<Contact> future = chatApi.addContact(username,"bearer " + token)
+    public void addContact(Context activity,String username, String token){
+        CompletableFuture<Contact> future = chatApi.addContact(activity,username,"bearer " + token)
                 .thenApply(response -> response)
                 .exceptionally(error -> {
                     //Toast(error.getMessage())

@@ -44,7 +44,7 @@ public class CustomListAdapter extends ArrayAdapter<Contact> {
         TextView lastMsg = convertView.findViewById(R.id.lastMessage);
         TextView time = convertView.findViewById(R.id.timeLastMessage);
         imageView.setImageBitmap(Utilities.bitmapPic(Utilities.extractImage(contact.getUser().getProfilePic())));
-        userName.setText(contact.getUser().getUsername());
+        userName.setText(contact.getUser().getDisplayName());
         if(contact.getLastMessage()!=null) {
             lastMsg.setText(contact.getLastMessage().getContent());
             time.setText(Utilities.editTime(contact.getLastMessage().getCreated()));

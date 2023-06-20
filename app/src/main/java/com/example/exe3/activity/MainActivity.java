@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
 
                 if (validateFields()){
-                    userApi = new UserApi();
+                    userApi = UserApi.getInstance();
                     login(loginData);
                 }
             }
