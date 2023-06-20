@@ -98,19 +98,19 @@ public class Register extends AppCompatActivity{
                         Toast.makeText(Register.this, "Registration successful", Toast.LENGTH_SHORT).show();
                         finish();
                     } else {
-                        Toast.makeText(Register.this, "Registration failed: " + response.code(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Register.this, "Registration failed: " , Toast.LENGTH_SHORT).show();
                     }
                 }
 
                 @Override
                 public void onFailure(Call call, Throwable t) {
-                    Toast.makeText(Register.this, "Registration failed: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Register.this, "Registration failed: " , Toast.LENGTH_SHORT).show();
                     Log.e("RegistrationError", t.getMessage(), t); // Log the error
                 }
             });
         } catch (Exception e) {
             e.printStackTrace();
-            Toast.makeText(Register.this, "Registration failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(Register.this, "Registration failed: " , Toast.LENGTH_SHORT).show();
             Log.e("RegistrationError", e.getMessage(), e); // Log the error
         }
     }

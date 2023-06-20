@@ -2,7 +2,6 @@ package com.example.exe3.activity;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,7 +10,6 @@ import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
@@ -119,7 +117,7 @@ public class ListActivity extends AppCompatActivity {
         contactViewModel.get().observe(this, new Observer<List<Contact>>() {
                     @Override
                     public void onChanged(List<Contact> newContent) {
-                        Toast.makeText(ListActivity.this, "Registration successful", Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(ListActivity.this, "Registration successful", Toast.LENGTH_SHORT).show();
                         contacts.clear();
                         contacts.addAll(newContent);
                         adapter.notifyDataSetChanged();
