@@ -39,7 +39,6 @@ public class ListActivity extends AppCompatActivity {
     String username;
     UserApi userApi;
 
-
     private List<Contact> contacts;
     private ArrayList<Chat> chats;
 
@@ -112,14 +111,14 @@ public class ListActivity extends AppCompatActivity {
 
 
         contactViewModel.get().observe(this, new Observer<List<Contact>>() {
-                    @Override
-                    public void onChanged(List<Contact> newContent) {
+            @Override
+            public void onChanged(List<Contact> newContent) {
 //                        Toast.makeText(ListActivity.this, "Registration successful", Toast.LENGTH_SHORT).show();
-                        contacts.clear();
-                        contacts.addAll(newContent);
-                        adapter.notifyDataSetChanged();
-                    }
-                });
+                contacts.clear();
+                contacts.addAll(newContent);
+                adapter.notifyDataSetChanged();
+            }
+        });
 
 //                listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 //                    @Override
@@ -167,7 +166,7 @@ public class ListActivity extends AppCompatActivity {
                 Intent intent = new Intent(getApplicationContext(), Chats.class);
                 intent.putExtra("displayName", contacts.get(i).getUser().getDisplayName());
                 intent.putExtra("username", contacts.get(i).getUser().getUsername());
-                intent.putExtra("profilePicture", contacts.get(i).getUser().getProfilePic());
+                //intent.putExtra("profilePicture", contacts.get(i).getUser().getProfilePic());
                 intent.putExtra("id",contacts.get(i).getId());
                 intent.putExtra("token",token);
                 startActivity(intent);
@@ -186,7 +185,7 @@ public class ListActivity extends AppCompatActivity {
                 String outputData = data.getStringExtra("output");
 //                String fixedToken= "bearer " +token;
                 contactViewModel.addContact(getApplicationContext(), outputData,token);
-                 // Do something with the output data here
+                // Do something with the output data here
             }
         }
     }
@@ -209,7 +208,7 @@ public class ListActivity extends AppCompatActivity {
         });
 
     }
-        @Override
+    @Override
     protected void onResume() {
         super.onResume();
         new Thread(()-> {contactViewModel.getContacts(token);}).start();
@@ -219,8 +218,7 @@ public class ListActivity extends AppCompatActivity {
 
     }
 
-    }
-
+}
 
 
 

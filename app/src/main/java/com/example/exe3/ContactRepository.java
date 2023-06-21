@@ -44,7 +44,7 @@ public class ContactRepository {
         chatApi = ChatApi.getInstance();
         messagesListData = new MessagesListData();
         roomAppDB=Room.databaseBuilder(applicationContext,RoomAppDB.class
-       ,"RoomDB").allowMainThreadQueries().fallbackToDestructiveMigration().build();
+                ,"RoomDB").allowMainThreadQueries().fallbackToDestructiveMigration().build();
         contactRoomDao= roomAppDB.contactRoomDao();
         chatRoomDao=roomAppDB.chatRoomDao();
     }
