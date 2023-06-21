@@ -35,14 +35,16 @@ public class ContactRepository {
     private ContactRoomDao contactRoomDao;
     private ChatRoomDao chatRoomDao;
     private boolean ifInitialize;
+    private boolean exists;
 
     public ContactRepository(Context applicationContext) {
         ifInitialize=false;
+        exists=false;
         contactListData = new ContactListData();
         chatApi = ChatApi.getInstance();
         messagesListData = new MessagesListData();
         roomAppDB=Room.databaseBuilder(applicationContext,RoomAppDB.class
-       ,"RoomDB4").allowMainThreadQueries().fallbackToDestructiveMigration().build();
+       ,"RoomDB").allowMainThreadQueries().fallbackToDestructiveMigration().build();
         contactRoomDao= roomAppDB.contactRoomDao();
         chatRoomDao=roomAppDB.chatRoomDao();
     }
@@ -80,7 +82,7 @@ public class ContactRepository {
     public void getMessages(String token, int id) {
         Chat chat=chatRoomDao.get(id);
         if(chat!=null){
-            ifInitialize=true;
+            exists=true;
             messagesListData.setValue(chat);
         }
         CompletableFuture<Chat> future = chatApi.getMessages("bearer " + token, id)
@@ -90,8 +92,9 @@ public class ContactRepository {
                 });
         future.thenAccept(messages -> {
             if (messages != null) {
-                if (ifInitialize) {
+                if (exists) {
                     chatRoomDao.update(messages);
+                    exists=false;
                 }else {
                     chatRoomDao.insert(messages);
                 }
@@ -131,13 +134,10 @@ public class ContactRepository {
 //                    Log.e("123", "getContacts: " );
                     contactRoomDao.insertContact(createContactRoom(contacts.get(i)));
                 }
-//                if (!ifInitialize){
-//                    initializeChats(contacts);
-//                    ifInitialize=true;
-//                }
-//                Log.e("123", "getContacts: "+createContactRoom(contacts.get(0)).getCreated() );
-//                contactRoomDao.insertContact(createContactRoom(contacts.get(0)));
-
+                if(!ifInitialize){
+                    initializeChats(contacts,token);
+                    ifInitialize=true;
+                }
                 contactListData.setValue(contacts);
 
             }
@@ -188,10 +188,18 @@ public class ContactRepository {
                 contact.getLastMessage().getCreated(),contact.getLastMessage().getContent());
         return temp;
     }
-//    public void initializeChats(List<Contact> list){
-//        for (Contact contact:list){
-//            Log.d("liii",String.valueOf(contact.getId()));
-//            chatRoomDao.insert(contactRoomDao.getContact(contact.getId()));
-//        }
-//    }
+    public void initializeChats(List<Contact> list,String token) {
+        for (Contact contact : list) {
+            CompletableFuture<Chat> future = chatApi.getMessages("bearer " + token, contact.getId())
+                    .thenApply(messages -> messages).exceptionally(error -> {
+                        //Toast(error.getMessage())
+                        return null;
+                    });
+            future.thenAccept(messages -> {
+                if (messages != null) {
+                    chatRoomDao.insert(messages);
+                }
+            });
+        }
+    }
 }

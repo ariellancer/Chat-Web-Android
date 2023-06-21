@@ -93,7 +93,7 @@ public class Chats extends AppCompatActivity {
 //            messages.addAll(chat.getMessages());
         }
         adapter.setUsername(username);
-        new Thread(()-> {viewModel.getMessages(token,idChat);}).start();
+        viewModel.getMessages(token,idChat);
         viewModel.getLiveMessages().observe(this, new Observer<Chat>() {
             @Override
             public void onChanged(Chat newMessages) {
