@@ -1,12 +1,16 @@
 package com.example.exe3;
 
 import android.content.Context;
+import android.widget.Toast;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+import androidx.room.Room;
 
+import com.example.exe3.infoToDB.AppDB;
 import com.example.exe3.infoToDB.Chat;
 import com.example.exe3.infoToDB.Contact;
+import com.example.exe3.infoToDB.ContactDao;
 import com.example.exe3.infoToDB.NewMessage;
 import com.example.exe3.infoToDB.ReturnMessage;
 import com.example.exe3.webService.ChatApi;
@@ -22,12 +26,15 @@ public class ContactRepository {
     private ContactListData contactListData;
 
     private MessagesListData messagesListData;
+    private AppDB db;
+    private ContactDao contactDao;
 
-
-    public ContactRepository() {
+    public ContactRepository(Context applicationContext) {
         contactListData = new ContactListData();
         chatApi = ChatApi.getInstance();
         messagesListData = new MessagesListData();
+        db = Room.databaseBuilder(applicationContext, AppDB.class, "contactsDB3").allowMainThreadQueries().build();
+        contactDao = db.contactDao();
     }
 
     static class MessagesListData extends MutableLiveData<Chat> {
@@ -87,6 +94,7 @@ public class ContactRepository {
         });
     }
     public void getContacts(String token) {
+        List<Contact> temp = contactDao.index();
         CompletableFuture<ArrayList<Contact>> future = chatApi.getContact("bearer " + token).
                 thenApply(contacts -> contacts).exceptionally(error -> {
                     //Toast(error.getMessage())
@@ -95,14 +103,25 @@ public class ContactRepository {
         future.thenAccept(contacts -> {
             if (contacts != null) {
                 contactListData.setValue(contacts);
-//                contactListData.contacts.clear();
-//                contactListData.contacts.addAll(contacts);
+                for(Contact contact:temp){
+                    contactDao.delete(contact);
+                }
+                for(Contact contact:contacts){
+                    contactDao.insert(contact);
+                }
             }
         });
 
     }
 
     public void addContact(Context activity,String username, String token){
+        List<Contact> contacts=contactDao.index();
+        for(Contact c:contacts){
+            if(c.getUser().getUsername().equals(username)){
+                Toast.makeText(activity, "Add friend failed ", Toast.LENGTH_SHORT).show();
+                return;
+            }
+        }
         CompletableFuture<Contact> future = chatApi.addContact(activity,username,"bearer " + token)
                 .thenApply(response -> response)
                 .exceptionally(error -> {

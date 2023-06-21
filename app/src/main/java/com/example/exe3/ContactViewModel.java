@@ -17,8 +17,8 @@ public class ContactViewModel extends ViewModel {
     private LiveData<Chat> messages;
 
 
-    public ContactViewModel(){
-        repository=new ContactRepository();
+    public ContactViewModel(Context applicationContext){
+        repository=new ContactRepository(applicationContext);
         contacts =repository.getAll();
         messages=repository.getAllLiveMessages();
     }

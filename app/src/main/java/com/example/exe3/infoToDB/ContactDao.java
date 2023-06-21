@@ -5,6 +5,7 @@ import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
 
+import java.util.ArrayList;
 import java.util.List;
 @Dao
 public interface ContactDao {
@@ -17,10 +18,14 @@ public interface ContactDao {
 
     @Insert
     void insert(Contact... contacts);
-
+    @Insert
+    void insertAll(List<Contact> contacts);
     @Update
     void update(Contact... contacts);
 
     @Delete
-    void delete(Contact... contacts);
+    void delete(Contact...contacts);
+
+    @Delete
+    void deleteAll(List<Contact> contacts);
 }

@@ -16,14 +16,10 @@ import com.example.exe3.Utilities;
 import com.example.exe3.infoToDB.AppDB;
 import com.example.exe3.infoToDB.Chat;
 import com.example.exe3.infoToDB.ChatDao;
-import com.example.exe3.infoToDB.Contact;
-import com.example.exe3.infoToDB.ContactInfo;
-import com.example.exe3.infoToDB.LastMessage;
 import com.example.exe3.infoToDB.Message;
 import com.example.exe3.R;
 import com.example.exe3.adapters.MessageListAdapter;
 import com.example.exe3.infoToDB.NewMessage;
-import com.example.exe3.webService.UserApi;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -68,7 +64,7 @@ public class Chats extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.chats_style);
         Intent activityIntent = getIntent();
-        viewModel = new ContactViewModel();
+        viewModel = new ContactViewModel(getApplicationContext());
         messages = new ArrayList<>();
         adapter = new MessageListAdapter(this, messages);
         send = findViewById(R.id.addMessage);
@@ -76,7 +72,7 @@ public class Chats extends AppCompatActivity {
         userNameView = findViewById(R.id.user_Name);
         backToList = findViewById(R.id.returnToListFriend);
         listView = findViewById(R.id.messagesList);
-        db = Room.databaseBuilder(getApplicationContext(), AppDB.class, "chatsDB1").allowMainThreadQueries().build();
+        db = Room.databaseBuilder(getApplicationContext(), AppDB.class, "chatsDB3").allowMainThreadQueries().build();
         chatDao = db.chatDao();
 //        ImageView imageView=findViewById(R.id.addMessage);
 //        imageView.setOnClickListener(view->{

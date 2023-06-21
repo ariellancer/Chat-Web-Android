@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
+import androidx.room.Room;
 
 import com.example.exe3.ContactViewModel;
 import com.example.exe3.R;
@@ -61,14 +62,14 @@ public class ListActivity extends AppCompatActivity {
         logout.setOnClickListener(fun -> finish());
         listView = findViewById(R.id.listOfFriend);
 
-
-        contactViewModel = new ContactViewModel();
+//        db = Room.databaseBuilder(getApplicationContext(), AppDB.class, "contactsDB1").allowMainThreadQueries().build();
+//        contactDao = db.contactDao();
+        contactViewModel = new ContactViewModel(getApplicationContext());
         contacts = new ArrayList<>();
         adapter = new CustomListAdapter(this, contacts);
         new Thread(()-> {contactViewModel.getContacts(token);}).start();
 
-//        db = Room.databaseBuilder(getApplicationContext(), AppDB.class, "contactsDB1").allowMainThreadQueries().build();
-//        contactDao = db.contactDao();
+
 
         FloatingActionButton fabAddFriend = findViewById(R.id.floating_button);
         fabAddFriend.setOnClickListener(view -> {
