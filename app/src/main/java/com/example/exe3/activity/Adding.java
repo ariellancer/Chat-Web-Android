@@ -12,18 +12,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.exe3.R;
 
-import androidx.room.Room;
-
-import com.example.exe3.infoToDB.AppDB;
-import com.example.exe3.infoToDB.Contact;
-import com.example.exe3.infoToDB.ContactDao;
-import com.example.exe3.infoToDB.ContactInfo;
-import com.example.exe3.infoToDB.LastMessage;
-
 public class Adding extends AppCompatActivity {
     ImageView settingsButton;
-    private AppDB db;
-    private ContactDao contactDao;
+
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

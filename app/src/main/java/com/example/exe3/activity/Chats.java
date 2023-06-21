@@ -13,9 +13,7 @@ import androidx.room.Room;
 
 import com.example.exe3.ContactViewModel;
 import com.example.exe3.Utilities;
-import com.example.exe3.infoToDB.AppDB;
 import com.example.exe3.infoToDB.Chat;
-import com.example.exe3.infoToDB.ChatDao;
 import com.example.exe3.infoToDB.Message;
 import com.example.exe3.R;
 import com.example.exe3.adapters.MessageListAdapter;
@@ -42,8 +40,7 @@ public class Chats extends AppCompatActivity {
     ImageView send;
     ListView listView;
     MessageListAdapter adapter;
-    private AppDB db;
-    private ChatDao chatDao;
+
 
     int idChat;
 
@@ -72,8 +69,7 @@ public class Chats extends AppCompatActivity {
         userNameView = findViewById(R.id.user_Name);
         backToList = findViewById(R.id.returnToListFriend);
         listView = findViewById(R.id.messagesList);
-        db = Room.databaseBuilder(getApplicationContext(), AppDB.class, "chatsDB3").allowMainThreadQueries().build();
-        chatDao = db.chatDao();
+
 //        ImageView imageView=findViewById(R.id.addMessage);
 //        imageView.setOnClickListener(view->{
 //            EditText et = findViewById(R.id.chatInputEditText);

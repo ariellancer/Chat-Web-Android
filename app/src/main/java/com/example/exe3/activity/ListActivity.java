@@ -13,16 +13,13 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
-import androidx.room.Room;
 
 import com.example.exe3.ContactViewModel;
 import com.example.exe3.R;
 import com.example.exe3.Utilities;
 import com.example.exe3.adapters.CustomListAdapter;
-import com.example.exe3.infoToDB.AppDB;
 import com.example.exe3.infoToDB.Chat;
 import com.example.exe3.infoToDB.Contact;
-import com.example.exe3.infoToDB.ContactDao;
 import com.example.exe3.infoToDB.ContactInfo;
 import com.example.exe3.webService.UserApi;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -42,8 +39,7 @@ public class ListActivity extends AppCompatActivity {
     String username;
     UserApi userApi;
 
-    private AppDB db;
-    private ContactDao contactDao;
+
     private List<Contact> contacts;
     private ArrayList<Chat> chats;
 
