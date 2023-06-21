@@ -9,6 +9,7 @@ import androidx.room.Room;
 
 import com.example.exe3.infoToDB.AppDB;
 import com.example.exe3.infoToDB.Chat;
+import com.example.exe3.infoToDB.ChatDao;
 import com.example.exe3.infoToDB.Contact;
 import com.example.exe3.infoToDB.ContactDao;
 import com.example.exe3.infoToDB.NewMessage;
@@ -28,6 +29,7 @@ public class ContactRepository {
     private MessagesListData messagesListData;
     private AppDB db;
     private ContactDao contactDao;
+    private ChatDao chatDao;
 
     public ContactRepository(Context applicationContext) {
         contactListData = new ContactListData();
@@ -35,6 +37,7 @@ public class ContactRepository {
         messagesListData = new MessagesListData();
         db = Room.databaseBuilder(applicationContext, AppDB.class, "contactsDB3").allowMainThreadQueries().build();
         contactDao = db.contactDao();
+        chatDao=db.chatDao();
     }
 
     static class MessagesListData extends MutableLiveData<Chat> {
@@ -68,6 +71,7 @@ public class ContactRepository {
 
 
     public void getMessages(String token, int id) {
+        List<Chat> temp=chatDao.index();
         CompletableFuture<Chat> future = chatApi.getMessages("bearer " + token, id)
                 .thenApply(messages -> messages).exceptionally(error -> {
                     //Toast(error.getMessage())
@@ -76,6 +80,7 @@ public class ContactRepository {
         future.thenAccept(messages -> {
             if (messages != null) {
                 messagesListData.setValue(messages);
+                chatDao.update(messages);
 //                messagesListData.messages.clear();
 //                messagesListData.messages.addAll(messages);
             }
