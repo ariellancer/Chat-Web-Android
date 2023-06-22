@@ -17,6 +17,7 @@ import com.example.exe3.infoToDB.Message;
 import com.example.exe3.R;
 import com.example.exe3.adapters.MessageListAdapter;
 import com.example.exe3.infoToDB.NewMessage;
+import com.example.exe3.infoToDB.Picture;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -60,11 +61,11 @@ public class Chats extends AppCompatActivity {
         if (activityIntent != null) {
             idChat = activityIntent.getIntExtra("id",0);
             displayName = activityIntent.getStringExtra("displayName");
-            //profilePicture = activityIntent.getStringExtra("profilePicture");
+            Picture picture = Picture.getInstance();
             token = activityIntent.getStringExtra("token");
             username = activityIntent.getStringExtra("username");
             userNameView.setText(displayName);
-            //profilePictureView.setImageBitmap(Utilities.bitmapPic(Utilities.extractImage(profilePicture)));
+            profilePictureView.setImageBitmap(Utilities.bitmapPic(Utilities.extractImage(picture.getPicture())));
         }
         adapter.setUsername(username);
         viewModel.getMessages(token,idChat);

@@ -21,6 +21,7 @@ import com.example.exe3.adapters.CustomListAdapter;
 import com.example.exe3.infoToDB.Chat;
 import com.example.exe3.infoToDB.Contact;
 import com.example.exe3.infoToDB.ContactInfo;
+import com.example.exe3.infoToDB.Picture;
 import com.example.exe3.webService.UserApi;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -39,12 +40,15 @@ public class ListActivity extends AppCompatActivity {
     String username;
     UserApi userApi;
 
+    Picture picture;
+
     private List<Contact> contacts;
     private ArrayList<Chat> chats;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list);
+        picture = Picture.getInstance();
         Intent activityIntent = getIntent();
         if (activityIntent != null) {
             token = activityIntent.getStringExtra("token");
@@ -166,7 +170,7 @@ public class ListActivity extends AppCompatActivity {
                 Intent intent = new Intent(getApplicationContext(), Chats.class);
                 intent.putExtra("displayName", contacts.get(i).getUser().getDisplayName());
                 intent.putExtra("username", contacts.get(i).getUser().getUsername());
-                //intent.putExtra("profilePicture", contacts.get(i).getUser().getProfilePic());
+                picture.setPicture(contacts.get(i).getUser().getProfilePic());
                 intent.putExtra("id",contacts.get(i).getId());
                 intent.putExtra("token",token);
                 startActivity(intent);
