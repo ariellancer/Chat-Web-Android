@@ -6,6 +6,9 @@ import android.util.Base64;
 
 public class Utilities {
     public static String editTime(String time){
+        if(time.length()<2){
+            return "";
+        }
         int start = time.indexOf("T");
         return time.substring(start +1,start+6);
     }

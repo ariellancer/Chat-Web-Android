@@ -3,9 +3,7 @@ package com.example.exe3.infoToDB;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-@Entity
 public class Contact {
-    @PrimaryKey(autoGenerate=true)
     private int id;
 
     private ContactInfo user;
@@ -38,7 +36,7 @@ public class Contact {
 
     public Contact(int id, ContactInfo user, LastMessage lastMessage) {
         this.id = id;
-        this.user = user;
+       this.user=user;
         this.lastMessage = lastMessage;
     }
 }

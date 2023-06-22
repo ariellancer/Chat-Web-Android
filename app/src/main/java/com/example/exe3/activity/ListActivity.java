@@ -18,10 +18,8 @@ import com.example.exe3.ContactViewModel;
 import com.example.exe3.R;
 import com.example.exe3.Utilities;
 import com.example.exe3.adapters.CustomListAdapter;
-import com.example.exe3.infoToDB.AppDB;
 import com.example.exe3.infoToDB.Chat;
 import com.example.exe3.infoToDB.Contact;
-import com.example.exe3.infoToDB.ContactDao;
 import com.example.exe3.infoToDB.ContactInfo;
 import com.example.exe3.webService.UserApi;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -41,8 +39,6 @@ public class ListActivity extends AppCompatActivity {
     String username;
     UserApi userApi;
 
-    private AppDB db;
-    private ContactDao contactDao;
     private List<Contact> contacts;
     private ArrayList<Chat> chats;
 
@@ -61,14 +57,14 @@ public class ListActivity extends AppCompatActivity {
         logout.setOnClickListener(fun -> finish());
         listView = findViewById(R.id.listOfFriend);
 
-
-        contactViewModel = new ContactViewModel();
+//        db = Room.databaseBuilder(getApplicationContext(), AppDB.class, "contactsDB1").allowMainThreadQueries().build();
+//        contactDao = db.contactDao();
+        contactViewModel = new ContactViewModel(getApplicationContext());
         contacts = new ArrayList<>();
         adapter = new CustomListAdapter(this, contacts);
         new Thread(()-> {contactViewModel.getContacts(token);}).start();
 
-//        db = Room.databaseBuilder(getApplicationContext(), AppDB.class, "contactsDB1").allowMainThreadQueries().build();
-//        contactDao = db.contactDao();
+
 
         FloatingActionButton fabAddFriend = findViewById(R.id.floating_button);
         fabAddFriend.setOnClickListener(view -> {
@@ -115,14 +111,14 @@ public class ListActivity extends AppCompatActivity {
 
 
         contactViewModel.get().observe(this, new Observer<List<Contact>>() {
-                    @Override
-                    public void onChanged(List<Contact> newContent) {
+            @Override
+            public void onChanged(List<Contact> newContent) {
 //                        Toast.makeText(ListActivity.this, "Registration successful", Toast.LENGTH_SHORT).show();
-                        contacts.clear();
-                        contacts.addAll(newContent);
-                        adapter.notifyDataSetChanged();
-                    }
-                });
+                contacts.clear();
+                contacts.addAll(newContent);
+                adapter.notifyDataSetChanged();
+            }
+        });
 
 //                listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 //                    @Override
@@ -170,7 +166,7 @@ public class ListActivity extends AppCompatActivity {
                 Intent intent = new Intent(getApplicationContext(), Chats.class);
                 intent.putExtra("displayName", contacts.get(i).getUser().getDisplayName());
                 intent.putExtra("username", contacts.get(i).getUser().getUsername());
-                intent.putExtra("profilePicture", contacts.get(i).getUser().getProfilePic());
+                //intent.putExtra("profilePicture", contacts.get(i).getUser().getProfilePic());
                 intent.putExtra("id",contacts.get(i).getId());
                 intent.putExtra("token",token);
                 startActivity(intent);
@@ -189,7 +185,7 @@ public class ListActivity extends AppCompatActivity {
                 String outputData = data.getStringExtra("output");
 //                String fixedToken= "bearer " +token;
                 contactViewModel.addContact(getApplicationContext(), outputData,token);
-                 // Do something with the output data here
+                // Do something with the output data here
             }
         }
     }
@@ -212,7 +208,7 @@ public class ListActivity extends AppCompatActivity {
         });
 
     }
-        @Override
+    @Override
     protected void onResume() {
         super.onResume();
         new Thread(()-> {contactViewModel.getContacts(token);}).start();
@@ -222,8 +218,7 @@ public class ListActivity extends AppCompatActivity {
 
     }
 
-    }
-
+}
 
 
 
