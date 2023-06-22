@@ -1,0 +1,44 @@
+.chat{
+    overflow: hidden;
+    overflow-wrap: break-word;
+    display: flex;
+    align-items: center;
+    background-color: white;
+    width: 100%;
+    height: 40px;
+
+}
+/*.chat.selected {*/
+/*    background-color: darkgray;*/
+/*}*/
+.chat:hover{
+    background-color: darkgray;
+}
+.contactName{
+    box-sizing: border-box;
+    height: 40px;
+    padding: 10px;
+    font-weight: bold;
+    /*float: left;*/
+}
+.lastMessage{
+    text-align: left;
+    width: 150px;
+    /*height: 15px;*/
+    padding: 10px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    /*float: left;*/
+    /*display: flex;*/
+    flex-direction: column;
+}
+.time{
+    color: black;
+    /*float: right;*/
+    padding: 10px;
+    margin-left: auto;
+
+}
+.profile{
+}

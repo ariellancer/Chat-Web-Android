@@ -1,0 +1,26 @@
+.time {
+    font-size: 12px;
+    color: #aaa;
+    float: right;
+    font-weight: normal;
+    font-size: smaller;
+}
+
+.me_time {
+    align-self: flex-end;
+    font-size: 12px;
+    color: #aaa;
+    float: right;
+    font-weight: normal;
+    font-size: smaller;
+}
+
+.friend_time {
+
+    align-self: flex-start;
+    font-size: 12px;
+    color: #aaa;
+    float: left;
+    font-weight: normal;
+    font-size: smaller;
+}

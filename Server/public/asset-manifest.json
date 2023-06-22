@@ -1,0 +1,19 @@
+{
+  "files": {
+    "main.css": "/static/css/main.b7c853c2.css",
+    "main.js": "/static/js/main.57b29b58.js",
+    "static/media/gray2.jpg": "/static/media/gray2.66a634bfd972b84d09ed.jpg",
+    "static/media/back.jpg": "/static/media/back.1b3bb932ca18ad162e87.jpg",
+    "static/media/peakpx.jpg": "/static/media/peakpx.55a1c026930f16109204.jpg",
+    "static/media/lidor_shnichel.jpg": "/static/media/lidor_shnichel.05ea7fb98b9b6762ea09.jpg",
+    "static/media/logout1.jpg": "/static/media/logout1.c22bf174c6d61469ec1c.jpg",
+    "static/media/modiin.jpg": "/static/media/modiin.d7315791da57d128aa88.jpg",
+    "index.html": "/index.html",
+    "main.b7c853c2.css.map": "/static/css/main.b7c853c2.css.map",
+    "main.57b29b58.js.map": "/static/js/main.57b29b58.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.b7c853c2.css",
+    "static/js/main.57b29b58.js"
+  ]
+}

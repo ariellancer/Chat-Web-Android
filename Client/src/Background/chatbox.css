@@ -1,0 +1,12 @@
+.chatbox {
+    background-image: url("peakpx.jpg");
+    border-radius: 0 10px 10px 0;
+    overflow: hidden;
+    position: absolute;
+    right: 0;
+    width: 65%;
+    height: 100%;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+
+}

@@ -1,6 +1,0 @@
-<resources>
-    <style name="Theme.Exe3" parent="Theme.AppCompat.NoActionBar">
-        <!-- Customize other attributes as needed -->
-        <item name="android:windowBackground">@android:color/black</item>
-    </style>
-</resources>

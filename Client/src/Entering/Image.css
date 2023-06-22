@@ -1,0 +1,26 @@
+
+#Register {
+    width: 100px;
+    height: 100px;
+    float: left;
+}
+#contact{
+    width: 36px;
+    height: 28px;
+    margin-top: 5px;
+    float: left;
+}
+#user{
+    box-sizing: border-box;
+    width: 40px;
+    height: 35px;
+    margin-top: 2px;
+    float: left;
+}
+#current_chat{
+        float: left;
+        margin: 2px;
+        display: block;
+        height: 35px;
+        width: 35px;
+}

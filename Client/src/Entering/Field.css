@@ -1,0 +1,12 @@
+.from-control {
+    width: 550px;
+}
+
+.input-group {
+    padding: 20px 60px;
+}
+
+.input-container {
+    display: flex;
+    flex-direction: column;
+}
