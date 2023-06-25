@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
@@ -22,7 +23,7 @@ import com.example.exe3.adapters.CustomListAdapter;
 import com.example.exe3.infoToDB.Chat;
 import com.example.exe3.infoToDB.Contact;
 import com.example.exe3.infoToDB.ContactInfo;
-import com.example.exe3.infoToDB.FireBaseData;
+import com.example.exe3.service.FireBaseData;
 import com.example.exe3.infoToDB.Picture;
 import com.example.exe3.webService.UserApi;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -72,10 +73,10 @@ public class ListActivity extends AppCompatActivity {
 
 //        db = Room.databaseBuilder(getApplicationContext(), AppDB.class, "contactsDB1").allowMainThreadQueries().build();
 //        contactDao = db.contactDao();
-        contactViewModel = new ContactViewModel(getApplicationContext());
+        contactViewModel = ContactViewModel.getInstance(getApplicationContext(),token);
         contacts = new ArrayList<>();
         adapter = new CustomListAdapter(this, contacts);
-        new Thread(()-> {contactViewModel.getContacts(token);}).start();
+        new Thread(()-> {contactViewModel.getContacts();}).start();
 
 
 
@@ -100,7 +101,7 @@ public class ListActivity extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int which) {
                         Contact curr = contacts.remove(position);
                         int idOfContact = curr.getId();
-                        contactViewModel.deleteContact(token, idOfContact);
+                        contactViewModel.deleteContact(idOfContact);
                         // Perform any additional actions after deletion if needed
                     }
                 });
@@ -116,7 +117,7 @@ public class ListActivity extends AppCompatActivity {
         listView.setClickable(true);
 
 
-        contactViewModel.get().observe(this, new Observer<List<Contact>>() {
+        contactViewModel.getLiveContacts().observe(this, new Observer<List<Contact>>() {
             @Override
             public void onChanged(List<Contact> newContent) {
 //                        Toast.makeText(ListActivity.this, "Registration successful", Toast.LENGTH_SHORT).show();
@@ -139,29 +140,33 @@ public class ListActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+        FirebaseInstanceId.getInstance().getInstanceId().addOnCompleteListener(complete -> {
+            if(complete.isSuccessful()){
+                firebaseToken=complete.getResult().getToken();
+                Call<String> callFireBase = userApi.fireBaseTokenGenerate(
+                        new FireBaseData(username,firebaseToken),token);
+                callFireBase.enqueue(new Callback<String>() {
+                    @Override
+                    public void onResponse(Call<String> call, Response<String> response) {
+                        if(response.isSuccessful()){
 
-        FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener(ListActivity.this, instanceIdResult -> {
-            firebaseToken=instanceIdResult.getToken();
-        });
-        Call<String> callFireBase = userApi.fireBaseTokenGenerate(
-                new FireBaseData(username,firebaseToken));
-        callFireBase.enqueue(new Callback<String>() {
-            @Override
-            public void onResponse(Call<String> call, Response<String> response) {
-                if(response.isSuccessful()){
+                        }else{
+                            Toast.makeText(ListActivity.this, "Failed to connect" + response.code(), Toast.LENGTH_SHORT).show();
+                            finish();
+                        }
+                    }
 
-                }else{
-                    Toast.makeText(ListActivity.this, "Failed to connect" + response.code(), Toast.LENGTH_SHORT).show();
-                    finish();
-                }
+                    @Override
+                    public void onFailure(Call<String> call, Throwable t) {
+                        Toast.makeText(ListActivity.this, "Failed to connect" + t.getMessage(), Toast.LENGTH_SHORT).show();
+                        //finish();
+                    }
+                });
+            }else {
+                Toast.makeText(ListActivity.this, "Failed to connect", Toast.LENGTH_SHORT).show();
             }
-
-            @Override
-            public void onFailure(Call<String> call, Throwable t) {
-                Toast.makeText(ListActivity.this, "Failed to connect" + t.getMessage(), Toast.LENGTH_SHORT).show();
-                finish();
-            }
         });
+
 
 
     }
@@ -174,7 +179,7 @@ public class ListActivity extends AppCompatActivity {
             if (data != null) {
                 String outputData = data.getStringExtra("output");
 //                String fixedToken= "bearer " +token;
-                contactViewModel.addContact(getApplicationContext(), outputData,token);
+                contactViewModel.addContact(getApplicationContext(), outputData);
                 // Do something with the output data here
             }
         }
@@ -201,7 +206,7 @@ public class ListActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        new Thread(()-> {contactViewModel.getContacts(token);}).start();
+        new Thread(()-> {contactViewModel.getContacts();}).start();
         //contacts.clear();
         //contacts.addAll(contactDao.index()) ;
         //adapter.notifyDataSetChanged();

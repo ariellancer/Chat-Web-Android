@@ -83,7 +83,9 @@ public class ContactRepository {
         Chat chat=chatRoomDao.get(id);
         if(chat!=null){
             exists=true;
-            messagesListData.setValue(chat);
+            if(messagesListData!=null){
+                messagesListData.postValue(chat);
+            }
         }
         CompletableFuture<Chat> future = chatApi.getMessages("bearer " + token, id)
                 .thenApply(messages -> messages).exceptionally(error -> {
@@ -98,7 +100,7 @@ public class ContactRepository {
                 }else {
                     chatRoomDao.insert(messages);
                 }
-                messagesListData.setValue(messages);
+                messagesListData.postValue(messages);
 
 
 //                messagesListData.messages.clear();

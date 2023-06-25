@@ -1,4 +1,4 @@
-package com.example.exe3.activity;
+package com.example.exe3.service;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.IBinder;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
@@ -17,6 +18,7 @@ import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 import androidx.lifecycle.ViewModel;
 
+import com.example.exe3.ChatViewModel;
 import com.example.exe3.ContactViewModel;
 import com.example.exe3.R;
 import com.google.firebase.messaging.FirebaseMessagingService;
@@ -25,17 +27,10 @@ import com.google.firebase.messaging.RemoteMessage;
 //@SuppressLint("MissingFirebaseInstanceTokenRefresh")
 public class MessageService extends FirebaseMessagingService {
     static final String Channel_ID = "1";
+    ChatViewModel chatViewModel;
+
     ContactViewModel contactViewModel;
-    String token;
-    int id;
     int idOfSender;
-
-
-    public MessageService(ContactViewModel viewModel, String token, int id) {
-        this.contactViewModel = viewModel;
-        this.id = id;
-        this.token = token;
-    }
 
 //    @Override
 //    public IBinder onBind(Intent intent) {
@@ -46,35 +41,35 @@ public class MessageService extends FirebaseMessagingService {
     @Override
     public void onMessageReceived(@NonNull RemoteMessage remoteMessage) {
         idOfSender = Integer.parseInt(remoteMessage.getData().get("id"));
-
-        if (id == idOfSender) {
-            contactViewModel.getMessages(token, id);
+        chatViewModel = ChatViewModel.getInstance();
+        contactViewModel = ContactViewModel.getInstance();
+        if (contactViewModel!=null){
+            new Thread(()->{contactViewModel.getContacts();}).start();
         }
-        createNotificationChannel();
-        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, Channel_ID)
-                .setSmallIcon(R.drawable.favicon)
-                .setContentTitle(remoteMessage.getData().get("sender"))
-                .setContentText(remoteMessage.getData().get("content"))
-                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
-        int notificationId = 1;
-        if (ActivityCompat.checkSelfPermission(this,
-                Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            return;
+        if (chatViewModel!=null){
+            new Thread(()->{chatViewModel.getMessages(idOfSender);}).start();
         }
-        notificationManager.notify(notificationId, builder.build());
+//        createNotificationChannel();
+//        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
+//        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, Channel_ID)
+//                .setSmallIcon(R.drawable.favicon)
+//                .setContentTitle(remoteMessage.getData().get("sender"))
+//                .setContentText(remoteMessage.getData().get("content"))
+//                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+//        int notificationId = 1;
+//        if (ActivityCompat.checkSelfPermission(this,
+//                Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+//            // TODO: Consider calling
+//            //    ActivityCompat#requestPermissions
+//            // here to request the missing permissions, and then overriding
+//            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+//            //                                          int[] grantResults)
+//            // to handle the case where the user grants the permission. See the documentation
+//            // for ActivityCompat#requestPermissions for more details.
+//            return;
+//        }
+//        notificationManager.notify(notificationId, builder.build());
     }
-
-
-}
-
     private void createNotificationChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             CharSequence name = getString(R.string.notification);

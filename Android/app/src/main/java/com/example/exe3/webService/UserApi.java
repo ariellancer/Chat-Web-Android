@@ -1,16 +1,10 @@
 package com.example.exe3.webService;
 
-import android.util.Log;
-import android.widget.Toast;
-
-import com.example.exe3.activity.Register;
 import com.example.exe3.infoToDB.ContactInfo;
-import com.example.exe3.infoToDB.FireBaseData;
+import com.example.exe3.service.FireBaseData;
 import com.example.exe3.infoToDB.LoginData;
 import com.example.exe3.infoToDB.User;
 
-import java.net.SocketOption;
-import java.net.SocketTimeoutException;
 import java.util.concurrent.CompletableFuture;
 
 import retrofit2.Call;
@@ -54,8 +48,8 @@ public class UserApi {
     public Call<String> login(LoginData loginData) {
         return webServiceUsers.login(loginData);
     }
-    public Call<String> fireBaseTokenGenerate(FireBaseData user) {
-        return webServiceUsers.fireBaseToken(user);
+    public Call<String> fireBaseTokenGenerate(FireBaseData user,String token) {
+        return webServiceUsers.fireBaseToken("Bearer " + token,user);
     }
 
     public CompletableFuture<ContactInfo> getUsernameInfo(String token, String username) {

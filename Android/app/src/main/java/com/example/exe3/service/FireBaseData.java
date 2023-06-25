@@ -1,4 +1,4 @@
-package com.example.exe3.infoToDB;
+package com.example.exe3.service;
 
 public class FireBaseData {
     String username;

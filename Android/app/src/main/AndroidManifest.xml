@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools" >
 
     <uses-permission android:name="android.permission.INTERNET" />
-
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 
     <application
@@ -18,9 +18,10 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="tiramisu" >
         <service
-            android:name=".activity.MessageService"
+            android:name=".service.MessageService"
             android:enabled="true"
-            android:exported="true" >
+            android:exported="true"
+            android:permission="TODO">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT"/>
             </intent-filter>

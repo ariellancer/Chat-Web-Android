@@ -1,6 +1,9 @@
 package com.example.exe3.activity;
 
+import android.Manifest;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -10,11 +13,11 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
 import com.example.exe3.R;
-import com.example.exe3.activity.Settings;
-import com.example.exe3.infoToDB.FireBaseData;
 import com.example.exe3.infoToDB.LoginData;
 import com.example.exe3.webService.UserApi;
 import com.google.firebase.iid.FirebaseInstanceId;
@@ -68,9 +71,35 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+        requestPermission();
 //        FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener(MainActivity.this, instanceIdResult -> {
 //            firebaseToken=instanceIdResult.getToken();
 //        });
+    }
+    private void requestPermission() {
+        if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.POST_NOTIFICATIONS)
+                != PackageManager.PERMISSION_GRANTED) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(MainActivity.this,
+                    Manifest.permission.POST_NOTIFICATIONS)) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                builder.setTitle("Permission required");
+                builder.setMessage("This app requires permission for notification");
+                builder.setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        ActivityCompat.requestPermissions(MainActivity.this,
+                                new String[]{Manifest.permission.POST_NOTIFICATIONS}, 100);
+                    }
+                });
+                builder.setNegativeButton("Cancel", null);
+                AlertDialog alertDialog = builder.create();
+                alertDialog.show();
+            }
+            else {
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.POST_NOTIFICATIONS}, 100);
+            }
+        }
     }
     private void login(LoginData loginData){
         try {
