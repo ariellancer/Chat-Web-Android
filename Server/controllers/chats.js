@@ -70,12 +70,12 @@ const addMessage = async (req,res)=>{
                         let androidToken = foundAndroidToken.token;
                         const payload = {
                             notification:{
-                                title: "new message from " + receiverUsername,
+                                title: receiverUsername,
                                 body: response.content
                             },
                             data: {
                                 content: response.content,
-                                sender: response.sender.username,
+                                sender: response.sender.displayName,
                                 id: req.params.id
                             },
                             token:androidToken

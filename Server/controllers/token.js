@@ -27,4 +27,8 @@ const addAndroidToken =async (req,res)=>{
     await tokenService.addAndroidToken(req.body.username,req.body.token);
     res.status(200).send("add");
 }
-module.exports = {ifRegister,decoding,addAndroidToken}
+const deleteAndroidToken =async (req,res)=>{
+    await tokenService.deleteAndroidToken(req.body.username);
+    res.status(200).send("delete");
+}
+module.exports = {ifRegister,decoding,addAndroidToken,deleteAndroidToken}
