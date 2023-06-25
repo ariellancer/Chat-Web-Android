@@ -4,7 +4,8 @@ const tokenController = require("../controllers/token");
 const tokenService = require("../service/token");
 var admin = require("firebase-admin");
 
-var serviceAccount = require("../exe3-1ed18-firebase-adminsdk-zdevy-44ca1dfd41.json");
+var serviceAccount = require("../exe3-ebaa4-firebase-adminsdk-msvuz-58c18ae0de.json");
+const {use} = require("express/lib/router");
 
 admin.initializeApp({
     credential: admin.credential.cert(serviceAccount),
@@ -26,25 +27,11 @@ const deleteMessagesById = async (req,res)=>{
     const token = req.headers.authorization.split(' ')[1];
     const username = tokenController.decoding(token);
     if(username!==-1){
-        let receiverUsername = getUsernameToSend(req.params.id,username.username);
+        let receiverUsername = await getUsernameToSend(req.params.id,username.username);
         if(receiverUsername) {
             let foundAndroidToken = await tokenService.getAndroidToken(receiverUsername);
             if (foundAndroidToken){
-                let androidToken = foundAndroidToken.token;
-                const payload = {
-                    notification:null,
-                    data: {
-                        username:username.username,
-                        content:"delete",
-                        id: req.params.id
-                    },
-                    token:androidToken
-                }
-                try{
-                    await admin.messaging().send(payload);
-                }catch (error){
-
-                }
+               await sendToFirebase(foundAndroidToken,username,req.params.id);
             }
         }
         await chatsService.deleteMessagesById(req.params.id);
@@ -63,7 +50,7 @@ const addMessage = async (req,res)=>{
         if(userDetails !== -1) {
             const response = await chatsService.createNewMessageById(req.params.id, userDetails, req.body.msg);
             if (response) {
-                let receiverUsername = getUsernameToSend(req.params.id,username.username);
+                let receiverUsername = await getUsernameToSend(req.params.id,username.username);
                 if(receiverUsername) {
                     let foundAndroidToken = await tokenService.getAndroidToken(receiverUsername);
                     if (foundAndroidToken){
@@ -83,7 +70,7 @@ const addMessage = async (req,res)=>{
                         try{
                             await admin.messaging().send(payload);
                         }catch (error){
-
+                            console.log(error);
                         }
                     }
                 }
@@ -104,9 +91,9 @@ const getUsernameToSend = async (id,username)=>{
         return null;
     }
     if(foundUsername.users[0].username === username){
-        return foundUsername.users[0].username;
-    }else{
         return foundUsername.users[1].username;
+    }else{
+        return foundUsername.users[0].username;
     }
 }
 const getMessagesById = async (req,res) => {
@@ -119,7 +106,28 @@ const getMessagesById = async (req,res) => {
         res.status(404).send();
     }
 }
-module.exports = {getMessagesAndContactById,deleteMessagesById,addMessage,getMessagesById}
+const sendToFirebase = async (foundAndroidToken,username,id)=>{
+    let androidToken = foundAndroidToken.token;
+    const payload = {
+        notification:{
+            title: username.username,
+            body: "d"
+        },
+        data: {
+            username:username.username,
+            content:"delete",
+            id: id
+        },
+        token:androidToken
+    }
+    console.log(payload);
+    try{
+        await admin.messaging().send(payload);
+    }catch (error){
+        console.log(error);
+    }
+}
+module.exports = {getMessagesAndContactById,deleteMessagesById,addMessage,getMessagesById,sendToFirebase}
 
 
 

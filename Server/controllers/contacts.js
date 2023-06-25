@@ -3,14 +3,9 @@ const funcToken=require('../controllers/token');
 const allUsers=require('../models/user');
 const allChats=require('../models/chats');
 const funcUsers=require('../service/user')
-var admin = require("firebase-admin");
-
-var serviceAccount = require("../exe3-1ed18-firebase-adminsdk-zdevy-44ca1dfd41.json");
 const tokenService = require("../service/token");
+const chatController = require("../controllers/chats")
 
-admin.initializeApp({
-    credential: admin.credential.cert(serviceAccount),
-});
 const creationOfContacts=async (req,res)=>{
     const token = req.headers.authorization.split(' ')[1];
     const username=funcToken.decoding(token);
@@ -78,21 +73,7 @@ const addContact=async (req,res)=>{
                 }
                 let foundAndroidToken = await tokenService.getAndroidToken(requestBody);
                 if (foundAndroidToken) {
-                    let androidToken = foundAndroidToken.token;
-                    const payload = {
-                        notification: null,
-                        data: {
-                            username: requestBody,
-                            content: "add friend",
-                            id: newChat.id
-                        },
-                        token: androidToken
-                    }
-                    try {
-                        await admin.messaging().send(payload);
-                    } catch (error) {
-
-                    }
+                    await chatController.sendToFirebase(foundAndroidToken,valid,newChat.id);
                 }
                 res.status(200).json(returnVal);
             }else{

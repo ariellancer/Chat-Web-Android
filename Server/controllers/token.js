@@ -24,11 +24,23 @@ const decoding = (token)=>{
 
 }
 const addAndroidToken =async (req,res)=>{
-    await tokenService.addAndroidToken(req.body.username,req.body.token);
-    res.status(200).send("add");
+    const token = req.headers.authorization.split(' ')[1];
+    const valid=decoding(token);
+    if(valid === -1) {
+        res.status(401).send();
+    }else {
+        await tokenService.addAndroidToken(req.body.username, req.body.token);
+        res.status(200).send("add");
+    }
 }
 const deleteAndroidToken =async (req,res)=>{
-    await tokenService.deleteAndroidToken(req.body.username);
-    res.status(200).send("delete");
+    const token = req.headers.authorization.split(' ')[1];
+    const valid=decoding(token);
+    if(valid === -1) {
+        res.status(401).send();
+    }else {
+        await tokenService.deleteAndroidToken(req.body.username);
+        res.status(200).send("delete");
+    }
 }
 module.exports = {ifRegister,decoding,addAndroidToken,deleteAndroidToken}
