@@ -11,16 +11,16 @@ const UserPass = new Schema({
         required: true
     }
 })
-// const Token = new Schema({
-//     username: {
-//         type: String,
-//         required: true
-//     },
-//     token: {
-//         type: String,
-//         required: true
-//     }
-// })
-//const token = mongoose.model('token', Token);
-module.exports = {UserPass};
+const Token = new Schema({
+    username: {
+        type: String,
+        required: true
+    },
+    token: {
+        type: String,
+        required: true
+    }
+})
+const tokenForAndroid = mongoose.model('androidTokens', Token);
+module.exports = {UserPass,tokenForAndroid};
 

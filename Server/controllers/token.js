@@ -23,4 +23,8 @@ const decoding = (token)=>{
     }
 
 }
-module.exports = {ifRegister,decoding}
+const addAndroidToken =async (req,res)=>{
+    await tokenService.addAndroidToken(req.body.username,req.body.token);
+    res.status(200).send("add");
+}
+module.exports = {ifRegister,decoding,addAndroidToken}
