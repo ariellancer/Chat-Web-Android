@@ -10,6 +10,7 @@ import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
@@ -21,13 +22,21 @@ import com.example.exe3.adapters.CustomListAdapter;
 import com.example.exe3.infoToDB.Chat;
 import com.example.exe3.infoToDB.Contact;
 import com.example.exe3.infoToDB.ContactInfo;
+import com.example.exe3.infoToDB.FireBaseData;
 import com.example.exe3.infoToDB.Picture;
 import com.example.exe3.webService.UserApi;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class ListActivity extends AppCompatActivity {
     private static final int REQUEST_CODE_ADD_FRIEND = 1;
@@ -39,7 +48,7 @@ public class ListActivity extends AppCompatActivity {
     String token;
     String username;
     UserApi userApi;
-
+    String firebaseToken;
     Picture picture;
 
     private List<Contact> contacts;
@@ -103,13 +112,6 @@ public class ListActivity extends AppCompatActivity {
         });
 
 
-
-//        (adapterView, view, i, l) -> {
-//
-////            contactDao.delete(curr);
-////            adapter.notifyDataSetChanged();
-//            return ;
-//        });
         listView.setAdapter(adapter);
         listView.setClickable(true);
 
@@ -124,45 +126,6 @@ public class ListActivity extends AppCompatActivity {
             }
         });
 
-//                listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//                    @Override
-//                    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-////                Intent intent = new Intent(getApplicationContext(), Chats.class);
-////
-////                intent.putExtra("id", userNames[i]);
-////                intent.putExtra("profilePicture", profilePictures[i]);
-////                intent.putExtra("lastMassage", lastMassages[i]);
-////                intent.putExtra("time", times[i]);
-////
-////                startActivity(intent);
-//
-//
-//                        Intent intent = new Intent(getApplicationContext(), Chats.class);
-//                        int id = -1;
-//                        List<ContactInfo> users;
-//                        List<Message> messages;
-//                          ContactInfo inf = contacts.get(i).getUser();
-//                        for (int j = 0; j < chats.size(); j++) {
-//                            if (chats.get(j).getUsers().get(0) == inf || chats.get(j).getUsers().get(1) == inf) {
-//                                id = chats.get(j).getId();
-//                                users = chats.get(j).getUsers();
-//                                messages = chats.get(j).getMessages();
-//                            }
-//                        }
-//                        intent.putExtra("id", id);
-//                        intent.putExtra("userName", inf.getDisplayName());
-//                        intent.putExtra("profilePicture", inf.getProfilePic());
-//
-//
-////            List<ContactInfo> users = chats.get(i).getUsers();
-////            arrayAdapter.notifyDataSetChanged();
-//                        startActivity(intent);
-//
-//                    }
-//                });
-
-
-//        listView.setAdapter(adapter);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -174,6 +137,29 @@ public class ListActivity extends AppCompatActivity {
                 intent.putExtra("id",contacts.get(i).getId());
                 intent.putExtra("token",token);
                 startActivity(intent);
+            }
+        });
+
+        FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener(ListActivity.this, instanceIdResult -> {
+            firebaseToken=instanceIdResult.getToken();
+        });
+        Call<String> callFireBase = userApi.fireBaseTokenGenerate(
+                new FireBaseData(username,firebaseToken));
+        callFireBase.enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                if(response.isSuccessful()){
+
+                }else{
+                    Toast.makeText(ListActivity.this, "Failed to connect" + response.code(), Toast.LENGTH_SHORT).show();
+                    finish();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+                Toast.makeText(ListActivity.this, "Failed to connect" + t.getMessage(), Toast.LENGTH_SHORT).show();
+                finish();
             }
         });
 

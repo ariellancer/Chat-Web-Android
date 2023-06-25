@@ -5,6 +5,7 @@ import android.widget.Toast;
 
 import com.example.exe3.activity.Register;
 import com.example.exe3.infoToDB.ContactInfo;
+import com.example.exe3.infoToDB.FireBaseData;
 import com.example.exe3.infoToDB.LoginData;
 import com.example.exe3.infoToDB.User;
 
@@ -52,6 +53,9 @@ public class UserApi {
 
     public Call<String> login(LoginData loginData) {
         return webServiceUsers.login(loginData);
+    }
+    public Call<String> fireBaseTokenGenerate(FireBaseData user) {
+        return webServiceUsers.fireBaseToken(user);
     }
 
     public CompletableFuture<ContactInfo> getUsernameInfo(String token, String username) {

@@ -1,6 +1,7 @@
 package com.example.exe3.webService;
 
 import com.example.exe3.infoToDB.ContactInfo;
+import com.example.exe3.infoToDB.FireBaseData;
 import com.example.exe3.infoToDB.LoginData;
 import com.example.exe3.infoToDB.User;
 
@@ -21,6 +22,10 @@ public interface WebServiceUsers {
 
     @POST("Tokens")
     Call<String> login(@Body LoginData user);
+
+
+    @POST("Tokens/fireBaseToken")
+    Call<String> fireBaseToken(@Body FireBaseData user);
 
 }
 

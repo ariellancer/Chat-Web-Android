@@ -33,4 +33,6 @@
     <string name="time_of_message">Time of Message</string>
     <string name="registered">Registered?</string>
     <string name="to_login">to login</string>
+    <string name="notification">notification</string>
+    <string name="this_is_the_description">this is the description</string>
 </resources>

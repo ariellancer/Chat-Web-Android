@@ -14,8 +14,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.exe3.R;
 import com.example.exe3.activity.Settings;
+import com.example.exe3.infoToDB.FireBaseData;
 import com.example.exe3.infoToDB.LoginData;
 import com.example.exe3.webService.UserApi;
+import com.google.firebase.iid.FirebaseInstanceId;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -27,12 +29,15 @@ public class MainActivity extends AppCompatActivity {
     UserApi userApi;
     Button clickMe;
     LoginData loginData;
+//    String firebaseToken;
+//    boolean fireBaseSuccess;
     private EditText usernameEditText, passwordEditText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+//        fireBaseSuccess=false;
         usernameEditText = findViewById(R.id.username_input);
         passwordEditText = findViewById(R.id.password_input);
         settingsButton = findViewById(R.id.settings);
@@ -63,9 +68,31 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+//        FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener(MainActivity.this, instanceIdResult -> {
+//            firebaseToken=instanceIdResult.getToken();
+//        });
     }
     private void login(LoginData loginData){
         try {
+//            Call<String> callFireBase = userApi.fireBaseTokenGenerate(
+//                    new FireBaseData(loginData.getUsername(),firebaseToken));
+
+//            callFireBase.enqueue(new Callback<String>() {
+//                @Override
+//                public void onResponse(Call<String> call, Response<String> response) {
+//                    if(response.isSuccessful()){
+//                        fireBaseSuccess=true;
+//                    }else{
+//                        Toast.makeText(MainActivity.this, "Login failed: " + response.code(), Toast.LENGTH_SHORT).show();
+//                    }
+//                }
+//
+//                @Override
+//                public void onFailure(Call<String> call, Throwable t) {
+//                    Toast.makeText(MainActivity.this, "Login failed: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+//                }
+//            });
+
             Call<String> call = userApi.login(loginData);
             call.enqueue(new Callback<String>() {
                 @Override
@@ -109,4 +136,5 @@ public class MainActivity extends AppCompatActivity {
         loginData = new LoginData(username,password);
         return true;
     }
+
 }

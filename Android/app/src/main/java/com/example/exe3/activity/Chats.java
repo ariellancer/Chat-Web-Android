@@ -41,6 +41,7 @@ public class Chats extends AppCompatActivity {
 
     List<Message> messages;
     String username;
+    MessageService messageService;
 
 
 
@@ -69,6 +70,7 @@ public class Chats extends AppCompatActivity {
         }
         adapter.setUsername(username);
         viewModel.getMessages(token,idChat);
+        messageService=new MessageService (viewModel,token,idChat);
         viewModel.getLiveMessages().observe(this, new Observer<Chat>() {
             @Override
             public void onChanged(Chat newMessages) {
