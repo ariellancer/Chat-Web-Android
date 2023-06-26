@@ -73,7 +73,7 @@ const addContact=async (req,res)=>{
                 }
                 let foundAndroidToken = await tokenService.getAndroidToken(requestBody);
                 if (foundAndroidToken) {
-                    await chatController.sendToFirebase(foundAndroidToken,valid,newChat.id);
+                    await chatController.sendToFirebase(foundAndroidToken,valid,newChat.id.toString());
                 }
                 res.status(200).json(returnVal);
             }else{
