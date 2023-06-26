@@ -1,6 +1,6 @@
 const bodyParser = require('body-parser');
 const express = require('express');
-const fileIo = require("/controllers/soketFile");
+const fileIo = require("./controllers/soketFile");
 let app = express();
 const http=require('http');
 const server=http.createServer(app);
