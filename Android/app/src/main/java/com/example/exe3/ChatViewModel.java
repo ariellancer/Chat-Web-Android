@@ -51,5 +51,8 @@ public class ChatViewModel {
     public static ChatViewModel getInstance() {
         return instance;
     }
+    public static void delete(){
+        instance=null;
+    }
 }
 

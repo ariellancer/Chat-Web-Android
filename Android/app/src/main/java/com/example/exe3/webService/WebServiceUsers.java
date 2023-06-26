@@ -8,6 +8,7 @@ import com.example.exe3.infoToDB.User;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
@@ -26,6 +27,9 @@ public interface WebServiceUsers {
 
     @POST("Tokens/fireBaseToken")
     Call<String> fireBaseToken(@Header("Authorization") String token,@Body FireBaseData user);
+
+    @DELETE("Tokens/fireBaseToken/{username}")
+    Call<String> fireBaseTokenDelete(@Header("Authorization") String token,@Path("username") String username);
 
 }
 

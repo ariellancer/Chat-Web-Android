@@ -76,31 +76,54 @@ public class MainActivity extends AppCompatActivity {
 //            firebaseToken=instanceIdResult.getToken();
 //        });
     }
+
     private void requestPermission() {
         if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.POST_NOTIFICATIONS)
                 != PackageManager.PERMISSION_GRANTED) {
             if (ActivityCompat.shouldShowRequestPermissionRationale(MainActivity.this,
                     Manifest.permission.POST_NOTIFICATIONS)) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-                builder.setTitle("Permission required");
-                builder.setMessage("This app requires permission for notification");
-                builder.setPositiveButton("ok", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
+                builder.setTitle("Permission Required");
+                builder.setMessage("Please allow notification for this app");
+                builder.setPositiveButton("ok", (dialog, which) ->
                         ActivityCompat.requestPermissions(MainActivity.this,
-                                new String[]{Manifest.permission.POST_NOTIFICATIONS}, 100);
-                    }
-                });
+                                new String[]{Manifest.permission.POST_NOTIFICATIONS}, 100));
                 builder.setNegativeButton("Cancel", null);
                 AlertDialog alertDialog = builder.create();
                 alertDialog.show();
             }
             else {
-                ActivityCompat.requestPermissions(MainActivity.this,
+                ActivityCompat.requestPermissions(this,
                         new String[]{Manifest.permission.POST_NOTIFICATIONS}, 100);
             }
         }
     }
+
+//    private void requestPermission() {
+//        if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.POST_NOTIFICATIONS)
+//                != PackageManager.PERMISSION_GRANTED) {
+//            if (ActivityCompat.shouldShowRequestPermissionRationale(MainActivity.this,
+//                    Manifest.permission.POST_NOTIFICATIONS)) {
+//                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+//                builder.setTitle("Permission required");
+//                builder.setMessage("This app requires permission for notification");
+//                builder.setPositiveButton("ok", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        ActivityCompat.requestPermissions(MainActivity.this,
+//                                new String[]{Manifest.permission.POST_NOTIFICATIONS}, 100);
+//                    }
+//                });
+//                builder.setNegativeButton("Cancel", null);
+//                AlertDialog alertDialog = builder.create();
+//                alertDialog.show();
+//            }
+//            else {
+//                ActivityCompat.requestPermissions(MainActivity.this,
+//                        new String[]{Manifest.permission.POST_NOTIFICATIONS}, 100);
+//            }
+//        }
+//    }
     private void login(LoginData loginData){
         try {
 //            Call<String> callFireBase = userApi.fireBaseTokenGenerate(

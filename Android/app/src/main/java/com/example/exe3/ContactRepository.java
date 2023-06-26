@@ -204,4 +204,10 @@ public class ContactRepository {
             });
         }
     }
+    public void deleteRoom(){
+        List<ContactForRoom> contactForRooms=contactRoomDao.getContactsList();
+        for (int i=0;i<contactForRooms.size();i++){
+            contactRoomDao.deleteContact(contactForRooms.get(i));
+        }
+    }
 }

@@ -16,6 +16,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 
+import com.example.exe3.ChatViewModel;
 import com.example.exe3.ContactViewModel;
 import com.example.exe3.R;
 import com.example.exe3.Utilities;
@@ -68,16 +69,36 @@ public class ListActivity extends AppCompatActivity {
 
         }
         logout = findViewById(R.id.logout);
-        logout.setOnClickListener(fun -> finish());
+        logout.setOnClickListener(fun -> {
+            ChatViewModel.delete();
+            contactViewModel.deleteRoom();
+            contactViewModel.delete();
+            Call<String> callFireBase = userApi.fireBaseTokenDelete(
+                    new FireBaseData(username, firebaseToken), token);
+            callFireBase.enqueue(new Callback<String>() {
+                @Override
+                public void onResponse(Call<String> call, Response<String> response) {
+
+                }
+
+                @Override
+                public void onFailure(Call<String> call, Throwable t) {
+                    Toast.makeText(ListActivity.this, "Failed to delete firebase token" + t.getMessage(), Toast.LENGTH_SHORT).show();
+
+                }
+            });
+            finish();
+        });
         listView = findViewById(R.id.listOfFriend);
 
 //        db = Room.databaseBuilder(getApplicationContext(), AppDB.class, "contactsDB1").allowMainThreadQueries().build();
 //        contactDao = db.contactDao();
-        contactViewModel = ContactViewModel.getInstance(getApplicationContext(),token);
+        contactViewModel = ContactViewModel.getInstance(getApplicationContext(), token);
         contacts = new ArrayList<>();
         adapter = new CustomListAdapter(this, contacts);
-        new Thread(()-> {contactViewModel.getContacts();}).start();
-
+        new Thread(() -> {
+            contactViewModel.getContacts();
+        }).start();
 
 
         FloatingActionButton fabAddFriend = findViewById(R.id.floating_button);
@@ -87,7 +108,6 @@ public class ListActivity extends AppCompatActivity {
         });
 
         chats = new ArrayList<>();
-
 
 
         listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
@@ -135,22 +155,22 @@ public class ListActivity extends AppCompatActivity {
                 intent.putExtra("displayName", contacts.get(i).getUser().getDisplayName());
                 intent.putExtra("username", contacts.get(i).getUser().getUsername());
                 picture.setPicture(contacts.get(i).getUser().getProfilePic());
-                intent.putExtra("id",contacts.get(i).getId());
-                intent.putExtra("token",token);
+                intent.putExtra("id", contacts.get(i).getId());
+                intent.putExtra("token", token);
                 startActivity(intent);
             }
         });
         FirebaseInstanceId.getInstance().getInstanceId().addOnCompleteListener(complete -> {
-            if(complete.isSuccessful()){
-                firebaseToken=complete.getResult().getToken();
+            if (complete.isSuccessful()) {
+                firebaseToken = complete.getResult().getToken();
                 Call<String> callFireBase = userApi.fireBaseTokenGenerate(
-                        new FireBaseData(username,firebaseToken),token);
+                        new FireBaseData(username, firebaseToken), token);
                 callFireBase.enqueue(new Callback<String>() {
                     @Override
                     public void onResponse(Call<String> call, Response<String> response) {
-                        if(response.isSuccessful()){
+                        if (response.isSuccessful()) {
 
-                        }else{
+                        } else {
                             Toast.makeText(ListActivity.this, "Failed to connect" + response.code(), Toast.LENGTH_SHORT).show();
                             finish();
                         }
@@ -162,11 +182,10 @@ public class ListActivity extends AppCompatActivity {
                         //finish();
                     }
                 });
-            }else {
+            } else {
                 Toast.makeText(ListActivity.this, "Failed to connect", Toast.LENGTH_SHORT).show();
             }
         });
-
 
 
     }
@@ -187,7 +206,7 @@ public class ListActivity extends AppCompatActivity {
 
     private void getUsernameInfo() {
         // Do something with the processed result
-        CompletableFuture<ContactInfo> future = userApi.getUsernameInfo( "bearer "+ token, username)
+        CompletableFuture<ContactInfo> future = userApi.getUsernameInfo("bearer " + token, username)
                 .thenApply(contactInfo -> contactInfo)
                 .exceptionally(error -> {
                     //Toast(error.getMessage())
@@ -203,10 +222,13 @@ public class ListActivity extends AppCompatActivity {
         });
 
     }
+
     @Override
     protected void onResume() {
         super.onResume();
-        new Thread(()-> {contactViewModel.getContacts();}).start();
+        new Thread(() -> {
+            contactViewModel.getContacts();
+        }).start();
         //contacts.clear();
         //contacts.addAll(contactDao.index()) ;
         //adapter.notifyDataSetChanged();

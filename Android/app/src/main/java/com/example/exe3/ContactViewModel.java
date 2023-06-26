@@ -49,5 +49,11 @@ public class ContactViewModel extends ViewModel {
     public void getContacts() {
         repository.getContacts(token);
     }
+    public void delete(){
+        instance=null;
+    }
+    public void deleteRoom(){
+        repository.deleteRoom();
+    }
 }
 
