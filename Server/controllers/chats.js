@@ -69,7 +69,6 @@ const addMessage = async (req, res) => {
                         try {
                             await admin.messaging().send(payload);
                         } catch (error) {
-                            console.log(error);
                         }
                     }
                     let foundAndroidTokenSender = await tokenService.getAndroidToken(username.username);
@@ -123,11 +122,9 @@ const sendToFirebase = async (foundAndroidToken, username, id) => {
         },
         token: androidToken
     }
-    console.log(payload);
     try {
         await admin.messaging().send(payload);
     } catch (error) {
-        console.log(error);
     }
 }
 module.exports = {getMessagesAndContactById, deleteMessagesById, addMessage, getMessagesById, sendToFirebase}
