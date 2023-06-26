@@ -3,9 +3,10 @@ const userService = require("../service/user");
 const tokenController = require("../controllers/token");
 const tokenService = require("../service/token");
 var admin = require("firebase-admin");
-
+const fileIo = require("./soketFile");
 var serviceAccount = require("../exe3-ebaa4-firebase-adminsdk-msvuz-58c18ae0de.json");
 const {use} = require("express/lib/router");
+const {user} = require("../models/user");
 
 admin.initializeApp({
     credential: admin.credential.cert(serviceAccount),
@@ -72,6 +73,10 @@ const addMessage = async (req,res)=>{
                         }catch (error){
                             console.log(error);
                         }
+                    }
+                    let foundAndroidTokenSender = await tokenService.getAndroidToken(username.username);
+                    if (foundAndroidTokenSender){
+                        fileIo.send(req.params.id);
                     }
                 }
                 res.status(200).json(response);

@@ -1,6 +1,6 @@
 const bodyParser = require('body-parser');
 const express = require('express');
-
+const fileIo = require("/controllers/soketFile");
 let app = express();
 const http=require('http');
 const server=http.createServer(app);
@@ -11,7 +11,7 @@ const io=new Server(server,{
         }
     }
     );
-
+fileIo.setIo(io);
 app.use(bodyParser.urlencoded({extended:true}))
 app.use(express.json({ limit: '1000mb' }));
 
