@@ -39,7 +39,7 @@ const deleteAndroidToken =async (req,res)=>{
     if(valid === -1) {
         res.status(401).send();
     }else {
-        await tokenService.deleteAndroidToken(req.body.username);
+        await tokenService.deleteAndroidToken(req.params.username);
         res.status(200).send("delete");
     }
 }
