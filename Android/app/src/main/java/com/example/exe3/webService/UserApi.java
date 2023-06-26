@@ -49,8 +49,9 @@ public class UserApi {
         return webServiceUsers.login(loginData);
     }
     public Call<String> fireBaseTokenGenerate(FireBaseData user,String token) {
-        return webServiceUsers.fireBaseToken("Bearer " + token,user);
+        return webServiceUsers.fireBaseToken( "Bearer "+token,user);
     }
+
 
     public CompletableFuture<ContactInfo> getUsernameInfo(String token, String username) {
         CompletableFuture<ContactInfo> future = new CompletableFuture<>();

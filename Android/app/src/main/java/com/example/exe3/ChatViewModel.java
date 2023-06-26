@@ -15,13 +15,21 @@ public class ChatViewModel {
     private ContactRepository repository;
     private String token;
 
+
+
+    private int idChat;
+
     private ChatViewModel(Context applicationContext,String token) {
         repository = new ContactRepository(applicationContext);
         messages = repository.getAllLiveMessages();
         this.token=token;
     }
-
-
+    public int getIdChat() {
+        return idChat;
+    }
+    public void setIdChat(int idChat) {
+        this.idChat = idChat;
+    }
     public static ChatViewModel getInstance(Context applicationContext,String token) {
         if (instance == null) {
             instance = new ChatViewModel(applicationContext,token);

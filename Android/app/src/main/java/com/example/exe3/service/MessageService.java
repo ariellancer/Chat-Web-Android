@@ -24,13 +24,14 @@ import com.example.exe3.R;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
-//@SuppressLint("MissingFirebaseInstanceTokenRefresh")
+@SuppressLint("MissingFirebaseInstanceTokenRefresh")
 public class MessageService extends FirebaseMessagingService {
     static final String Channel_ID = "1";
     ChatViewModel chatViewModel;
 
     ContactViewModel contactViewModel;
     int idOfSender;
+    int idChat;
 
 //    @Override
 //    public IBinder onBind(Intent intent) {
@@ -45,31 +46,22 @@ public class MessageService extends FirebaseMessagingService {
         contactViewModel = ContactViewModel.getInstance();
         if (contactViewModel!=null){
             new Thread(()->{contactViewModel.getContacts();}).start();
+                createNotification(remoteMessage);
         }
         if (chatViewModel!=null){
-            new Thread(()->{chatViewModel.getMessages(idOfSender);}).start();
+            idChat=chatViewModel.getIdChat();
+            if(idChat==idOfSender){
+                new Thread(()->{chatViewModel.getMessages(idOfSender);}).start();}
+//            }else
+//            {
+//                if(contactViewModel==null){
+//                    createNotification(remoteMessage);
+//                }
+//
+//            }
+            }
         }
-//        createNotificationChannel();
-//        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
-//        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, Channel_ID)
-//                .setSmallIcon(R.drawable.favicon)
-//                .setContentTitle(remoteMessage.getData().get("sender"))
-//                .setContentText(remoteMessage.getData().get("content"))
-//                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
-//        int notificationId = 1;
-//        if (ActivityCompat.checkSelfPermission(this,
-//                Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
-//            // TODO: Consider calling
-//            //    ActivityCompat#requestPermissions
-//            // here to request the missing permissions, and then overriding
-//            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-//            //                                          int[] grantResults)
-//            // to handle the case where the user grants the permission. See the documentation
-//            // for ActivityCompat#requestPermissions for more details.
-//            return;
-//        }
-//        notificationManager.notify(notificationId, builder.build());
-    }
+
     private void createNotificationChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             CharSequence name = getString(R.string.notification);
@@ -81,5 +73,27 @@ public class MessageService extends FirebaseMessagingService {
             NotificationManager notificationManager = getSystemService(NotificationManager.class);
             notificationManager.createNotificationChannel(channel);
         }
+    }
+    private void createNotification(@NonNull RemoteMessage remoteMessage){
+        createNotificationChannel();
+        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, Channel_ID)
+                .setSmallIcon(R.drawable.favicon)
+                .setContentTitle(remoteMessage.getData().get("sender"))
+                .setContentText(remoteMessage.getData().get("content"))
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+        int notificationId = 1;
+        if (ActivityCompat.checkSelfPermission(this,
+                Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+        notificationManager.notify(notificationId, builder.build());
     }
 }

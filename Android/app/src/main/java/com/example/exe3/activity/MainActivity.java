@@ -96,7 +96,7 @@ public class MainActivity extends AppCompatActivity {
                 alertDialog.show();
             }
             else {
-                ActivityCompat.requestPermissions(this,
+                ActivityCompat.requestPermissions(MainActivity.this,
                         new String[]{Manifest.permission.POST_NOTIFICATIONS}, 100);
             }
         }

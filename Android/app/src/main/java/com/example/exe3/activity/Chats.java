@@ -69,6 +69,7 @@ public class Chats extends AppCompatActivity {
             profilePictureView.setImageBitmap(Utilities.bitmapPic(Utilities.extractImage(picture.getPicture())));
         }
         viewModel = ChatViewModel.getInstance(getApplicationContext(),token);
+        viewModel.setIdChat(idChat);
         adapter.setUsername(username);
         new Thread(()->{viewModel.getMessages(idChat);}).start();
         //messageService=new MessageService(viewModel,token,idChat);
