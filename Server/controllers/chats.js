@@ -33,6 +33,10 @@ const deleteMessagesById = async (req, res) => {
             if (foundAndroidToken) {
                 await sendToFirebase(foundAndroidToken, username, req.params.id);
             }
+            let foundAndroidTokenSender = await tokenService.getAndroidToken(username.username);
+            if (foundAndroidTokenSender) {
+                fileIo.deleteFriend(parseInt(req.params.id));
+            }
         }
         await chatsService.deleteMessagesById(req.params.id);
         res.status(200).send();

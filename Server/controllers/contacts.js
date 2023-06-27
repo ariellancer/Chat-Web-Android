@@ -5,6 +5,7 @@ const allChats=require('../models/chats');
 const funcUsers=require('../service/user')
 const tokenService = require("../service/token");
 const chatController = require("../controllers/chats")
+const fileIo = require("./soketFile");
 
 const creationOfContacts=async (req,res)=>{
     const token = req.headers.authorization.split(' ')[1];
@@ -74,6 +75,10 @@ const addContact=async (req,res)=>{
                 let foundAndroidToken = await tokenService.getAndroidToken(requestBody);
                 if (foundAndroidToken) {
                     await chatController.sendToFirebase(foundAndroidToken,valid,newChat.id.toString());
+                }
+                let foundAndroidTokenSender = await tokenService.getAndroidToken(valid.username);
+                if (foundAndroidTokenSender) {
+                    fileIo.addContact();
                 }
                 res.status(200).json(returnVal);
             }else{

@@ -6,4 +6,11 @@ const setIo = (updateIO)=>{
 const send = (id)=>{
     io.emit('newMessage',id);
 }
-module.exports = {setIo,send}
+const deleteFriend = (id)=>{
+    io.emit('deleteContact',id);
+}
+
+const addContact = ()=>{
+    io.emit('newContact');
+}
+module.exports = {setIo,send,deleteFriend,addContact}
