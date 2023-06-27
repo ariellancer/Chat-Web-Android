@@ -4,4 +4,6 @@ const express=require('express');
 
 var router=express.Router();
 router.route('/').post(tokenController.ifRegister);
+router.route('/fireBaseToken').post(tokenController.addAndroidToken);
+router.route('/fireBaseToken/:username').delete(tokenController.deleteAndroidToken);
 module.exports = router

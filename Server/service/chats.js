@@ -40,7 +40,13 @@ const createNewMessageById=async(id,userDetails, content)=>{
         }
     })
 }
-
+const getUsernameToSend = async (id)=>{
+    try {
+        return  await moduleChat.chat.findOne({id});
+    }catch (error){
+        return null;
+    }
+}
 const getMessagesById = async (id) => {
     await moduleChat.chat.findOne({ id: id }).then(async foundChat=>{
         if (!foundChat) {
@@ -52,4 +58,4 @@ const getMessagesById = async (id) => {
 };
 
 
-module.exports={createNewMessageById,getMessagesAndContactById,getMessagesById, deleteMessagesById};
+module.exports={createNewMessageById,getMessagesAndContactById,getMessagesById, deleteMessagesById,getUsernameToSend};
