@@ -42,7 +42,7 @@ public class Settings extends AppCompatActivity {
                     ChatApi.getInstance().setRetrofit(url,getApplicationContext());
                     UserApi.getInstance().setRetrofit(url,getApplicationContext());
                 }else{
-                    Toast.makeText(getApplicationContext(), "URL not validdd" , Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "URL not valid" , Toast.LENGTH_SHORT).show();
                 }
 
             }
