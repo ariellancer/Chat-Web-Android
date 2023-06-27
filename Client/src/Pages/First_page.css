@@ -1,0 +1,10 @@
+.block_first{
+  margin-top: 5%;
+  padding: 20px;
+  border-radius:2%;
+  background-image:linear-gradient(to top, rgba(0,0,0,0.4), rgba(0,0,0,0.9)), url("gray2.jpg");
+  width: 50%;
+  height: 30%;
+  min-width: 400px;
+}
+

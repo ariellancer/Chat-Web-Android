@@ -1,0 +1,33 @@
+.chat_user{
+    background-color: darkgray;
+    height: 40px;
+}
+.list-header {
+     position: absolute;
+     box-sizing: border-box;
+     height: 40px;
+     width: 87%;
+     padding: 10px;
+     border-bottom: 1px solid #ccc;
+     left: 35px;
+     text-align: -moz-left;
+ }
+.btn_add{
+    background-color: darkgray;
+    border: lightgray;
+    margin-right: -20px;
+}
+/*#image_user {*/
+/*    box-sizing: border-box;*/
+/*    width: 40px;*/
+/*    height: 35px;*/
+/*    margin-top: 2px;*/
+/*    float: left;*/
+/*}*/
+.add-emoji{
+    float: right;
+    padding-right: 10px;
+}
+.help-block{
+    color: salmon;
+}

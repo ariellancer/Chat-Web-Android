@@ -1,0 +1,32 @@
+.Message {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px;
+    padding: 10px;
+    border-radius: 5px;
+    max-width: 48%;
+    word-wrap: break-word;
+    text-align: left;
+}
+
+.me {
+    align-self: flex-start;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    background-color: palegoldenrod;
+    max-width: 48%;
+    word-wrap: break-word;
+    text-align: left;
+}
+
+.friend {
+    align-self: flex-end;
+    margin-bottom: 10px;
+    padding: 10px;
+    border-radius: 5px;
+    background-color:mintcream;
+    max-width: 48%;
+    word-wrap: break-word;
+    text-align: left;
+}

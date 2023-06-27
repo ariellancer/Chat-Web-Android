@@ -1,0 +1,19 @@
+.log{
+    margin-top:50px;
+    margin-bottom: 10px;
+    width: 60%;
+}
+.reg{
+    margin-top:50px;
+    margin-bottom: 10px;
+    width: 40%;
+}
+.btn-primary{
+    margin: 20px;
+}
+.delete{
+    position: absolute;
+    background-color: red;
+    right: 5px;
+    border-radius: 10px;
+}

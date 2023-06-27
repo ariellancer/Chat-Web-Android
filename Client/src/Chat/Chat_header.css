@@ -1,0 +1,29 @@
+/*.Chat_header {*/
+/*    height: 40px;*/
+/*    padding: 20px;*/
+/*    font-weight: bold;*/
+/*    background-color: gray;*/
+/*}*/
+.chatbox-header {
+    display: flex;
+    align-items: center;
+    width:100%;
+    height: 40px;
+    padding: 20px;
+    font-weight: bold;
+    background-color: gray;
+}
+.name_header{
+    padding-top: 5px;
+    padding-left: 225px;
+}
+/*.text-container {*/
+/*    margin-left: -13%;*/
+/*}*/
+/*#image_sender {*/
+/*    float: left;*/
+/*    margin: 2px;*/
+/*    display: block;*/
+/*    max-height: 10%;*/
+/*    max-width: 10%;*/
+/*}*/
