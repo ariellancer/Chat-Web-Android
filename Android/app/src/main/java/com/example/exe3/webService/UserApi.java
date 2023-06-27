@@ -43,6 +43,7 @@ public class UserApi {
 
             this.retrofit = new Retrofit.Builder().baseUrl(newUrl).addConverterFactory(GsonConverterFactory.create()).build();
             webServiceUsers = retrofit.create(WebServiceUsers.class);
+            Toast.makeText(applicationContext, "URL changed" , Toast.LENGTH_SHORT).show();
         }catch (Exception e){
             this.retrofit = tempRetrofit;
             this.webServiceUsers= tempWeb;

@@ -30,8 +30,6 @@
         android:layout_width="239dp"
         android:layout_height="53dp"
         android:ems="10"
-
-        android:text="@string/URL"
         android:inputType="textEmailAddress"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

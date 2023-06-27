@@ -83,7 +83,7 @@ public class ListActivity extends AppCompatActivity {
 
                 @Override
                 public void onFailure(Call<String> call, Throwable t) {
-                    Toast.makeText(ListActivity.this, "Failed to delete firebase token" + t.getMessage(), Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(ListActivity.this, "Failed to delete firebase token" + t.getMessage(), Toast.LENGTH_SHORT).show();
 
                 }
             });
