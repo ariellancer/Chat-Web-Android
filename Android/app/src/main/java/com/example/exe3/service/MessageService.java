@@ -42,6 +42,22 @@ public class MessageService extends FirebaseMessagingService {
 
     @Override
     public void onMessageReceived(@NonNull RemoteMessage remoteMessage) {
+        if(remoteMessage.getData().get("content").equals("delete")){
+            idOfSender = Integer.parseInt(remoteMessage.getData().get("id"));
+            chatViewModel = ChatViewModel.getInstance();
+            contactViewModel = ContactViewModel.getInstance();
+            if (contactViewModel!=null){
+                new Thread(()->{contactViewModel.getContacts();}).start();
+
+            }
+            if (chatViewModel!=null){
+                idChat=chatViewModel.getIdChat();
+                if(idChat==idOfSender){
+                    new Thread(()->{chatViewModel.getMessages(idOfSender);}).start();}
+
+            }
+        }else{
+
         idOfSender = Integer.parseInt(remoteMessage.getData().get("id"));
         chatViewModel = ChatViewModel.getInstance();
         contactViewModel = ContactViewModel.getInstance();
@@ -62,6 +78,7 @@ public class MessageService extends FirebaseMessagingService {
 //
 //            }
             }
+        }
         }
 
 //    private void createNotificationChannel() {
