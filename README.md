@@ -52,7 +52,14 @@ To run the LOL-chat application, Web version, follow these steps:
 # Android app
 
 <img src="https://github.com/ariellancer/Ex3/assets/107669637/16e19f12-0719-4fc5-8308-a45a00672ce6" width="300">
-<img src="[https://github.com/ariellancer/Ex3/assets/107669637/16e19f12-0719-4fc5-8308-a45a00672ce6](https://github.com/ariellancer/Ex3/assets/107669637/cc60d316-2e53-48b9-882a-556e9bdfb52d)" width="300">
+<img src="https://github.com/ariellancer/Ex3/assets/107669637/da38e220-dab6-43df-b7de-f032334985d5" width="300">
+<img src="https://github.com/ariellancer/Ex3/assets/107669637/9e4bd3e1-7dd0-4fdb-8515-4bfddc954790" width="300">
+<img src="https://github.com/ariellancer/Ex3/assets/107669637/f4581229-c979-4d4e-85c7-eca72a779bb6" width="300">
+<img src="https://github.com/ariellancer/Ex3/assets/107669637/9d99a159-f9ef-4114-9426-7ea9b5e70542" width="300">
+<img src="https://github.com/ariellancer/Ex3/assets/107669637/f058d45e-9386-48d4-b982-32d8b5db50a7" width="300">
+<img src="https://github.com/ariellancer/Ex3/assets/107669637/93c96fc3-db4a-47a9-81ae-506284bfad57" width="300">
+
+
 
 
 ## How to Run 
