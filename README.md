@@ -55,11 +55,11 @@ LOL-chat is a chat application created by Lancer, Omer, and Lidor, the three fou
 
 ## How to Run 
 
-To run the LOL-chat application (Web version), follow these steps:
+### To run the LOL-chat application (Web version), follow these steps:
 
 1. Clone the project repository to your local machine.
 
-2. Open the terminal or command prompt and navigate to the project's directory.
+2. Open the terminal or command prompt and navigate to the server's directory.
 
 3. Install the required dependencies by running the following command: `npm install`.
 
@@ -71,11 +71,11 @@ To run the LOL-chat application (Web version), follow these steps:
 
 7. After successful registration or login, you will enter the chat interface and can start interacting with other users in real-time.
 
-To run the LOL-chat application (Android version), follow these steps:
+### To run the LOL-chat application (Android version), follow these steps:
 
 1. Clone the project repository to your local machine.
 
-2. Open the terminal or command prompt and navigate to the project's directory.
+2. Open the terminal or command prompt and navigate to the server's directory.
 
 3. Install the required dependencies by running the following command: `npm install`.
 
