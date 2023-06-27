@@ -1,7 +1,10 @@
 # Getting Started with LOL-chat
 
 ## Overview
-LOL-chat is a chat application created by Lancer, Omer, and Lidor, the three founders of the chat. The application allows users to register, log in, and engage in real-time conversations with other users.The application supports user communication using web and android.
+LOL-chat is a chat application created by Lancer, Omer, and Lidor, the three founders of the chat.
+
+The application allows users to register, log in, and engage in real-time conversations with other users.The application supports user communication using web and android.
+
 This readme provides an overview of the project, instructions on how to run the application, information about the database used, and the requirements to set up and run the application.
 
 ## Features
