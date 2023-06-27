@@ -14,7 +14,8 @@ This readme provides an overview of the project, instructions on how to run the 
   **Note**: Our unique field that seperates between different users in their username, creation of a user with existing username is not possible.
 - User Authentication: Registered users can log in to the application using their credentials.
 - Real-time Chat: Once logged in, users can engage in real-time conversations with other users through the chat interface.
-- Chat page properties: Adding different users as new contacts (the users must be in database), deleting contacts from your list and sending messages to all your contacts.
+- Chat page properties: Adding different users as new contacts (the users must be in the database), deleting contacts from your list and sending messages to all your contacts.
+- Uses Io and Firebase in order to update the chat dynamically without refresh.
 - Seamless Navigation: The application provides smooth navigation between different pages, allowing users to switch between registration and chat screens effortlessly.
 
 ## Screenshots
@@ -36,7 +37,7 @@ To run the LOL-chat application, Web version, follow these steps:
 
 1. Clone the project repository to your local machine.
 
-2. Open the terminal or command prompt and navigate to the project directory.
+2. Open the terminal or command prompt and navigate to the servers directory.
 
 3. Install the required dependencies by running the following command: npm install.
    
@@ -77,7 +78,8 @@ To run the LOL-chat application, android version, follow these steps:
 
 ## Database
 
-LOL-chat utilizes MongoDB as its database to store user and chat information. MongoDB is a popular NoSQL database that provides scalability and flexibility for managing data.
+LOL-chat utilizes MongoDB as its database to store user and chat information.
+MongoDB is a popular NoSQL database that provides scalability and flexibility for managing data.
 
 ### Using MongoDB
 
