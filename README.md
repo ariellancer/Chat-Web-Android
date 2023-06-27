@@ -8,7 +8,7 @@ This readme provides an overview of the project, instructions on how to run the 
 
 - User Registration: Users can create an account by providing their details such as username, image, and password.
 
-Note: Our unique field that seperates between different users in their username, creation of a user with existing username is not possible.
+  Note: Our unique field that seperates between different users in their username, creation of a user with existing username is not possible.
 - User Authentication: Registered users can log in to the application using their credentials.
 - Real-time Chat: Once logged in, users can engage in real-time conversations with other users through the chat interface.
 - Chat page properties: Adding different users as new contacts (the users must be in database), deleting contacts from your list and sending messages to all your contacts.
