@@ -3,16 +3,13 @@ package com.example.exe3.webService;
 import android.content.Context;
 import android.widget.Toast;
 
-import com.example.exe3.activity.ListActivity;
 import com.example.exe3.infoToDB.Chat;
 import com.example.exe3.infoToDB.Contact;
 import com.example.exe3.infoToDB.GetFriend;
-import com.example.exe3.infoToDB.Message;
 import com.example.exe3.infoToDB.NewMessage;
 import com.example.exe3.infoToDB.ReturnMessage;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 import retrofit2.Call;
@@ -26,12 +23,18 @@ public class ChatApi {
     private Retrofit retrofit;
     private WebServiceChats webServiceChats;
 
+    String url;
+
     private ChatApi() {
+        url="http://10.0.2.2:5000/api/";
         retrofit = new Retrofit.Builder()
                 .baseUrl("http://10.0.2.2:5000/api/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         webServiceChats = retrofit.create(WebServiceChats.class);
+    }
+    public String getUrl() {
+        return url;
     }
 
     public static ChatApi getInstance() {
@@ -41,12 +44,17 @@ public class ChatApi {
         return instance;
     }
 
-    public void setRetrofit(String newUrl) {
+    public void setRetrofit(String newUrl, Context applicationContext) {
+        Retrofit tempRetrofit = this.retrofit;
+        WebServiceChats tempWeb = this.webServiceChats;
         try {
+
             this.retrofit = new Retrofit.Builder().baseUrl(newUrl).addConverterFactory(GsonConverterFactory.create()).build();
             webServiceChats = retrofit.create(WebServiceChats.class);
+            url=newUrl;
         }catch (Exception e){
-
+            this.retrofit = tempRetrofit;
+            this.webServiceChats= tempWeb;
         }
     }
 

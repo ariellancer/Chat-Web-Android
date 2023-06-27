@@ -83,7 +83,9 @@ public class ContactRepository {
         Chat chat=chatRoomDao.get(id);
         if(chat!=null){
             exists=true;
-            messagesListData.setValue(chat);
+            if(messagesListData!=null){
+                messagesListData.postValue(chat);
+            }
         }
         CompletableFuture<Chat> future = chatApi.getMessages("bearer " + token, id)
                 .thenApply(messages -> messages).exceptionally(error -> {
@@ -98,7 +100,7 @@ public class ContactRepository {
                 }else {
                     chatRoomDao.insert(messages);
                 }
-                messagesListData.setValue(messages);
+                messagesListData.postValue(messages);
 
 
 //                messagesListData.messages.clear();
@@ -200,6 +202,12 @@ public class ContactRepository {
                     chatRoomDao.insert(messages);
                 }
             });
+        }
+    }
+    public void deleteRoom(){
+        List<ContactForRoom> contactForRooms=contactRoomDao.getContactsList();
+        for (int i=0;i<contactForRooms.size();i++){
+            contactRoomDao.deleteContact(contactForRooms.get(i));
         }
     }
 }

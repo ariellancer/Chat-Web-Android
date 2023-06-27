@@ -12,24 +12,48 @@ import com.example.exe3.infoToDB.NewMessage;
 import java.util.List;
 
 public class ContactViewModel extends ViewModel {
-    ContactRepository repository;
+    private static ContactViewModel instance;
+
     private LiveData<List<Contact>> contacts;
-    private LiveData<Chat> messages;
-
-
-    public ContactViewModel(Context applicationContext){
-        repository=new ContactRepository(applicationContext);
-        contacts =repository.getAll();
-        messages=repository.getAllLiveMessages();
+    private ContactRepository repository;
+    private String token;
+    private ContactViewModel(Context applicationContext,String token) {
+        repository = new ContactRepository(applicationContext);
+        contacts = repository.getAll();
+        this.token=token;
     }
 
-    public LiveData<List<Contact>> get(){return contacts;}
+    public static ContactViewModel getInstance() {
+        return instance;
+    }
 
-    public LiveData<Chat> getLiveMessages(){return messages;}
-    public void addContact(Context activity,String username, String token){  repository.addContact(activity,username,token);}
-    public void deleteContact(String token,int id){repository.deleteContact(token,id);}
-    public void getMessages(String token,int id){repository.getMessages(token,id);}
-    public void postMessagesById(String token, int id, NewMessage newMessage){repository.postMessagesById(token,id,newMessage);}
-    public void getContacts (String token){repository.getContacts(token);}
+    public static ContactViewModel getInstance(Context applicationContext,String token ) {
+        if (instance == null) {
+            instance = new ContactViewModel(applicationContext,token);
+        }
+        return instance;
+    }
 
+    public LiveData<List<Contact>> getLiveContacts() {
+        return contacts;
+    }
+
+    public void addContact(Context activity, String username) {
+        repository.addContact(activity, username, token);
+    }
+
+    public void deleteContact( int id) {
+        repository.deleteContact(token, id);
+    }
+
+    public void getContacts() {
+        repository.getContacts(token);
+    }
+    public void delete(){
+        instance=null;
+    }
+    public void deleteRoom(){
+        repository.deleteRoom();
+    }
 }
+

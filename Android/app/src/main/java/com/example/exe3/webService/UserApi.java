@@ -1,15 +1,13 @@
 package com.example.exe3.webService;
 
-import android.util.Log;
+import android.content.Context;
 import android.widget.Toast;
 
-import com.example.exe3.activity.Register;
 import com.example.exe3.infoToDB.ContactInfo;
+import com.example.exe3.service.FireBaseData;
 import com.example.exe3.infoToDB.LoginData;
 import com.example.exe3.infoToDB.User;
 
-import java.net.SocketOption;
-import java.net.SocketTimeoutException;
 import java.util.concurrent.CompletableFuture;
 
 import retrofit2.Call;
@@ -38,12 +36,19 @@ public class UserApi {
         return instance;
     }
 
-    public void setRetrofit(String newUrl) {
-        this.retrofit = new Retrofit.Builder()
-                .baseUrl(newUrl)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-        webServiceUsers = retrofit.create(WebServiceUsers.class);
+    public void setRetrofit(String newUrl, Context applicationContext) {
+        Retrofit tempRetrofit = this.retrofit;
+        WebServiceUsers tempWeb = this.webServiceUsers;
+        try {
+
+            this.retrofit = new Retrofit.Builder().baseUrl(newUrl).addConverterFactory(GsonConverterFactory.create()).build();
+            webServiceUsers = retrofit.create(WebServiceUsers.class);
+            Toast.makeText(applicationContext, "URL changed" , Toast.LENGTH_SHORT).show();
+        }catch (Exception e){
+            this.retrofit = tempRetrofit;
+            this.webServiceUsers= tempWeb;
+            Toast.makeText(applicationContext, "URL not valid" , Toast.LENGTH_SHORT).show();
+        }
     }
 
     public Call<Void> createNewUser(User user) {
@@ -52,6 +57,12 @@ public class UserApi {
 
     public Call<String> login(LoginData loginData) {
         return webServiceUsers.login(loginData);
+    }
+    public Call<String> fireBaseTokenGenerate(FireBaseData user,String token) {
+        return webServiceUsers.fireBaseToken( "Bearer "+token,user);
+    }
+    public Call<String> fireBaseTokenDelete(FireBaseData user,String token) {
+        return webServiceUsers.fireBaseTokenDelete( "Bearer "+token,user.getUsername());
     }
 
     public CompletableFuture<ContactInfo> getUsernameInfo(String token, String username) {

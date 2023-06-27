@@ -7,6 +7,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
@@ -18,6 +19,9 @@ import com.example.exe3.webService.UserApi;
 
 public class Settings extends AppCompatActivity {
     ImageView ret;
+    final String regex = "https?://([0-9]{1,3}\\.){3}[0-9]{1,3}:[0-9]{1,5}(?:/.*)?";
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,13 +33,18 @@ public class Settings extends AppCompatActivity {
         EditText inputUrl = findViewById(R.id.editTextTextEmailAddress);
         ret = findViewById(R.id.returnToBase);
         ret.setOnClickListener(fun -> finish());
+        inputUrl.setText(ChatApi.getInstance().getUrl());
         saveUrl.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String url = inputUrl.getText().toString();
-                ChatApi.getInstance().setRetrofit(url);
-                UserApi.getInstance().setRetrofit(url);
-                inputUrl.setText("");
+                if (url.matches(regex)){
+                    ChatApi.getInstance().setRetrofit(url,getApplicationContext());
+                    UserApi.getInstance().setRetrofit(url,getApplicationContext());
+                }else{
+                    Toast.makeText(getApplicationContext(), "URL not validdd" , Toast.LENGTH_SHORT).show();
+                }
+
             }
         });
         button_light.setOnClickListener(new View.OnClickListener() {

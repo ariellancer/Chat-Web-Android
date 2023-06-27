@@ -1,0 +1,58 @@
+package com.example.exe3;
+
+import android.content.Context;
+
+import androidx.lifecycle.LiveData;
+
+import com.example.exe3.infoToDB.Chat;
+import com.example.exe3.infoToDB.NewMessage;
+
+public class ChatViewModel {
+
+
+    private static ChatViewModel instance;
+    private LiveData<Chat> messages;
+    private ContactRepository repository;
+    private String token;
+
+
+
+    private int idChat;
+
+    private ChatViewModel(Context applicationContext,String token) {
+        repository = new ContactRepository(applicationContext);
+        messages = repository.getAllLiveMessages();
+        this.token=token;
+    }
+    public int getIdChat() {
+        return idChat;
+    }
+    public void setIdChat(int idChat) {
+        this.idChat = idChat;
+    }
+    public static ChatViewModel getInstance(Context applicationContext,String token) {
+        if (instance == null) {
+            instance = new ChatViewModel(applicationContext,token);
+        }
+        return instance;
+    }
+
+    public LiveData<Chat> getLiveMessages() {
+        return messages;
+    }
+
+    public void getMessages( int id) {
+        repository.getMessages(token, id);
+    }
+
+    public void postMessagesById( int id, NewMessage newMessage) {
+        repository.postMessagesById(token, id, newMessage);
+    }
+    public static ChatViewModel getInstance() {
+        return instance;
+    }
+    public static void delete(){
+        instance=null;
+    }
+}
+
