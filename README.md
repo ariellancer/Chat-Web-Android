@@ -112,5 +112,3 @@ Before running LOL-chat, ensure that you have the following requirements fulfill
 2. MongoDB: Install MongoDB to set up the database for LOL-chat. Follow the steps mentioned in the "Using MongoDB" section above to install and configure MongoDB.
 
 You are now all set to run LOL-chat and dive into the world of real-time chatting and connections! Happy chatting!
-
-Please note that the screenshots and URLs provided in this README may vary depending on the actual setup and configuration of your project.
