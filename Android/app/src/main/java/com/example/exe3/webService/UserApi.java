@@ -1,5 +1,8 @@
 package com.example.exe3.webService;
 
+import android.content.Context;
+import android.widget.Toast;
+
 import com.example.exe3.infoToDB.ContactInfo;
 import com.example.exe3.service.FireBaseData;
 import com.example.exe3.infoToDB.LoginData;
@@ -33,12 +36,18 @@ public class UserApi {
         return instance;
     }
 
-    public void setRetrofit(String newUrl) {
-        this.retrofit = new Retrofit.Builder()
-                .baseUrl(newUrl)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-        webServiceUsers = retrofit.create(WebServiceUsers.class);
+    public void setRetrofit(String newUrl, Context applicationContext) {
+        Retrofit tempRetrofit = this.retrofit;
+        WebServiceUsers tempWeb = this.webServiceUsers;
+        try {
+
+            this.retrofit = new Retrofit.Builder().baseUrl(newUrl).addConverterFactory(GsonConverterFactory.create()).build();
+            webServiceUsers = retrofit.create(WebServiceUsers.class);
+        }catch (Exception e){
+            this.retrofit = tempRetrofit;
+            this.webServiceUsers= tempWeb;
+            Toast.makeText(applicationContext, "URL not valid" , Toast.LENGTH_SHORT).show();
+        }
     }
 
     public Call<Void> createNewUser(User user) {

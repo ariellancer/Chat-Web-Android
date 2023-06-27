@@ -33,8 +33,8 @@ public class Settings extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String url = inputUrl.getText().toString();
-                ChatApi.getInstance().setRetrofit(url);
-                UserApi.getInstance().setRetrofit(url);
+                ChatApi.getInstance().setRetrofit(url,getApplicationContext());
+                UserApi.getInstance().setRetrofit(url,getApplicationContext());
                 inputUrl.setText("");
             }
         });

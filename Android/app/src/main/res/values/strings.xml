@@ -8,6 +8,7 @@
     <string name="lol">LOL</string>
     <string name="displayname">Display Name</string>
     <string name="User">User</string>
+    <string name="URL">http://10.0.2.2:5000/api/</string>
     <string name="friend">friend</string>
     <string name="register">Register</string>
     <string name="title_activity_register">Register</string>

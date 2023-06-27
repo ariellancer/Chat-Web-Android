@@ -106,6 +106,12 @@ public class ListActivity extends AppCompatActivity {
             Intent intent = new Intent(this, Adding.class);
             startActivityForResult(intent, REQUEST_CODE_ADD_FRIEND);
         });
+        FloatingActionButton settings = findViewById(R.id.setting_button);
+        settings.setOnClickListener(view -> {
+            Intent intent = new Intent(this, Settings.class);
+            startActivity(intent);
+            //startActivityForResult(intent, REQUEST_CODE_ADD_FRIEND);
+        });
 
         chats = new ArrayList<>();
 
@@ -178,7 +184,7 @@ public class ListActivity extends AppCompatActivity {
 
                     @Override
                     public void onFailure(Call<String> call, Throwable t) {
-                        Toast.makeText(ListActivity.this, "Failed to connect" + t.getMessage(), Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(ListActivity.this, "Failed to connect" + t.getMessage(), Toast.LENGTH_SHORT).show();
                         //finish();
                     }
                 });

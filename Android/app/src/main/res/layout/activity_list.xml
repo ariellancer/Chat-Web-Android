@@ -56,6 +56,7 @@
             tools:ignore="MissingDefaultResource"
             android:background="@drawable/gray2">
 
+
             <ListView
                 android:id="@+id/listOfFriend"
                 android:layout_width="match_parent"
@@ -64,8 +65,8 @@
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/floating_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="97dp"
+                android:layout_height="101dp"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentBottom="true"
                 android:layout_marginStart="16dp"
@@ -74,6 +75,17 @@
                 android:layout_marginBottom="16dp"
                 android:contentDescription="@string/User"
                 android:src="@drawable/ic_add" />
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/setting_button"
+                android:layout_width="109dp"
+                android:layout_height="126dp"
+                android:layout_alignParentBottom="true"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
+                android:contentDescription="@string/User"
+                android:src="@drawable/baseline_settings_24" />
 
         </RelativeLayout>
     </LinearLayout>
