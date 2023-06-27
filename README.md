@@ -38,16 +38,15 @@ To run the LOL-chat application, Web version, follow these steps:
 
 2. Open the terminal or command prompt and navigate to the project directory.
 
-3. Install the required dependencies by running the following command:
-   <span style="background-color: #f2f2f2; padding: 2px 4px;"> npm install.</span>
+3. Install the required dependencies by running the following command: npm install.
+   
+4. Start the application by running the following command: node app.js
 
-5. Start the application by running the following command: node app.js
+5. Once the server is running, open any web browser and navigate to [http://localhost:5000](http://localhost:5000).
 
-6. Once the server is running, open any web browser and navigate to [http://localhost:5000](http://localhost:5000).
+6. You will be directed to the first page, where you can either register as a new user or log in if you already have an account.
 
-7. You will be directed to the first page, where you can either register as a new user or log in if you already have an account.
-
-8. After registration or login, you will be taken to the chat interface where you can start interacting with other users in real-time.
+7. After registration or login, you will be taken to the chat interface where you can start interacting with other users in real-time.
 
 # Android app
 
