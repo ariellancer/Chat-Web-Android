@@ -20,6 +20,8 @@ public class Adding extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.adding_friend);
         settingsButton = findViewById(R.id.settings);
+        ImageView ret=findViewById(R.id.returnToContactList);
+        ret.setOnClickListener(fun->finish());
         settingsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

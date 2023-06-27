@@ -52,7 +52,13 @@
         android:background="#FF4081"
         android:padding="16dp"
         android:layout_below="@id/editTextFriendName"/>
-
+    <ImageView
+        android:id="@+id/returnToContactList"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:contentDescription="@string/todo"
+        android:padding="5dp"
+        android:src="@drawable/baseline_arrow_back_ios_24"/>
 </RelativeLayout>
 
 
