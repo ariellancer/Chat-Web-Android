@@ -49,11 +49,10 @@ LOL-chat is a chat application created by Lancer, Omer, and Lidor, the three fou
 ![Settings](https://github.com/ariellancer/Ex3/assets/107669637/16e19f12-0719-4fc5-8308-a45a00672ce6)
 
 #### Chat Interface (Various Scenarios)
-<div align="center">
-  <img src="https://github.com/lidormoryosef/Chat/raw/main/assets/118112616/4c0597ca-8996-4f89-8ddd-b4248adea65d.png" width="30%" style="margin-right: 10px;">
-  <img src="https://github.com/lidormoryosef/Chat/raw/main/assets/118112616/72e742a8-285b-47c9-a1e5-0fe93e55b29c.png" width="30%" style="margin-right: 10px;">
-  <img src="https://github.com/lidormoryosef/Chat/raw/main/assets/118112616/20afb34e-5e21-4165-b872-1191073bddc9.png" width="30%">
-</div>
+![AndroidChat3](https://github.com/lidormoryosef/Chat/assets/118112616/5ac9ca45-4e24-452b-9af8-287068c3a8c1)
+![AndroidChat2](https://github.com/lidormoryosef/Chat/assets/118112616/4c113eda-0a59-4d40-af70-d9e0b6071e7c)
+![AndroidChat1](https://github.com/lidormoryosef/Chat/assets/118112616/676b735e-2e57-47b6-95fe-fedbfae557e5)
+
 
 
 
