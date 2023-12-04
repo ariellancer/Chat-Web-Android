@@ -23,7 +23,7 @@ LOL-chat is a chat application created by Lancer, Omer, and Lidor, the three fou
 
 ## Video
 
-[![Watch the video](https://i.stack.imgur.com/Vp2cE.png)](https://youtu.be/HzLH3F8KGus)
+[![Watch the video](https://youtu.be/HzLH3F8KGus)](https://youtu.be/HzLH3F8KGus)
 
 
 ## Screenshots
