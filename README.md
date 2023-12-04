@@ -45,13 +45,15 @@ LOL-chat is a chat application created by Lancer, Omer, and Lidor, the three fou
 ### Android App
 
 #### Registration Page
-![Registration](https://github.com/ariellancer/Ex3/assets/107669637/9e4bd3e1-7dd0-4fdb-8515-4bfddc954790)
+![Registration](https://github.com/lidormoryosef/Chat-Web-Android-/assets/118112616/be9f6e13-486d-4f14-b7d7-b05ae3cc9fe3)
 
 #### Login Page
-![Login](https://github.com/ariellancer/Ex3/assets/107669637/9d99a159-f9ef-4114-9426-7ea9b5e70542)
+![Login](https://github.com/lidormoryosef/Chat-Web-Android-/assets/118112616/4f843326-624c-4744-8279-c33dab1a3777)
+
 
 #### Settings Page
-![Settings](https://github.com/ariellancer/Ex3/assets/107669637/16e19f12-0719-4fc5-8308-a45a00672ce6)
+![Settings](https://github.com/lidormoryosef/Chat-Web-Android-/assets/118112616/5207fff5-29ac-4bd4-8468-b3be9ff4d0e5)
+
 
 #### Chat Interface (Various Scenarios)
 ![AndroidChat1](https://github.com/lidormoryosef/Chat/assets/118112616/7e2c5a10-f16a-4564-b580-3ca107b3ee79)
@@ -66,7 +68,8 @@ LOL-chat is a chat application created by Lancer, Omer, and Lidor, the three fou
 
 
 #### Adding Contact Page
-![Adding Contact](https://github.com/ariellancer/Ex3/assets/107669637/93c96fc3-db4a-47a9-81ae-506284bfad57)
+![Add](https://github.com/lidormoryosef/Chat-Web-Android-/assets/118112616/3d972d16-fc58-48cf-ae03-f24c77efb21d)
+
 
 ## How to Run 
 
